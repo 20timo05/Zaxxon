@@ -1,0 +1,41 @@
+# Ignore IntelliJ IDEA project files
+.idea/
+
+# Ignore compiled Java class files
+*.class
+
+# Ignore compiled output directories (like from IntelliJ or Maven/Gradle)
+out/
+target/
+build/
+
+# Ignore common build artifacts
+*.jar
+*.war
+*.ear
+
+# Ignore log files
+*.log
+log/
+
+# Ignore temporary files
+*.tmp
+
+# Ignore OS generated files
+.DS_Store # macOS
+Thumbs.db # Windows
+
+# Ignore the Musterlösungen directory
+/Musterlösungen/
+
+# Ignore the JXWF files in the root
+*.jxwf
+
+# Explicitly include the src directories within Abgabe_* subdirectories
+!/Programmierung_2/Abgabe_*/src/
+
+# Explicitly include resource files within the src directories
+!/Programmierung_2/Abgabe_*/src/resources/
+
+# Ignore everything else inside the Abgabe_* subdirectories that isn't in src or resources
+/Programmierung_2/Abgabe_*/

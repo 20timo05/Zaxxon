@@ -65,7 +65,7 @@ public final class GameSettings {
     /**
      * This is the maximum altitude that the Player can fly up to.
      */
-    public static final double MAX_PLAYER_ALTITUDE = 300;
+    public static final double MAX_PLAYER_ALTITUDE = 250;
     /**
      * This is the default speed for all {@link GameObject}s.
      */

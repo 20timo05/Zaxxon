@@ -22,7 +22,7 @@ class StationaryMovementPattern extends MovementPattern {
         Position spawnLinePosition = geometricUtils.interpolatePosition(
                 TRAVEL_PATH_CALCULATOR.getSpawnLine()[0],
                 TRAVEL_PATH_CALCULATOR.getSpawnLine()[1],
-                distanceFromSpawnLine
+                spawnLineInter
         );
 
         Vector2d startPosition = new Vector2d(spawnLinePosition);
@@ -33,7 +33,7 @@ class StationaryMovementPattern extends MovementPattern {
         Position endPosition = geometricUtils.interpolatePosition(
                 TRAVEL_PATH_CALCULATOR.getDespawnLine()[0],
                 TRAVEL_PATH_CALCULATOR.getDespawnLine()[1],
-                distanceFromSpawnLine
+                spawnLineInter
         );
 
         pattern = new Position[]{startPosition, endPosition};
@@ -47,7 +47,6 @@ class StationaryMovementPattern extends MovementPattern {
         }
         return pattern[currentIndex++];
     }
-
 
     @Override
     protected Position startPosition() {

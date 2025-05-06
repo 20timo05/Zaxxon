@@ -15,6 +15,9 @@ class GameWorldManager extends GamePlayManager {
     private final DebuggingLines debuggingLines;
     private final String world;
 
+    private final int worldOffsetColumns;
+    private final int worldOffsetLines;
+
     private static final String[] WALL_DESCRIPTIONS = new String[]{
 """
 xxxxxxxxxx                  xxxxxxxx
@@ -117,6 +120,10 @@ xxxxxxxxxxxx
 w0      \s
 """;
 
+        // all gameobjects should be visible in the beginning
+        worldOffsetColumns = world.split("\\R").length;
+        worldOffsetLines = 0;
+
         debuggingLines = new DebuggingLines(gameView, this);
         zaxxonFighter = new ZaxxonFighter(gameView, this);
         heightStatusBar = new HeightStatusBar(gameView, this);
@@ -148,7 +155,7 @@ w0      \s
     private void spawnGameObjectsFromWorldString(){
         String[] lines = world.split("\\R");
 
-        for (int row = 0; row < lines.length; row++) {
+        for (int row = lines.length-1; row > 0; row--) {
             double distanceFromSpawnLine = row * 2 * WallBlockDimensionCalculator.FULL_BLOCK_INCREASE_OFFSET_X;
 
             for (int column = 0; column < lines[row].length()-1; column++) {

@@ -1,0 +1,40 @@
+package thd.gameobjects.unmovable;
+
+class HeightStatusBarBlockImages {
+    static final String HEIGHT_BAR_FLAG = """
+CCCCC
+CCCCC
+CCCCC
+CCCCC
+CCCCC
+CCCCC
+
+CCCCC
+CCCCC
+CCCCC
+CCCCC
+CCCCC
+CCCCC
+
+CCCCC
+CCCCC
+CCCCC
+CCCCC
+CCCCC
+CCCCC
+
+CCCCC
+CCCCC
+CCCCC
+CCCCC
+CCCCC
+CCCCC
+
+CCCCC
+CCCCC
+CCCCC
+CCCCC
+CCCCC
+CCCCC
+    """;
+}

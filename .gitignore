@@ -30,12 +30,3 @@ Thumbs.db # Windows
 
 # Ignore the JXWF files in the root
 *.jxwf
-
-# Explicitly include the src directories within Abgabe_* subdirectories
-!/Programmierung_2/Abgabe_*/src/
-
-# Explicitly include resource files within the src directories
-!/Programmierung_2/Abgabe_*/src/resources/
-
-# Ignore everything else inside the Abgabe_* subdirectories that isn't in src or resources
-/Programmierung_2/Abgabe_*/

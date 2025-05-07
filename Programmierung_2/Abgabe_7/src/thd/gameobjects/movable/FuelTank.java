@@ -2,35 +2,50 @@ package thd.gameobjects.movable;
 
 import thd.game.managers.GamePlayManager;
 import thd.game.utilities.GameView;
+import thd.gameobjects.base.ActivatableGameObject;
 import thd.gameobjects.base.CollidingGameObject;
 import thd.gameobjects.base.GameObject;
 import thd.gameobjects.base.Position;
+import thd.gameobjects.base.ShiftableGameObject;
 
 /**
- * The {@code FuelTank} is a stationary GameObject that yields 300 points upon destruction. It also replenishes the Fuel Gauge.
- * They will appear in the Motherbase as passive objects that does not shoot or move.
+ * The {@code FuelTank} is a stationary GameObject that yields 300 points upon
+ * destruction. It also replenishes the Fuel Gauge.
+ * They will appear in the Motherbase as passive objects that does not shoot or
+ * move.
  *
  * @see GameObject
  */
-public class FuelTank extends CollidingGameObject {
+public class FuelTank extends CollidingGameObject implements ShiftableGameObject, ActivatableGameObject {
 
     /**
      * Creates a new {@code FuelTank} GameObject.
      *
-     * @param gameView          GameView to show the game object on.
-     * @param gamePlayManager   reference to the gamePlayManager
-     * @param distanceFromSpawnLine measure for how long before GameObject enters the Screen
-     * @param spawnLineInter        interpolation factor: where on the SpawnLine to spawn the object
+     * @param gameView        GameView to show the game object on.
+     * @param gamePlayManager reference to the gamePlayManager
+     * @param spawnDelayInMilis      measure for how long before GameObject enters the
+     *                        Screen
+     * @param spawnLineInter  interpolation factor: where on the SpawnLine to spawn
+     *                        the object
      */
-    public FuelTank(GameView gameView, GamePlayManager gamePlayManager, double distanceFromSpawnLine, double spawnLineInter) {
-        super(gameView, gamePlayManager, 0, true, distanceFromSpawnLine, spawnLineInter);
+    public FuelTank(GameView gameView, GamePlayManager gamePlayManager, int spawnDelayInMilis, double spawnLineInter) {
+        super(gameView, gamePlayManager, 0, true, spawnDelayInMilis, spawnLineInter);
 
         height = 130;
         width = 155;
         size = 0.5;
         distanceToBackground = 1;
 
-        hitBoxOffsets(-width*size/2, -height*size/2, 0, 0);
+        hitBoxOffsets(-width * size / 2, -height * size / 2, 0, 0);
+    }
+
+    /**
+     * Activates the GameObject when it is ready to spawn.
+     * 
+     * @return boolean whether object is ready
+     */
+    public boolean tryToActivate(Object info) {
+        return gameView.gameTimeInMilliseconds() > spawnDelayInMilis;
     }
 
     /**

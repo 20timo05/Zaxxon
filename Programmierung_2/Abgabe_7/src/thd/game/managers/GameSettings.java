@@ -52,7 +52,7 @@ public final class GameSettings {
     /**
      * This is the default value. If any {@link GameObject}s are visible during the (de)spawn process, increase this value!
      */
-    public static final double DEFAULT_SPAWN_LINE_OFFSET = 50;
+    public static final double DEFAULT_SPAWN_LINE_OFFSET = 250;
 
     /**
      * This is the height of the Footer that contains displays like LiveDisplay, FuelCellGauge, Level, ...

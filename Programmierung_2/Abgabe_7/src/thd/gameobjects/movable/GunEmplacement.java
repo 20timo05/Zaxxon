@@ -2,17 +2,21 @@ package thd.gameobjects.movable;
 
 import thd.game.managers.GamePlayManager;
 import thd.game.utilities.GameView;
+import thd.gameobjects.base.ActivatableGameObject;
 import thd.gameobjects.base.CollidingGameObject;
 import thd.gameobjects.base.GameObject;
 import thd.gameobjects.base.Position;
+import thd.gameobjects.base.ShiftableGameObject;
 
 /**
- * The {@code GunEmplacement} is a stationary GameObject that yields 200 or 500 points (random) upon destruction.
- * They will appear in the Motherbase and shoot straight bullets at the player, but only when he is at ground level.
+ * The {@code GunEmplacement} is a stationary GameObject that yields 200 or 500
+ * points (random) upon destruction.
+ * They will appear in the Motherbase and shoot straight bullets at the player,
+ * but only when he is at ground level.
  *
  * @see GameObject
  */
-public class GunEmplacement extends CollidingGameObject {
+public class GunEmplacement extends CollidingGameObject implements ShiftableGameObject, ActivatableGameObject {
     private static final int MAX_SHOOT_INTERVAL_IN_MILLISECONDS = 4000;
     private static final int MIN_SHOOT_INTERVAL_IN_MILLISECONDS = 1500;
 
@@ -22,14 +26,17 @@ public class GunEmplacement extends CollidingGameObject {
     /**
      * Creates a new {@code GunEmplacement} GameObject.
      *
-     * @param gameView          GameView to show the game object on.
-     * @param gamePlayManager   reference to the gamePlayManager
-     * @param distanceFromSpawnLine measure for how long before GameObject enters the Screen
-     * @param spawnLineInter        interpolation factor: where on the SpawnLine to spawn the object
-     * @param orientation       true: shoots straight, false: shoots to the left
+     * @param gameView        GameView to show the game object on.
+     * @param gamePlayManager reference to the gamePlayManager
+     * @param spawnDelayInMilis      measure for how long before GameObject enters the
+     *                        Screen
+     * @param spawnLineInter  interpolation factor: where on the SpawnLine to spawn
+     *                        the object
+     * @param orientation     true: shoots straight, false: shoots to the left
      */
-    public GunEmplacement(GameView gameView, GamePlayManager gamePlayManager, double distanceFromSpawnLine, double spawnLineInter, boolean orientation) {
-        super(gameView, gamePlayManager, 0, true, distanceFromSpawnLine, spawnLineInter);
+    public GunEmplacement(GameView gameView, GamePlayManager gamePlayManager, int spawnDelayInMilis, double spawnLineInter,
+            boolean orientation) {
+        super(gameView, gamePlayManager, 0, true, spawnDelayInMilis, spawnLineInter);
 
         this.orientation = orientation;
         height = 19;
@@ -38,9 +45,8 @@ public class GunEmplacement extends CollidingGameObject {
         distanceToBackground = 1;
 
         calcNextShotTime();
-        hitBoxOffsets(-width*size/2, -height*size/2, 0, 0);
+        hitBoxOffsets(-width * size / 2, -height * size / 2, 0, 0);
     }
-
 
     @Override
     public void updateStatus() {
@@ -67,8 +73,19 @@ public class GunEmplacement extends CollidingGameObject {
         }
     }
 
+    /**
+     * Activates the GameObject when it is ready to spawn.
+     * 
+     * @return boolean whether object is ready
+     */
+    public boolean tryToActivate(Object info) {
+        return gameView.gameTimeInMilliseconds() > spawnDelayInMilis;
+    }
+
     private void calcNextShotTime() {
-        int randomInterval = (int) (Math.random() * (MAX_SHOOT_INTERVAL_IN_MILLISECONDS - MIN_SHOOT_INTERVAL_IN_MILLISECONDS) + MIN_SHOOT_INTERVAL_IN_MILLISECONDS);
+        int randomInterval = (int) (Math.random()
+                * (MAX_SHOOT_INTERVAL_IN_MILLISECONDS - MIN_SHOOT_INTERVAL_IN_MILLISECONDS)
+                + MIN_SHOOT_INTERVAL_IN_MILLISECONDS);
         nextShotTime = gameView.gameTimeInMilliseconds() + randomInterval;
     }
 

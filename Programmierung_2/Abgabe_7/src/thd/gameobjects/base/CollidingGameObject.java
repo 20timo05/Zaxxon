@@ -36,11 +36,11 @@ public abstract class CollidingGameObject extends GameObject {
      * @param gamePlayManager       Controls the game play.
      * @param altitudeLevel         the altitude of the GameObject
      * @param isRectangular         if true: use rectangular hitbox, else use polygonal
-     * @param distanceFromSpawnLine measure for how long before GameObject enters the Screen
+     * @param spawnDelayInMilis            measure for how long before GameObject enters the Screen
      * @param spawnLineInter        interpolation factor: where on the SpawnLine to spawn the object
      */
-    public CollidingGameObject(GameView gameView, GamePlayManager gamePlayManager, int altitudeLevel, boolean isRectangular, double distanceFromSpawnLine, double spawnLineInter) {
-        super(gameView, gamePlayManager, distanceFromSpawnLine, spawnLineInter);
+    public CollidingGameObject(GameView gameView, GamePlayManager gamePlayManager, int altitudeLevel, boolean isRectangular, int spawnDelayInMilis, double spawnLineInter) {
+        super(gameView, gamePlayManager, spawnDelayInMilis, spawnLineInter);
         initializer(altitudeLevel, isRectangular);
     }
 

@@ -6,13 +6,14 @@ import thd.game.utilities.WallBlockImages;
 import thd.gameobjects.base.GameObject;
 import thd.gameobjects.movable.*;
 
+import static thd.game.managers.GameSettings.SPEED_IN_PIXEL;
 import static thd.gameobjects.base.CollidingGameObject.MAX_ALTITUDE_LEVEL;
 
 /**
  * This class is the central contact point for all GameObjects that need to interact with
  * dynamic spawning/ despawning behaviour.
  */
-public class GamePlayManager extends UserControlledGameObjectPool{
+public class GamePlayManager extends WorldShiftManager {
     private final GameObjectManager gameObjectManager;
     private int spawnCounter;
 
@@ -48,7 +49,9 @@ public class GamePlayManager extends UserControlledGameObjectPool{
      *
      * @param gameObject the object to spawn
      */
+    @Override
     public void spawnGameObject(GameObject gameObject) {
+        super.spawnGameObject(gameObject);
         gameObjectManager.add(gameObject);
     }
 
@@ -57,16 +60,20 @@ public class GamePlayManager extends UserControlledGameObjectPool{
      *
      * @param gameObject the object to despawn
      */
+    @Override
     public void destroyGameObject(GameObject gameObject) {
+        super.destroyGameObject(gameObject);
         gameObjectManager.remove(gameObject);
     }
 
-
+    @Override
     protected void destroyAllGameObjects() {
+        super.destroyAllGameObjects();
         gameObjectManager.removeAll();
     }
 
     private void gamePlayManagement() {
+        moveWorldToLeft(-SPEED_IN_PIXEL);
     }
 
     /**

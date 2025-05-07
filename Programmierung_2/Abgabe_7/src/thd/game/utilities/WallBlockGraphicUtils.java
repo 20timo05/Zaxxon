@@ -20,12 +20,12 @@ public class WallBlockGraphicUtils {
 
     private final String[] wallRowOptimization;
 
-
+    /* 
     public static void main(String[] args) {
         WallBlockGraphicUtils utils = new WallBlockGraphicUtils();
         System.out.println(utils.preprocessWallDescription(SAMPLE_WALL));
         System.out.println(utils.generateWallBlockImage(SAMPLE_WALL));
-    }
+    } */
 
     public WallBlockGraphicUtils() {
         // precompute a block image for bigger parts of one Wall => optimization O(n) => O(log(n))
@@ -121,6 +121,31 @@ public class WallBlockGraphicUtils {
         }
 
         return combinedBlockImage;
+    }
+
+    /**
+     * Mirrors each row of the 2d BlockImage representation horizontally.
+     * 
+     * @param blockImage the block Image String to mirror
+     * @return the horizontally mirrored new BlockImage 
+     */
+    public String mirrorBlockImage(String blockImage) {
+        if (blockImage == null || blockImage.isEmpty()) {
+            return blockImage;
+        }
+
+        String[] rows = blockImage.split("\n");
+        StringBuilder mirroredBlockImage = new StringBuilder();
+
+        for (int y = 0; y < rows.length; y++) {
+            StringBuilder mirroredRow = new StringBuilder(rows[y]).reverse();
+            mirroredBlockImage.append(mirroredRow.toString());
+            if (y < rows.length - 1) {
+                mirroredBlockImage.append("\n");
+            }
+        }
+
+        return mirroredBlockImage.toString();
     }
 
 
@@ -275,9 +300,8 @@ public class WallBlockGraphicUtils {
         if (
                 wallDescriptionDimensions[0] % 2 != 1
                         || wallDescriptionDimensions[0] > MAX_NUM_ROWS
-                        || wallDescriptionDimensions[1] > NUM_BLOCKS_PER_ROW
         ) {
-            throw new IllegalArgumentException("Walls should have an odd height (1, 3, 5, 7, 9) and should not be wider then " + NUM_BLOCKS_PER_ROW);
+            throw new IllegalArgumentException("Walls should have an odd height (1, 3, 5, 7, 9)");
         }
 
         trimmedWallDescription = trimmedWallDescription.replaceAll(" ", "0"); // convert spaces to 0

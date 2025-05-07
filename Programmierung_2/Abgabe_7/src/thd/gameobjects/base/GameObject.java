@@ -25,7 +25,7 @@ public abstract class GameObject {
     protected double size;
     protected double width;
     protected double height;
-    protected double distanceFromSpawnLine;
+    public int spawnDelayInMilis; // @TODO change to protected
     protected double spawnLineInter; // for stationary GameObjects
     private StationaryMovementPattern stationaryMovementPattern;
     protected boolean hasDespawned;
@@ -53,18 +53,19 @@ public abstract class GameObject {
      *
      * @param gameView              GameView to show the game object on.
      * @param gamePlayManager       reference to the gamePlayManager
-     * @param distanceFromSpawnLine measure for how long before GameObject enters the Screen
+     * @param spawnDelayInMilis            measure for how long before GameObject enters the Screen
      * @param spawnLineInter        interpolation factor: where on the SpawnLine to spawn the object
      */
-    public GameObject(GameView gameView, GamePlayManager gamePlayManager, double distanceFromSpawnLine, double spawnLineInter) {
+    public GameObject(GameView gameView, GamePlayManager gamePlayManager, int spawnDelayInMilis,
+            double spawnLineInter) {
         this(gameView, gamePlayManager);
 
-        this.distanceFromSpawnLine = distanceFromSpawnLine;
+        this.spawnDelayInMilis = spawnDelayInMilis;
         this.spawnLineInter = spawnLineInter;
 
         speedInPixel = GameSettings.SPEED_IN_PIXEL;
 
-        stationaryMovementPattern = new StationaryMovementPattern(distanceFromSpawnLine, spawnLineInter);
+        stationaryMovementPattern = new StationaryMovementPattern(spawnLineInter);
         position.updateCoordinates(stationaryMovementPattern.startPosition());
         targetPosition.updateCoordinates(stationaryMovementPattern.nextPosition());
     }
@@ -73,9 +74,6 @@ public abstract class GameObject {
      * Updates the position of the game object.
      */
     public void updatePosition() {
-        if (stationaryMovementPattern != null) {
-            position.moveToPosition(targetPosition, speedInPixel);
-        }
     }
 
     /**
@@ -93,10 +91,21 @@ public abstract class GameObject {
     }
 
     /**
+     * Moves Shiftable Game Objects diagonally over the screen.
+     * 
+     * @param pixels how far
+     */
+    public void moveShiftableForward(double pixels) {
+        if (this instanceof ShiftableGameObject) {
+            position.moveToPosition(targetPosition, pixels);
+        }
+    }
+
+    /**
      * Sets the status of the {@code GameObject}.
      */
-    public void updateStatus(){
-        if (stationaryMovementPattern != null) {
+    public void updateStatus() {
+        if (this instanceof ShiftableGameObject) {
             if (position.similarTo(targetPosition)) {
                 gamePlayManager.destroyGameObject(this);
                 hasDespawned = true;
@@ -110,12 +119,11 @@ public abstract class GameObject {
      * @return the interpolation factor
      */
     public double calcInterpolation() {
-         if (stationaryMovementPattern == null) {
-             throw new IllegalStateException("Only allowed for Stationary GameObjects!");
-         }
-         return 1 - position.distance(targetPosition) / TRAVEL_PATH_CALCULATOR.getDistanceToDespawnLine();
+        if (!(this instanceof ShiftableGameObject)) {
+            throw new IllegalStateException("Only allowed for Stationary GameObjects!");
+        }
+        return 1 - position.distance(targetPosition) / TRAVEL_PATH_CALCULATOR.getDistanceToDespawnLine();
     }
-
 
     /**
      * Returns width of game object.
@@ -123,7 +131,7 @@ public abstract class GameObject {
      * @return Width of game object
      */
     public double getWidth() {
-        return width*size;
+        return width * size;
     }
 
     /**
@@ -132,7 +140,7 @@ public abstract class GameObject {
      * @return Height of game object
      */
     public double getHeight() {
-        return height*size;
+        return height * size;
     }
 
     /**
@@ -142,9 +150,8 @@ public abstract class GameObject {
      */
     public Position calcMiddlePoint() {
         return new Position(
-                position.getX() - getWidth()/2,
-                position.getY() - getHeight()/2
-        );
+                position.getX() - getWidth() / 2,
+                position.getY() - getHeight() / 2);
     }
 
     /**
@@ -202,6 +209,7 @@ public abstract class GameObject {
 
     @Override
     public int hashCode() {
-        return Objects.hash(position, targetPosition, speedInPixel, rotation, size, width, height, spawnLineInter, hasDespawned, distanceToBackground);
+        return Objects.hash(position, targetPosition, speedInPixel, rotation, size, width, height, spawnLineInter,
+                hasDespawned, distanceToBackground);
     }
 }

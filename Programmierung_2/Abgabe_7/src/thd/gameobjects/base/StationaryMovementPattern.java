@@ -15,6 +15,10 @@ class StationaryMovementPattern extends MovementPattern {
         this(0, Math.random());
     }
 
+    StationaryMovementPattern(double spwanLineInter) {
+        this(0, spwanLineInter);
+    }
+
     StationaryMovementPattern(double distanceFromSpawnLine, double spawnLineInter) {
         super();
         geometricUtils = new GeometricUtils();

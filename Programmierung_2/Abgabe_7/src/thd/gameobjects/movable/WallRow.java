@@ -5,8 +5,10 @@ import thd.game.managers.GameSettings;
 import thd.game.utilities.GameView;
 import thd.game.utilities.WallBlockDimensionCalculator;
 import thd.game.utilities.WallBlockGraphicUtils;
+import thd.gameobjects.base.ActivatableGameObject;
 import thd.gameobjects.base.CollidingGameObject;
 import thd.gameobjects.base.Position;
+import thd.gameobjects.base.ShiftableGameObject;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ import static thd.game.managers.GameSettings.TRAVEL_PATH_CALCULATOR;
  * @see Wall
  * @see WallBlockGraphicUtils
  */
-public class WallRow extends CollidingGameObject {
+public class WallRow extends CollidingGameObject implements ShiftableGameObject, ActivatableGameObject {
     private final String blockGraphic;
 
     /**
@@ -28,8 +30,8 @@ public class WallRow extends CollidingGameObject {
      *
      * @param gameView          GameView to show the game object on.
      * @param gamePlayManager   reference to the gamePlayManager
-     * @param distanceFromSpawnLine measure for how long before GameObject enters the Screen
-     * @param spawnLineInter        interpolation factor: where on the SpawnLine to spawn the object
+     * @param spawnDelayInMilis        measure for how long before GameObject enters the Screen
+     * @param spawnLineInter    interpolation factor: where on the SpawnLine to spawn the object
      * @param altitudeIndex     the vertical index of the row
      * @param blockGraphic      the block Graphic String for this row
      * @param hitboxIndices     the positions of the hitboxes in this row (can have holes)
@@ -37,13 +39,13 @@ public class WallRow extends CollidingGameObject {
     public WallRow(
             GameView gameView,
             GamePlayManager gamePlayManager,
-            double distanceFromSpawnLine,
+            int spawnDelayInMilis,
             double spawnLineInter,
             int altitudeIndex,
             String blockGraphic,
             ArrayList<int[]> hitboxIndices
     ) {
-        super(gameView, gamePlayManager, altitudeIndex/2, false, distanceFromSpawnLine, spawnLineInter);
+        super(gameView, gamePlayManager, altitudeIndex/2, false, spawnDelayInMilis, spawnLineInter);
 
         this.blockGraphic = blockGraphic;
 
@@ -80,6 +82,15 @@ public class WallRow extends CollidingGameObject {
     @Override
     public void addToCanvas() {
         gameView.addBlockImageToCanvas(blockGraphic, position.getX(), position.getY(), size, 0);
+    }
+
+    /**
+     * Activates the GameObject when it is ready to spawn.
+     * 
+     * @return boolean whether object is ready
+     */
+    public boolean tryToActivate(Object info) {
+        return gameView.gameTimeInMilliseconds() > spawnDelayInMilis;
     }
 
     private Polygon[] calculateHitbox(ArrayList<int[]> hitboxIndices) {

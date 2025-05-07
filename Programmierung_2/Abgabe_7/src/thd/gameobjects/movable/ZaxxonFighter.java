@@ -51,7 +51,7 @@ public class ZaxxonFighter extends CollidingGameObject implements MainCharacter 
         shadowWidth = 22;
         shadowHeight = 14;
 
-        hitBoxOffsets(-width*size/4, -height*size/4, -width*size/4, -width*size/4);
+        hitBoxOffsets(-width*size/4, -height*size/4, -width*size/2, -width*size/4);
     }
 
     @Override

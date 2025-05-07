@@ -3,9 +3,11 @@ package thd.gameobjects.movable;
 import thd.game.managers.GamePlayManager;
 import thd.game.managers.GameSettings;
 import thd.game.utilities.GameView;
+import thd.gameobjects.base.ActivatableGameObject;
 import thd.gameobjects.base.CollidingGameObject;
 import thd.gameobjects.base.GameObject;
 import thd.gameobjects.base.Position;
+import thd.gameobjects.base.ShiftableGameObject;
 import thd.gameobjects.base.Vector2d;
 
 import static thd.game.managers.GameSettings.TRAVEL_PATH_CALCULATOR;
@@ -16,7 +18,7 @@ import static thd.game.managers.GameSettings.TRAVEL_PATH_CALCULATOR;
  *
  * @see GameObject
  */
-class GunEmplacementLaserShot extends CollidingGameObject {
+public class GunEmplacementLaserShot extends CollidingGameObject implements ShiftableGameObject {
     private static final int MAX_LASER_SHOT_LENGTH = 500;
 
     private final GunEmplacement gunEmplacement;

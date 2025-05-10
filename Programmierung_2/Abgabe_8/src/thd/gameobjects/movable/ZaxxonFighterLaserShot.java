@@ -53,7 +53,6 @@ public class ZaxxonFighterLaserShot extends CollidingGameObject {
     public void updateStatus() {
         if (position.similarTo(targetPosition)) {
             gamePlayManager.destroyGameObject(this);
-            hasDespawned = true;
         }
     }
 
@@ -80,7 +79,6 @@ public class ZaxxonFighterLaserShot extends CollidingGameObject {
                             || other instanceof EnergyBarrier
             ) {
                 gamePlayManager.destroyGameObject(this);
-                hasDespawned = true;
             }
         }
     }

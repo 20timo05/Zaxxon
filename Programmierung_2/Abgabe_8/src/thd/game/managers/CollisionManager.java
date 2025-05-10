@@ -2,6 +2,7 @@ package thd.game.managers;
 
 import thd.gameobjects.base.CollidingGameObject;
 import thd.gameobjects.base.GameObject;
+import thd.gameobjects.movable.ZaxxonFighter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -27,6 +28,10 @@ class CollisionManager {
             sublistIndex++;
             List<CollidingGameObject> restOfList = collidingGameObjects.subList(sublistIndex, collidingGameObjects.size());
             for (CollidingGameObject gameObjectB : restOfList) {
+                if (gameObjectA.hasDespawned || gameObjectB.hasDespawned || gameObjectA == gameObjectB) {
+                    continue;
+                }
+
                 if (gameObjectA.collidesWith(gameObjectB)) {
                     gameObjectA.reactToCollisionWith(gameObjectB);
                     gameObjectB.reactToCollisionWith(gameObjectA);

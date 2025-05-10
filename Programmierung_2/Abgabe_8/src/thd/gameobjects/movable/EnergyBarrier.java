@@ -71,7 +71,7 @@ public class EnergyBarrier extends CollidingGameObject implements ShiftableGameO
         ArrayList<CollidingGameObject> objToRemove = new ArrayList<>();
 
         for (CollidingGameObject collidingGameObject : collidingGameObjectsForPathDecision) {
-            if (collidingGameObject.hasDespawned()) {
+            if (collidingGameObject.hasDespawned) {
                 objToRemove.add(collidingGameObject);
 
             } else if (collidesWith(collidingGameObject)) {

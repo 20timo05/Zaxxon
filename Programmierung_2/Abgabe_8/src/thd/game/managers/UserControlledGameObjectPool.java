@@ -4,6 +4,7 @@ import thd.game.utilities.GameView;
 import thd.gameobjects.unmovable.Footer;
 import thd.gameobjects.movable.*;
 import thd.gameobjects.unmovable.*;
+import thd.game.level.*;
 
 import java.awt.event.KeyEvent;
 
@@ -15,9 +16,10 @@ class UserControlledGameObjectPool {
     protected FuelCellGauge fuelCellGauge;
     protected Footer footer;
 
+    protected Level level;
+
     UserControlledGameObjectPool(GameView gameView) {
         this.gameView = gameView;
-
     }
 
     protected void gameLoop() {

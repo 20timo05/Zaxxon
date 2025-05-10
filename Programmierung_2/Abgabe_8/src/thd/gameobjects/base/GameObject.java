@@ -27,7 +27,7 @@ public abstract class GameObject {
     protected double height;
     protected int spawnDelayInMilis;
     protected double spawnLineInter; // for stationary GameObjects
-    protected boolean hasDespawned;
+    public boolean hasDespawned;
     protected char distanceToBackground;
     private StationaryMovementPattern stationaryMovementPattern;
 
@@ -110,7 +110,6 @@ public abstract class GameObject {
         if (this instanceof ShiftableGameObject) {
             if (position.similarTo(targetPosition)) {
                 gamePlayManager.destroyGameObject(this);
-                hasDespawned = true;
             }
         }
     }
@@ -154,15 +153,6 @@ public abstract class GameObject {
         return new Position(
                 position.getX() - getWidth() / 2,
                 position.getY() - getHeight() / 2);
-    }
-
-    /**
-     * Returns whether this {@code GameObject} has reached its target Position.
-     *
-     * @return boolean whether it should have despawned already
-     */
-    public boolean hasDespawned() {
-        return hasDespawned;
     }
 
     /**

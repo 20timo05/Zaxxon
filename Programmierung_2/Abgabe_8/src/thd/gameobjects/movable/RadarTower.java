@@ -61,7 +61,6 @@ public class RadarTower extends CollidingGameObject implements ShiftableGameObje
         if (getAltitudeLevel() == other.getAltitudeLevel()) {
             if (other instanceof ZaxxonFighterLaserShot) {
                 gamePlayManager.destroyGameObject(this);
-
                 gamePlayManager.addPoints(1000);
             }
         }

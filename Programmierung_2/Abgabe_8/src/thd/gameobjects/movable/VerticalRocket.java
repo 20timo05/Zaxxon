@@ -68,7 +68,6 @@ public class VerticalRocket extends CollidingGameObject implements ShiftableGame
     public void updateStatus() {
         if (position.similarTo(targetPosition)) {
             gamePlayManager.destroyGameObject(this);
-            hasDespawned = true;
         }
     }
 

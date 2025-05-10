@@ -12,33 +12,19 @@ import static thd.game.managers.GameSettings.SPEED_IN_PIXEL;
  */
 public class GamePlayManager extends WorldShiftManager {
     private final GameObjectManager gameObjectManager;
-    private int spawnCounter;
 
-    private static final int LIVES = 2;
     protected int points;
     protected int lives;
-    private int level;
-    private int numberOfEnemyPlanes;
+    protected int numberOfEnemyPlanes;
 
     private static final double FUEL_DRAIN = 0.0001;
     private static final double FUEL_TANK_REPLENISH = 0.25;
-    private double fuelInterpolation;
-
-    private int startGameTimestamp;
+    protected double fuelInterpolation;
 
     protected GamePlayManager(GameView gameView) {
         super(gameView);
 
         gameObjectManager = new GameObjectManager();
-        spawnCounter = 0;
-
-        points = 0;
-        lives = LIVES;
-        level = 1;
-        fuelInterpolation = 1;
-        numberOfEnemyPlanes = 20;
-
-        startGameTimestamp = gameView.gameTimeInMilliseconds();
     }
 
     /**
@@ -60,6 +46,7 @@ public class GamePlayManager extends WorldShiftManager {
     @Override
     public void destroyGameObject(GameObject gameObject) {
         super.destroyGameObject(gameObject);
+        gameObject.hasDespawned = true;
         gameObjectManager.remove(gameObject);
     }
 
@@ -79,7 +66,6 @@ public class GamePlayManager extends WorldShiftManager {
     public void lifeLost() {
         if (lives > 0) {
             lives--;
-            restartGame();
         }
     }
 
@@ -94,9 +80,7 @@ public class GamePlayManager extends WorldShiftManager {
      * Drains a little Fuel every game tick.
      */
     public void looseFuel() {
-        if (fuelInterpolation - FUEL_DRAIN >= 0) {
-            fuelInterpolation -= FUEL_DRAIN;
-        }
+        fuelInterpolation -= FUEL_DRAIN;
     }
 
     /**
@@ -123,7 +107,7 @@ public class GamePlayManager extends WorldShiftManager {
      * @return the level
      */
     public int getLevel() {
-        return level;
+        return level.index;
     }
 
     /**
@@ -160,20 +144,6 @@ public class GamePlayManager extends WorldShiftManager {
         if (numberOfEnemyPlanes > 0) {
             numberOfEnemyPlanes--;
         }
-    }
-
-    /**
-     * Restarts the Game when the {@link ZaxxonFighter} crashed with another {@link thd.gameobjects.base.CollidingGameObject}.
-     */
-    private void restartGame() {
-        gameObjectManager.removeAll();
-        spawnCounter = 0;
-        startGameTimestamp = gameView.gameTimeInMilliseconds();
-
-        spawnGameObject(zaxxonFighter);
-        spawnGameObject(heightStatusBar);
-        spawnGameObject(footer);
-        spawnGameObject(fuelCellGauge);
     }
 
     @Override

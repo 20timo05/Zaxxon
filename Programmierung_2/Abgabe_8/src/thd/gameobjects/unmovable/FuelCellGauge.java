@@ -49,6 +49,10 @@ public class FuelCellGauge extends GameObject {
     @Override
     public void updateStatus() {
         gamePlayManager.looseFuel();
+
+        if (gamePlayManager.getFuelInterpolation() <= 0) {
+            gamePlayManager.lifeLost();
+        }
     }
 
     /**

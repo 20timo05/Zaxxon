@@ -5,8 +5,6 @@ import thd.gameobjects.base.ActivatableGameObject;
 import thd.gameobjects.base.GameObject;
 import thd.gameobjects.base.ShiftableGameObject;
 
-import static thd.game.managers.GameSettings.SPEED_IN_PIXEL;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -84,11 +82,11 @@ public class WorldShiftManager extends UserControlledGameObjectPool {
             // gameObject.getPosition().right(shiftX);
             // gameObject.getPosition().down(shiftY);
             if (gameObject instanceof ActivatableGameObject) {
-                if (!((ActivatableGameObject) gameObject).tryToActivate(null)) {
+                if (!(((ActivatableGameObject<?>) gameObject).tryToActivate(null))) {
                     continue;
                 }
             }
-            
+
             gameObject.moveShiftableForward(shiftX);
         }
     }

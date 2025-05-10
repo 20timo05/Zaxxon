@@ -3,7 +3,7 @@ package thd.game.utilities;
 
 import java.util.ArrayList;
 
-import static thd.game.utilities.WallBlockImages.*;
+import static thd.game.utilities.WallBlockImages.FULL_BLOCK_FRONT;
 
 /**
  * This is a utility class used to precompute any possible Wall dynamically.
@@ -20,58 +20,30 @@ public class WallBlockGraphicUtils {
 
     private final String[] wallRowOptimization;
 
-    /* 
+    /*
     public static void main(String[] args) {
         WallBlockGraphicUtils utils = new WallBlockGraphicUtils();
         System.out.println(utils.preprocessWallDescription(SAMPLE_WALL));
         System.out.println(utils.generateWallBlockImage(SAMPLE_WALL));
     } */
 
+    /**
+     * precomputes a block image for bigger parts of one Wall.
+     * => optimization O(n) => O(log(n))
+     */
     public WallBlockGraphicUtils() {
-        // precompute a block image for bigger parts of one Wall => optimization O(n) => O(log(n))
         wallRowOptimization = new String[5];
         wallRowOptimization[0] = FULL_BLOCK_FRONT;
 
         for (int i = 1; i < wallRowOptimization.length; i++) {
             wallRowOptimization[i] = combineBlockImages(
-                    wallRowOptimization[i-1],
-                    wallRowOptimization[i-1],
-                    (int) (WallBlockDimensionCalculator.FULL_BLOCK_INCREASE_OFFSET_X*Math.pow(2, i-1)),
-                    (int) (WallBlockDimensionCalculator.FULL_BLOCK_INCREASE_OFFSET_Y*Math.pow(2, i-1))
+                    wallRowOptimization[i - 1],
+                    wallRowOptimization[i - 1],
+                    (int) (WallBlockDimensionCalculator.FULL_BLOCK_INCREASE_OFFSET_X * Math.pow(2, i - 1)),
+                    (int) (WallBlockDimensionCalculator.FULL_BLOCK_INCREASE_OFFSET_Y * Math.pow(2, i - 1))
             );
         }
     }
-
-    /**
-     * A class that is a Wrapper for two important information for the {@link thd.gameobjects.movable.Wall} GameObject.
-     * <ol>
-     *    <li>The BlockGraphic String for {@link GameView#addBlockImageToCanvas(String, double, double, double, double)}</li>
-     *    <li>The Hitboxes for {@link thd.gameobjects.base.CollidingGameObject}</li>
-     * </ol>
-     */
-    public static final class DynamicWall {
-
-        /**
-         * The BlockGraphic String for {@link GameView#addBlockImageToCanvas(String, double, double, double, double)}.
-         */
-        public final String[] wallBlockImageInRows;
-        /**
-         * The indices for the hitboxes for this DynamicWall. Can be used to actually compute the Hitboxes.
-         */
-        public final ArrayList<ArrayList<int[]>> hitboxIndicesInRows;
-
-        /**
-         * Creates a new {@code DynamicWall} object.
-         *
-         * @param wallBlockImageInRows the BlockGraphic String
-         * @param hitboxesInRows the hitbox indices
-         */
-        public DynamicWall(String[] wallBlockImageInRows, ArrayList<ArrayList<int[]>> hitboxesInRows) {
-            this.wallBlockImageInRows = wallBlockImageInRows;
-            this.hitboxIndicesInRows = hitboxesInRows;
-        }
-    }
-
 
     /**
      * Generates the rows a complete Wall BlockGraphic String dynamically.
@@ -125,9 +97,9 @@ public class WallBlockGraphicUtils {
 
     /**
      * Mirrors each row of the 2d BlockImage representation horizontally.
-     * 
+     *
      * @param blockImage the block Image String to mirror
-     * @return the horizontally mirrored new BlockImage 
+     * @return the horizontally mirrored new BlockImage
      */
     public String mirrorBlockImage(String blockImage) {
         if (blockImage == null || blockImage.isEmpty()) {
@@ -148,7 +120,6 @@ public class WallBlockGraphicUtils {
         return mirroredBlockImage.toString();
     }
 
-
     private String generateWallRowBlockImage(String wallDescriptionRow) {
         String combinedRowBlockImage = "";
 
@@ -164,8 +135,8 @@ public class WallBlockGraphicUtils {
                 combinedRowBlockImage = combineBlockImages(
                         combinedRowBlockImage,
                         blockDim.blockImage,
-                        offsetX+blockDim.additionalOffsetX,
-                        offsetY+blockDim.additionalOffsetY
+                        offsetX + blockDim.additionalOffsetX,
+                        offsetY + blockDim.additionalOffsetY
                 );
             }
             offsetX += blockDim.increaseOffsetX;
@@ -268,10 +239,6 @@ public class WallBlockGraphicUtils {
         return result.toString().replace('\u0000', ' ');
     }
 
-    // ================================================================================================================
-    // ======================================= PREPROCESSING OF WALLDESCRIPTION =======================================
-    // ================================================================================================================
-
     /**
      * Preprocesses the {@code wallDescription} so that it calculates which blocks go where.
      * 0: Hole
@@ -283,7 +250,7 @@ public class WallBlockGraphicUtils {
      * 6: {@link WallBlockImages#BLOCK_SIDE_FULL_TOP}
      * 7: {@link WallBlockImages#BLOCK_SIDE_HALF_TOP}
      * 8: {@link WallBlockImages#BLOCK_SIDE_HALF}
-     *
+     * <p>
      * ===== Optimization =====
      * A: 2x {@link WallBlockImages#FULL_BLOCK_FRONT}
      * B: 4x {@link WallBlockImages#FULL_BLOCK_FRONT}
@@ -318,12 +285,15 @@ public class WallBlockGraphicUtils {
         return String.join("\n", paddedWallDescriptionRows);
     }
 
+    // ================================================================================================================
+    // ======================================= PREPROCESSING OF WALLDESCRIPTION =======================================
+    // ================================================================================================================
+
     /**
      * this method trims of '\n' from start and end of wallDescription String
      *
      * @param wallDescription string describing a wall
      * @return the trimmed wallDescription string
-     *
      * @see WallBlockImages#SAMPLE_WALL
      */
     private String trimLinebreaks(String wallDescription) {
@@ -334,7 +304,7 @@ public class WallBlockGraphicUtils {
             startIdx++;
         }
 
-        while (endIdx > startIdx && wallDescription.charAt(endIdx-1) == '\n') {
+        while (endIdx > startIdx && wallDescription.charAt(endIdx - 1) == '\n') {
             endIdx--;
         }
 
@@ -357,10 +327,10 @@ public class WallBlockGraphicUtils {
                 }
 
                 if (isNextBlockAFullBlock) {
-                    isNextBlockAFullBlock = x + 1 <= row.length() - 1 && row.charAt(x+1) != '0';
+                    isNextBlockAFullBlock = x + 1 <= row.length() - 1 && row.charAt(x + 1) != '0';
 
                     // check if it has to start with half block again after gap
-                    if (x > 0 && paddedWallDescriptionRows[y].charAt(x-1) == '0') {
+                    if (x > 0 && paddedWallDescriptionRows[y].charAt(x - 1) == '0') {
                         if (y % 2 == 0 && x % 2 == 0 || y % 2 == 1 && x % 2 == 1) {
                             isNextBlockAFullBlock = false;
                         }
@@ -369,7 +339,7 @@ public class WallBlockGraphicUtils {
 
                 if (isNextBlockAFullBlock) {
                     row = replaceChar(row, x, '1');
-                    row = replaceChar(row, x+1, '1');
+                    row = replaceChar(row, x + 1, '1');
                     x += 2;
                 } else {
                     row = replaceChar(row, x, '2');
@@ -390,14 +360,14 @@ public class WallBlockGraphicUtils {
 
         for (int y = 1; y < paddedWallDescriptionRows.length; y++) {
 
-            String aboveRow = paddedWallDescriptionRows[y-1];
+            String aboveRow = paddedWallDescriptionRows[y - 1];
             for (int x = 0; x < paddedWallDescriptionRows[y].length(); x++) {
                 if (aboveRow.charAt(x) != '0') {
                     continue;
                 }
 
                 if (paddedWallDescriptionRows[y].charAt(x) == '1') {
-                    if (x+1 < aboveRow.length() && aboveRow.charAt(x+1) == '0') {
+                    if (x + 1 < aboveRow.length() && aboveRow.charAt(x + 1) == '0') {
                         aboveRow = replaceChar(aboveRow, x, '3');
                     } else {
                         aboveRow = replaceChar(aboveRow, x, '4');
@@ -408,9 +378,9 @@ public class WallBlockGraphicUtils {
                 }
             }
 
-            newWallDescriptionRows[y-1] = aboveRow;
+            newWallDescriptionRows[y - 1] = aboveRow;
         }
-        newWallDescriptionRows[newWallDescriptionRows.length-1] = paddedWallDescriptionRows[paddedWallDescriptionRows.length - 1];
+        newWallDescriptionRows[newWallDescriptionRows.length - 1] = paddedWallDescriptionRows[paddedWallDescriptionRows.length - 1];
 
         return newWallDescriptionRows;
     }
@@ -421,13 +391,13 @@ public class WallBlockGraphicUtils {
         for (int y = 0; y < paddedWallDescriptionRows.length; y++) {
 
             String row = paddedWallDescriptionRows[y];
-            for (int x = 1; x < row.length()-1; x++) {
+            for (int x = 1; x < row.length() - 1; x++) {
 
                 if (row.charAt(x - 1) == '1' || row.charAt(x - 1) == '2') {
 
                     if (row.charAt(x) == '0') {
 
-                        if (y > 0 && (paddedWallDescriptionRows[y-1].charAt(x) == '1' || paddedWallDescriptionRows[y-1].charAt(x) == '2')) {
+                        if (y > 0 && (paddedWallDescriptionRows[y - 1].charAt(x) == '1' || paddedWallDescriptionRows[y - 1].charAt(x) == '2')) {
                             row = replaceChar(row, x, '8');
 
                         } else {
@@ -467,6 +437,7 @@ public class WallBlockGraphicUtils {
                     // optimization: replace sequences of FULL_BLOCK_FRONT with wallRowOptimization[i]
                     while (x - start > 3) {
                         int log = (int) (Math.log((x - start) / 2.0) / Math.log(2));
+                        log = Math.min(4, log);
 
                         char optimizationChar = new char[]{'1', 'A', 'B', 'C', 'D'}[log];
                         int endIdx = start + (int) Math.pow(2, log) * 2;
@@ -490,9 +461,8 @@ public class WallBlockGraphicUtils {
     }
 
     private String replaceChar(String str, int idx, char newChar) {
-        return str.substring(0, idx) + newChar + str.substring(idx+1);
+        return str.substring(0, idx) + newChar + str.substring(idx + 1);
     }
-
 
     private ArrayList<ArrayList<int[]>> calcHitboxIndicesInRows(String preprocessedWallDescription) {
         // convert padded preprocessed wall description back to original (but still in the same dimension)
@@ -530,5 +500,35 @@ public class WallBlockGraphicUtils {
         }
 
         return hitboxesInRows;
+    }
+
+    /**
+     * A class that is a Wrapper for two important information for the {@link thd.gameobjects.movable.Wall} GameObject.
+     * <ol>
+     *    <li>The BlockGraphic String for {@link GameView#addBlockImageToCanvas(String, double, double, double, double)}</li>
+     *    <li>The Hitboxes for {@link thd.gameobjects.base.CollidingGameObject}</li>
+     * </ol>
+     */
+    public static final class DynamicWall {
+
+        /**
+         * The BlockGraphic String for {@link GameView#addBlockImageToCanvas(String, double, double, double, double)}.
+         */
+        public final String[] wallBlockImageInRows;
+        /**
+         * The indices for the hitboxes for this DynamicWall. Can be used to actually compute the Hitboxes.
+         */
+        public final ArrayList<ArrayList<int[]>> hitboxIndicesInRows;
+
+        /**
+         * Creates a new {@code DynamicWall} object.
+         *
+         * @param wallBlockImageInRows the BlockGraphic String
+         * @param hitboxesInRows       the hitbox indices
+         */
+        public DynamicWall(String[] wallBlockImageInRows, ArrayList<ArrayList<int[]>> hitboxesInRows) {
+            this.wallBlockImageInRows = wallBlockImageInRows;
+            this.hitboxIndicesInRows = hitboxesInRows;
+        }
     }
 }

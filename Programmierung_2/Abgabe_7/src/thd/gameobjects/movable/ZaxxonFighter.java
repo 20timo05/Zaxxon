@@ -41,7 +41,6 @@ public class ZaxxonFighter extends CollidingGameObject implements MainCharacter 
         size = 3;
         height = 13;
         width = 24;
-        distanceToBackground = 10;
 
         movementVector = new Vector2d();
         preProjectionPosition = new Position(TRAVEL_PATH_CALCULATOR.getTravelPathWidth()/2.0, GameSettings.MAX_PLAYER_ALTITUDE/2.0);
@@ -92,6 +91,7 @@ public class ZaxxonFighter extends CollidingGameObject implements MainCharacter 
         movementInterpolation = preProjectionPosition.getX() / TRAVEL_PATH_CALCULATOR.getTravelPathWidth();
         altitudeInterpolation = preProjectionPosition.getY() / (GameSettings.MAX_PLAYER_ALTITUDE);
         altitudeLevel = (int) (altitudeInterpolation * MAX_ALTITUDE_LEVEL);
+        distanceToBackground = (char) (altitudeLevel + 1);
 
         // calculate position of the shadow below the player
         shadowPosition.updateCoordinates(geometricUtils.interpolatePosition(

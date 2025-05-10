@@ -1,35 +1,24 @@
 package thd.game.managers;
 
-import static thd.game.managers.GameSettings.SPEED_IN_PIXEL;
-import static thd.game.managers.GameSettings.TRAVEL_PATH_CALCULATOR;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
-
 import thd.game.utilities.GameView;
 import thd.game.utilities.WallBlockDimensionCalculator;
 import thd.game.utilities.WallBlockGraphicUtils;
-import thd.game.utilities.WallBlockImages;
-import thd.gameobjects.base.ActivatableGameObject;
 import thd.gameobjects.base.GameObject;
-import thd.gameobjects.base.Vector2d;
 import thd.gameobjects.movable.*;
 import thd.gameobjects.unmovable.DebuggingLines;
 import thd.gameobjects.unmovable.Footer;
 import thd.gameobjects.unmovable.FuelCellGauge;
 import thd.gameobjects.unmovable.HeightStatusBar;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+
+import static thd.game.managers.GameSettings.SPEED_IN_PIXEL;
+import static thd.game.managers.GameSettings.TRAVEL_PATH_CALCULATOR;
+
 class GameWorldManager extends GamePlayManager {
-    private final DebuggingLines debuggingLines;
-    private final String world;
-
-    private final int worldOffsetColumns;
-    private final int worldOffsetLines;
-
-    private final List<GameObject> activatableGameObjects;
-
-    private static final String[] WALL_DESCRIPTIONS = new String[] {
+    private static final String[] WALL_DESCRIPTIONS = new String[]{
             """
                     xxxxxxxxxx                  xxxxxxxx
                     xxxxxxxxxx                  xxxxxxxx
@@ -52,20 +41,24 @@ class GameWorldManager extends GamePlayManager {
                     xxxxxxxxxxxx
                     """
     };
-
+    private final DebuggingLines debuggingLines;
+    private final String world;
+    private final int worldOffsetColumns;
+    private final int worldOffsetLines;
+    private final List<GameObject> activatableGameObjects;
     private final WallBlockGraphicUtils.DynamicWall[] dynamicWalls;
-    
-    private String backgroundWallBlockImage;
-    private Background[] backgrounds;
 
-    GameWorldManager(GameView gameView) {
+    private String backgroundWallBlockImage;
+    private WallBackground[] wallBackgrounds;
+
+    protected GameWorldManager(GameView gameView) {
         super(gameView);
 
         /*
          * Dictionary:
          * 1 Row = 2x FULL_BLOCK_FRONT (on the left side)
          * 1 Column = 2x FULL_BLOCK_FRONT (in a WallRow)
-         * 
+         *
          * - w: Wall
          * - Number: Index in WALL_DESCRIPTIONS
          * - s: EnemyShooter
@@ -134,8 +127,7 @@ class GameWorldManager extends GamePlayManager {
                         \s
                 w0      \s
                 """;
-        
-        
+
 
         // all gameobjects should be visible in the beginning
         worldOffsetColumns = world.split("\\R").length;
@@ -148,7 +140,7 @@ class GameWorldManager extends GamePlayManager {
         heightStatusBar = new HeightStatusBar(gameView, this);
         footer = new Footer(gameView, this);
         fuelCellGauge = new FuelCellGauge(gameView, this);
-        backgrounds = new Background[2];
+        wallBackgrounds = new WallBackground[2];
 
         dynamicWalls = new WallBlockGraphicUtils.DynamicWall[WALL_DESCRIPTIONS.length];
         generateWalls();
@@ -164,7 +156,8 @@ class GameWorldManager extends GamePlayManager {
         }
 
         // generate background wall
-        int numberOfBricks = (int) (TRAVEL_PATH_CALCULATOR.getDistanceToDespawnLine() / WallBlockDimensionCalculator.FULL_BLOCK_INCREASE_OFFSET_X);
+        double horizontalDistanceSpawnLineDespawnLine = Math.abs(TRAVEL_PATH_CALCULATOR.getSpawnLine()[0].getX() - TRAVEL_PATH_CALCULATOR.getDespawnLine()[0].getX());
+        int numberOfBricks = (int) (horizontalDistanceSpawnLineDespawnLine / WallBlockDimensionCalculator.FULL_BLOCK_INCREASE_OFFSET_X);
         int height = 9;
         StringBuilder bgWallDesc = new StringBuilder();
         for (int y = 0; y < height; y++) {
@@ -179,7 +172,7 @@ class GameWorldManager extends GamePlayManager {
     }
 
     private void spawnGameObjects() {
-        spawnGameObject(debuggingLines);
+        // spawnGameObject(debuggingLines);
         spawnGameObject(zaxxonFighter);
         spawnGameObject(heightStatusBar);
         spawnGameObject(footer);
@@ -187,7 +180,6 @@ class GameWorldManager extends GamePlayManager {
     }
 
     private void addActivatableGameObject(GameObject gameObject) {
-        System.out.println(gameObject.spawnDelayInMilis + " - " + gameObject.getClass());
         activatableGameObjects.add(gameObject);
         addToShiftableGameObjectsIfShiftable(gameObject);
     }
@@ -197,38 +189,42 @@ class GameWorldManager extends GamePlayManager {
 
         for (int row = lines.length - 1; row > 0; row--) {
             double distanceFromSpawnLine = (lines.length - 1 - row) * 2 * WallBlockDimensionCalculator.FULL_BLOCK_INCREASE_OFFSET_X;
-            int spawnDelayInMilis = (int) (distanceFromSpawnLine / SPEED_IN_PIXEL * 1000 / 60);
+            int spawnDelayInMilis = (int) (distanceFromSpawnLine / SPEED_IN_PIXEL * 1000 / 50); // @TODO change 50 to 60, but Game runs slowly at the moment
 
             for (int column = 0; column < lines[row].length() - 1; column++) {
                 double spawnLineInter = (double) column / lines[row].length();
 
-                char c = lines[row].charAt(column);
+                double x = (worldOffsetColumns - column) * 100; // wichtel
+                double y = (worldOffsetLines - row) * 100; // wichtel
+                debuggingLines.getPosition().updateCoordinates(x, y); // wichtel
+
+                char character = lines[row].charAt(column);
                 int status = Character.getNumericValue(lines[row].charAt(column + 1));
 
-                if (c == 'w') {
+                if (character == 'w') {
                     addActivatableGameObject(
                             new Wall(gameView, this, dynamicWalls[status], spawnDelayInMilis, spawnLineInter));
-                } else if (c == 's') {
+                } else if (character == 's') {
                     addActivatableGameObject(new EnemyShooter(gameView, this, spawnDelayInMilis, spawnLineInter));
-                } else if (c == 'e') {
+                } else if (character == 'e') {
                     addActivatableGameObject(new EnergyBarrier(gameView, this, spawnDelayInMilis, status));
-                } else if (c == 'f') {
+                } else if (character == 'f') {
                     addActivatableGameObject(new FuelTank(gameView, this, spawnDelayInMilis, spawnLineInter));
-                } else if (c == 'g') {
+                } else if (character == 'g') {
                     addActivatableGameObject(
                             new GunEmplacement(gameView, this, spawnDelayInMilis, spawnLineInter, status == 0));
-                } else if (c == 'r') {
+                } else if (character == 'r') {
                     addActivatableGameObject(new RadarTower(gameView, this, spawnDelayInMilis, spawnLineInter));
-                } else if (c == 'v') {
+                } else if (character == 'v') {
                     addActivatableGameObject(new VerticalRocketHole(gameView, this, spawnDelayInMilis, spawnLineInter));
                 }
             }
         }
-        
-        backgrounds[0] = new Background(gameView, this, backgroundWallBlockImage);
-        backgrounds[1] = new Background(gameView, this, backgroundWallBlockImage);
-        spawnGameObject(backgrounds[0]);
-        addActivatableGameObject(backgrounds[1]);
+
+        wallBackgrounds[0] = new WallBackground(gameView, this, backgroundWallBlockImage, true);
+        wallBackgrounds[1] = new WallBackground(gameView, this, backgroundWallBlockImage, false);
+        spawnGameObject(wallBackgrounds[0]);
+        addActivatableGameObject(wallBackgrounds[1]);
     }
 
     @Override
@@ -236,10 +232,10 @@ class GameWorldManager extends GamePlayManager {
         super.gameLoop();
         activateGameObjects();
 
-        if (backgrounds[0].hasDespawned()) {
-            backgrounds[0] = backgrounds[1];
-            backgrounds[1] = new Background(gameView, this, backgroundWallBlockImage);
-            addActivatableGameObject(backgrounds[1]);
+        if (wallBackgrounds[0].hasDespawned()) {
+            wallBackgrounds[0] = wallBackgrounds[1];
+            wallBackgrounds[1] = new WallBackground(gameView, this, backgroundWallBlockImage, false);
+            addActivatableGameObject(wallBackgrounds[1]);
         }
     }
 
@@ -247,33 +243,35 @@ class GameWorldManager extends GamePlayManager {
         ListIterator<GameObject> iterator = activatableGameObjects.listIterator();
 
         while (iterator.hasNext()) {
-            GameObject currentObject = iterator.next(); 
+            GameObject gameObject = iterator.next();
 
-            if (currentObject instanceof EnemyShooter enemyShooter && enemyShooter.tryToActivate(null)) {
+            if (gameObject instanceof EnemyShooter enemyShooter && enemyShooter.tryToActivate(null)) {
                 spawnGameObject(enemyShooter);
                 iterator.remove();
-            } else if (currentObject instanceof EnergyBarrier energyBarrier && energyBarrier.tryToActivate(null)) {
+            } else if (gameObject instanceof EnergyBarrier energyBarrier && energyBarrier.tryToActivate(null)) {
                 spawnGameObject(energyBarrier);
                 iterator.remove();
-            } else if (currentObject instanceof FuelTank fuelTank && fuelTank.tryToActivate(null)) {
+            } else if (gameObject instanceof FuelTank fuelTank && fuelTank.tryToActivate(null)) {
                 spawnGameObject(fuelTank);
                 iterator.remove();
-            } else if (currentObject instanceof GunEmplacement gunEmplacement && gunEmplacement.tryToActivate(null)) {
+            } else if (gameObject instanceof GunEmplacement gunEmplacement && gunEmplacement.tryToActivate(null)) {
                 spawnGameObject(gunEmplacement);
                 iterator.remove();
-            } else if (currentObject instanceof RadarTower radarTower && radarTower.tryToActivate(null)) {
+            } else if (gameObject instanceof RadarTower radarTower && radarTower.tryToActivate(null)) {
                 spawnGameObject(radarTower);
                 iterator.remove();
-            } else if (currentObject instanceof VerticalRocketHole verticalRocketHole
+            } else if (gameObject instanceof VerticalRocketHole verticalRocketHole
                     && verticalRocketHole.tryToActivate(null)) {
                 spawnGameObject(verticalRocketHole);
                 iterator.remove();
-            } else if (currentObject instanceof WallRow wallRow && wallRow.tryToActivate(null)) {
+            } else if (gameObject instanceof WallRow wallRow && wallRow.tryToActivate(null)) {
                 spawnGameObject(wallRow);
                 iterator.remove();
-            } else if (currentObject instanceof Background background && background.tryToActivate(backgrounds[0])) {
-                spawnGameObject(currentObject);
-                iterator.remove();
+            } else if (gameObject instanceof WallBackground wallBackground) {
+                if (wallBackground.tryToActivate(wallBackgrounds[0])) {
+                    spawnGameObject(gameObject);
+                    iterator.remove();
+                }
             }
         }
     }

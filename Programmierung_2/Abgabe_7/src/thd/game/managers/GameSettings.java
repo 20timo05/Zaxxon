@@ -33,7 +33,7 @@ public final class GameSettings {
      *
      * @see GameObject
      */
-    public static final double MOVEMENT_ANGLE_IN_DEGREE = 27;
+    public static final double MOVEMENT_ANGLE_IN_DEGREE = 26.5;
 
     /**
      * Any {@code GameObject} moves in this angle (in radians).

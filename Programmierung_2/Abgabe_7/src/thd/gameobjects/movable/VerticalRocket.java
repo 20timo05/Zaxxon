@@ -3,7 +3,6 @@ package thd.gameobjects.movable;
 import thd.game.managers.GamePlayManager;
 import thd.game.managers.GameSettings;
 import thd.game.utilities.GameView;
-import thd.gameobjects.base.ActivatableGameObject;
 import thd.gameobjects.base.CollidingGameObject;
 import thd.gameobjects.base.Position;
 import thd.gameobjects.base.ShiftableGameObject;
@@ -34,7 +33,6 @@ public class VerticalRocket extends CollidingGameObject implements ShiftableGame
         size = 3;
         speedInPixel = 2;
         altitudeInterpolation = 0;
-        distanceToBackground = 4;
 
         updatePosition(); // initialize start and target position
         hitBoxOffsets(-width * size / 2, -height * size / 2, 0, 0);

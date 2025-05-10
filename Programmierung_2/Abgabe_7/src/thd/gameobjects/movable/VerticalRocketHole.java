@@ -11,28 +11,27 @@ import thd.gameobjects.base.ShiftableGameObject;
  * A passive {@code GameObject} that spawns in the Motherbase of the Game.
  * At some point in its life cycle it will launch a {@link VerticalRocket}.
  */
-public class VerticalRocketHole extends GameObject implements ShiftableGameObject, ActivatableGameObject {
+public class VerticalRocketHole extends GameObject implements ShiftableGameObject, ActivatableGameObject<Void> {
     private double rocketSpawnInterpolationTreshold;
     private boolean rocketAlreadySpawned;
 
     /**
      * Creates a new {@code EnemyShooter} GameObject.
      *
-     * @param gameView        GameView to show the game object on.
-     * @param gamePlayManager reference to the gamePlayManager
-     * @param spawnDelayInMilis      measure for how long before GameObject enters the
-     *                        Screen
-     * @param spawnLineInter  interpolation factor: where on the SpawnLine to spawn
-     *                        the object
+     * @param gameView          GameView to show the game object on.
+     * @param gamePlayManager   reference to the gamePlayManager
+     * @param spawnDelayInMilis measure for how long before GameObject enters the
+     *                          Screen
+     * @param spawnLineInter    interpolation factor: where on the SpawnLine to spawn
+     *                          the object
      */
     public VerticalRocketHole(GameView gameView, GamePlayManager gamePlayManager, int spawnDelayInMilis,
-            double spawnLineInter) {
+                              double spawnLineInter) {
         super(gameView, gamePlayManager, spawnDelayInMilis, spawnLineInter);
 
         height = 5;
         width = 9;
         size = 5;
-        distanceToBackground = 1;
 
         rocketSpawnInterpolationTreshold = Math.random() * (0.65 - 0.45) + 0.45;
         rocketAlreadySpawned = false;
@@ -49,10 +48,12 @@ public class VerticalRocketHole extends GameObject implements ShiftableGameObjec
 
     /**
      * Activates the GameObject when it is ready to spawn.
-     * 
+     *
+     * @param info no external information required, pass <code>null</code>
      * @return boolean whether object is ready
      */
-    public boolean tryToActivate(Object info) {
+    @Override
+    public boolean tryToActivate(Void info) {
         return gameView.gameTimeInMilliseconds() > spawnDelayInMilis;
     }
 

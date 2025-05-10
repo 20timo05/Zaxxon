@@ -25,11 +25,11 @@ public abstract class GameObject {
     protected double size;
     protected double width;
     protected double height;
-    public int spawnDelayInMilis; // @TODO change to protected
+    protected int spawnDelayInMilis;
     protected double spawnLineInter; // for stationary GameObjects
-    private StationaryMovementPattern stationaryMovementPattern;
     protected boolean hasDespawned;
     protected char distanceToBackground;
+    private StationaryMovementPattern stationaryMovementPattern;
 
     /**
      * Crates a new GameObject.
@@ -51,13 +51,13 @@ public abstract class GameObject {
     /**
      * Creates a new Stationary GameObject.
      *
-     * @param gameView              GameView to show the game object on.
-     * @param gamePlayManager       reference to the gamePlayManager
-     * @param spawnDelayInMilis            measure for how long before GameObject enters the Screen
-     * @param spawnLineInter        interpolation factor: where on the SpawnLine to spawn the object
+     * @param gameView          GameView to show the game object on.
+     * @param gamePlayManager   reference to the gamePlayManager
+     * @param spawnDelayInMilis measure for how long before GameObject enters the Screen
+     * @param spawnLineInter    interpolation factor: where on the SpawnLine to spawn the object
      */
     public GameObject(GameView gameView, GamePlayManager gamePlayManager, int spawnDelayInMilis,
-            double spawnLineInter) {
+                      double spawnLineInter) {
         this(gameView, gamePlayManager);
 
         this.spawnDelayInMilis = spawnDelayInMilis;
@@ -68,6 +68,8 @@ public abstract class GameObject {
         stationaryMovementPattern = new StationaryMovementPattern(spawnLineInter);
         position.updateCoordinates(stationaryMovementPattern.startPosition());
         targetPosition.updateCoordinates(stationaryMovementPattern.nextPosition());
+
+        distanceToBackground = 1;
     }
 
     /**
@@ -92,7 +94,7 @@ public abstract class GameObject {
 
     /**
      * Moves Shiftable Game Objects diagonally over the screen.
-     * 
+     *
      * @param pixels how far
      */
     public void moveShiftableForward(double pixels) {

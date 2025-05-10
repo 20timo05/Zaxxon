@@ -3,12 +3,7 @@ package thd.gameobjects.movable;
 import thd.game.managers.GamePlayManager;
 import thd.game.managers.GameSettings;
 import thd.game.utilities.GameView;
-import thd.gameobjects.base.ActivatableGameObject;
-import thd.gameobjects.base.CollidingGameObject;
-import thd.gameobjects.base.GameObject;
-import thd.gameobjects.base.Position;
-import thd.gameobjects.base.ShiftableGameObject;
-import thd.gameobjects.base.Vector2d;
+import thd.gameobjects.base.*;
 
 import static thd.game.managers.GameSettings.TRAVEL_PATH_CALCULATOR;
 
@@ -18,7 +13,7 @@ import static thd.game.managers.GameSettings.TRAVEL_PATH_CALCULATOR;
  *
  * @see GameObject
  */
-public class GunEmplacementLaserShot extends CollidingGameObject implements ShiftableGameObject {
+class GunEmplacementLaserShot extends CollidingGameObject implements ShiftableGameObject {
     private static final int MAX_LASER_SHOT_LENGTH = 500;
 
     private final GunEmplacement gunEmplacement;
@@ -27,10 +22,10 @@ public class GunEmplacementLaserShot extends CollidingGameObject implements Shif
     /**
      * Creates a new {@code GunEmplacementLaserShot} GameObject.
      *
-     * @param gameView          GameView to show the game object on.
-     * @param gamePlayManager   reference to the gamePlayManager
-     * @param gunEmplacement the corresponding {@link GunEmplacement}
-     * @param orientation    true -> straight shot, false -> shot to the left
+     * @param gameView        GameView to show the game object on.
+     * @param gamePlayManager reference to the gamePlayManager
+     * @param gunEmplacement  the corresponding {@link GunEmplacement}
+     * @param orientation     true -> straight shot, false -> shot to the left
      */
     GunEmplacementLaserShot(
             GameView gameView,
@@ -47,10 +42,9 @@ public class GunEmplacementLaserShot extends CollidingGameObject implements Shif
         width = 16;
         size = 3;
         speedInPixel = 7;
-        distanceToBackground = 1;
 
         calculatePosition();
-        hitBoxOffsets(-width*size/2, -height*size/2, 0, 0);
+        hitBoxOffsets(-width * size / 2, -height * size / 2, 0, 0);
     }
 
 

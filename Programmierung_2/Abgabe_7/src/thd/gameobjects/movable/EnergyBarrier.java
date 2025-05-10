@@ -2,11 +2,7 @@ package thd.gameobjects.movable;
 
 import thd.game.managers.GamePlayManager;
 import thd.game.utilities.GameView;
-import thd.gameobjects.base.ActivatableGameObject;
-import thd.gameobjects.base.CollidingGameObject;
-import thd.gameobjects.base.GameObject;
-import thd.gameobjects.base.Position;
-import thd.gameobjects.base.ShiftableGameObject;
+import thd.gameobjects.base.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -23,12 +19,11 @@ import static thd.game.managers.GameSettings.TRAVEL_PATH_CALCULATOR;
  *
  * @see GameObject
  */
-public class EnergyBarrier extends CollidingGameObject implements ShiftableGameObject, ActivatableGameObject {
-    private final EnergyBarrierAnimation energyBarrierAnimation;
+public class EnergyBarrier extends CollidingGameObject implements ShiftableGameObject, ActivatableGameObject<Void> {
     private static final double ENERGY_BARRIER_HEIGHT = 16;
     private static final double ENERGY_BARRIER_WIDTH = 21;
     private static final double ENERGY_BARRIER_SIZE = 5;
-
+    private final EnergyBarrierAnimation energyBarrierAnimation;
     private final ArrayList<CollidingGameObject> collidingGameObjectsForPathDecision;
     private final Position startPosition;
 
@@ -37,12 +32,12 @@ public class EnergyBarrier extends CollidingGameObject implements ShiftableGameO
     /**
      * Creates a new {@code EnergyBarrier} GameObject.
      *
-     * @param gameView        GameView to show the game object on.
-     * @param gamePlayManager reference to the gamePlayManager
-     * @param spawnDelayInMilis      measure for how long before GameObject enters the
-     *                        Screen
-     * @param altitudeLevel   the altitude that this {@code EnergyBarrier} was
-     *                        spawned at
+     * @param gameView          GameView to show the game object on.
+     * @param gamePlayManager   reference to the gamePlayManager
+     * @param spawnDelayInMilis measure for how long before GameObject enters the
+     *                          Screen
+     * @param altitudeLevel     the altitude that this {@code EnergyBarrier} was
+     *                          spawned at
      */
     public EnergyBarrier(GameView gameView, GamePlayManager gamePlayManager, int spawnDelayInMilis, int altitudeLevel) {
         super(gameView, gamePlayManager, altitudeLevel, false, spawnDelayInMilis, -0.1);
@@ -50,13 +45,12 @@ public class EnergyBarrier extends CollidingGameObject implements ShiftableGameO
         height = 41;
         width = 14;
         size = 3;
-        distanceToBackground = 5;
 
         setRelativeHitboxPolygons(calculateHitbox());
         hitBoxOffsets(-20, -30 - (double) altitudeLevel / MAX_ALTITUDE_LEVEL * MAX_PLAYER_ALTITUDE, 0, 20);
 
         energyBarrierAnimation = new EnergyBarrierAnimation(gameView, gamePlayManager, spawnDelayInMilis,
-                altitudeLevel, new double[] { ENERGY_BARRIER_HEIGHT, ENERGY_BARRIER_WIDTH, ENERGY_BARRIER_SIZE });
+                altitudeLevel, new double[]{ENERGY_BARRIER_HEIGHT, ENERGY_BARRIER_WIDTH, ENERGY_BARRIER_SIZE});
 
         collidingGameObjectsForPathDecision = new ArrayList<>();
         startPosition = new Position(position);
@@ -122,15 +116,17 @@ public class EnergyBarrier extends CollidingGameObject implements ShiftableGameO
 
     /**
      * Activates the GameObject when it is ready to spawn.
-     * 
+     *
+     * @param info no external information required, pass <code>null</code>
      * @return boolean whether object is ready
      */
-    public boolean tryToActivate(Object info) {
+    @Override
+    public boolean tryToActivate(Void info) {
         return gameView.gameTimeInMilliseconds() > spawnDelayInMilis;
     }
 
     private Polygon[] calculateHitbox() {
-        Position[] preProjectionRelativeHitbox = new Position[] {
+        Position[] preProjectionRelativeHitbox = new Position[]{
                 new Position(0, 0),
                 new Position(TRAVEL_PATH_CALCULATOR.getTravelPathWidth(), 0),
                 new Position(TRAVEL_PATH_CALCULATOR.getTravelPathWidth(), -ENERGY_BARRIER_HEIGHT * ENERGY_BARRIER_SIZE),
@@ -139,6 +135,6 @@ public class EnergyBarrier extends CollidingGameObject implements ShiftableGameO
 
         Polygon postProjectionHitbox = calculateRelativeProjectedHitbox(preProjectionRelativeHitbox,
                 TRAVEL_PATH_CALCULATOR.getStretchedIsometricProjectionMatrix());
-        return new Polygon[] { postProjectionHitbox };
+        return new Polygon[]{postProjectionHitbox};
     }
 }

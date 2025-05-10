@@ -2,6 +2,7 @@ package thd.game.managers;
 
 import thd.gameobjects.base.GameObject;
 import thd.gameobjects.movable.EnergyBarrier;
+import thd.gameobjects.movable.ZaxxonFighter;
 import thd.gameobjects.movable.ZaxxonFighterLaserShot;
 
 import java.util.LinkedList;
@@ -43,13 +44,16 @@ class GameObjectManager extends CollisionManager {
 
     void gameLoop() {
         updateLists();
+
+        sortForDynamicZIndexGameObjects();
+
         for (GameObject gameObject : gameObjects) {
             gameObject.updateStatus();
             gameObject.updatePosition();
             gameObject.addToCanvas();
         }
 
-        manageCollisions(true);
+        manageCollisions(false);
     }
 
     private void updateLists() {
@@ -70,9 +74,9 @@ class GameObjectManager extends CollisionManager {
     }
 
     private void addToGameObjects() {
-        for (GameObject o : gameObjectsToBeAdded) {
-            sortIntoGameObjects(o);
-            addToCollisionManagement(o);
+        for (GameObject toAdd : gameObjectsToBeAdded) {
+            sortIntoGameObjects(toAdd);
+            addToCollisionManagement(toAdd);
         }
         gameObjectsToBeAdded.clear();
     }
@@ -86,5 +90,15 @@ class GameObjectManager extends CollisionManager {
             indexToSortIn++;
         }
         gameObjects.add(indexToSortIn, toAdd);
+    }
+
+    private void sortForDynamicZIndexGameObjects() {
+        for (GameObject o : gameObjects) {
+            if (o instanceof ZaxxonFighter) {
+                gameObjects.remove(o);
+                sortIntoGameObjects(o);
+                break;
+            }
+        }
     }
 }

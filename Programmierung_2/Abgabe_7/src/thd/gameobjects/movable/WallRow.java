@@ -22,7 +22,7 @@ import static thd.game.managers.GameSettings.TRAVEL_PATH_CALCULATOR;
  * @see Wall
  * @see WallBlockGraphicUtils
  */
-public class WallRow extends CollidingGameObject implements ShiftableGameObject, ActivatableGameObject {
+public class WallRow extends CollidingGameObject implements ShiftableGameObject, ActivatableGameObject<Void> {
     private final String blockGraphic;
 
     /**
@@ -30,7 +30,7 @@ public class WallRow extends CollidingGameObject implements ShiftableGameObject,
      *
      * @param gameView          GameView to show the game object on.
      * @param gamePlayManager   reference to the gamePlayManager
-     * @param spawnDelayInMilis        measure for how long before GameObject enters the Screen
+     * @param spawnDelayInMilis measure for how long before GameObject enters the Screen
      * @param spawnLineInter    interpolation factor: where on the SpawnLine to spawn the object
      * @param altitudeIndex     the vertical index of the row
      * @param blockGraphic      the block Graphic String for this row
@@ -45,14 +45,13 @@ public class WallRow extends CollidingGameObject implements ShiftableGameObject,
             String blockGraphic,
             ArrayList<int[]> hitboxIndices
     ) {
-        super(gameView, gamePlayManager, altitudeIndex/2, false, spawnDelayInMilis, spawnLineInter);
+        super(gameView, gamePlayManager, altitudeIndex / 2, false, spawnDelayInMilis, spawnLineInter - 0.1);
 
         this.blockGraphic = blockGraphic;
 
         int[] wallBlockDimensions = new WallBlockGraphicUtils().calcBlockImageDimension(blockGraphic);
         height = WallBlockDimensionCalculator.FULL_BLOCK_INCREASE_OFFSET_Y;
         width = wallBlockDimensions[1];
-        distanceToBackground = 1;
 
         // dynamically calculate size, so that when player flies over wall, the wall actually looks lower than the player
         size = Math.floor(GameSettings.MAX_PLAYER_ALTITUDE / (9 * height));
@@ -81,15 +80,17 @@ public class WallRow extends CollidingGameObject implements ShiftableGameObject,
      */
     @Override
     public void addToCanvas() {
-        gameView.addBlockImageToCanvas(blockGraphic, position.getX(), position.getY(), size, 0);
+        gameView.addBlockImageToCanvas(blockGraphic, position.getX(), position.getY(), size, rotation);
     }
 
     /**
      * Activates the GameObject when it is ready to spawn.
-     * 
+     *
+     * @param info no external information required, pass <code>null</code>
      * @return boolean whether object is ready
      */
-    public boolean tryToActivate(Object info) {
+    @Override
+    public boolean tryToActivate(Void info) {
         return gameView.gameTimeInMilliseconds() > spawnDelayInMilis;
     }
 
@@ -100,11 +101,11 @@ public class WallRow extends CollidingGameObject implements ShiftableGameObject,
             int[] idx = hitboxIndices.get(i);
 
             // define hitbox in 2d
-            Position[] preProjectionRelativeHitbox = new Position[] {
-                    new Position(idx[0]*size*WallBlockDimensionCalculator.HALF_BLOCK_INCREASE_OFFSET_X, 0),
-                    new Position((idx[1]+1)*size*WallBlockDimensionCalculator.HALF_BLOCK_INCREASE_OFFSET_X, 0),
-                    new Position((idx[1]+1)*size*WallBlockDimensionCalculator.HALF_BLOCK_INCREASE_OFFSET_X, -1*size*WallBlockDimensionCalculator.FULL_BLOCK_INCREASE_OFFSET_Y),
-                    new Position(idx[0]*size*WallBlockDimensionCalculator.HALF_BLOCK_INCREASE_OFFSET_X, -1*size*WallBlockDimensionCalculator.FULL_BLOCK_INCREASE_OFFSET_Y)
+            Position[] preProjectionRelativeHitbox = new Position[]{
+                    new Position(idx[0] * size * WallBlockDimensionCalculator.HALF_BLOCK_INCREASE_OFFSET_X, 0),
+                    new Position((idx[1] + 1) * size * WallBlockDimensionCalculator.HALF_BLOCK_INCREASE_OFFSET_X, 0),
+                    new Position((idx[1] + 1) * size * WallBlockDimensionCalculator.HALF_BLOCK_INCREASE_OFFSET_X, -1 * size * WallBlockDimensionCalculator.FULL_BLOCK_INCREASE_OFFSET_Y),
+                    new Position(idx[0] * size * WallBlockDimensionCalculator.HALF_BLOCK_INCREASE_OFFSET_X, -1 * size * WallBlockDimensionCalculator.FULL_BLOCK_INCREASE_OFFSET_Y)
             };
 
             Polygon postProjectionHitbox = calculateRelativeProjectedHitbox(preProjectionRelativeHitbox, TRAVEL_PATH_CALCULATOR.getStretchedIsometricProjectionMatrix());

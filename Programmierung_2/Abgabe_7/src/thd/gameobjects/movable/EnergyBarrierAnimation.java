@@ -47,7 +47,6 @@ class EnergyBarrierAnimation extends GameObject {
         height = dimensions[0];
         width = dimensions[1];
         size = dimensions[2];
-        distanceToBackground = 5;
 
         barrierSpeedInPixel = 50;
         movementInterpolation = 0.1;

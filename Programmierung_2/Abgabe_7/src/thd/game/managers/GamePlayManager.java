@@ -1,13 +1,10 @@
 package thd.game.managers;
 
 import thd.game.utilities.GameView;
-import thd.game.utilities.WallBlockGraphicUtils;
-import thd.game.utilities.WallBlockImages;
 import thd.gameobjects.base.GameObject;
 import thd.gameobjects.movable.*;
 
 import static thd.game.managers.GameSettings.SPEED_IN_PIXEL;
-import static thd.gameobjects.base.CollidingGameObject.MAX_ALTITUDE_LEVEL;
 
 /**
  * This class is the central contact point for all GameObjects that need to interact with

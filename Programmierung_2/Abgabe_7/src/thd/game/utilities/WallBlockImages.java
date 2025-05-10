@@ -1,10 +1,10 @@
 package thd.game.utilities;
 
-public class WallBlockImages {
+class WallBlockImages {
     /**
      * This is an example {@code wallDescription} String for a sample wall.
      */
-    public static final String SAMPLE_WALL = """
+    static final String SAMPLE_WALL = """
 xxxxxxxxxx                 \s
 xxxxxxxxxx                 \s
 xxxxxxxxxxxxxxxxxxxxx      \s
@@ -19,7 +19,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxx
     /**
      * Smaller alternative to {@link #SAMPLE_WALL} that is faster to compute.
      */
-    public static final String SMALL_SAMPLE_WALL = """
+    static final String SMALL_SAMPLE_WALL = """
 xxxxxxx         xxxxxx
 xxxxxxx         xxxxxx
 xxxxxxxxxxxxxxxxxxxxxx

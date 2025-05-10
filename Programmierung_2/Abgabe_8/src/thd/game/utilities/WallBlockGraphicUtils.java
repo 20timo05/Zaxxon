@@ -277,6 +277,7 @@ public class WallBlockGraphicUtils {
         paddedWallDescription = paddedWallDescription.replaceAll("\n", "0\n") + "0";
         String[] paddedWallDescriptionRows = paddedWallDescription.split("\n");
 
+        paddedWallDescriptionRows = fillSpaces(paddedWallDescriptionRows, wallDescriptionDimensions[1]+1);
         paddedWallDescriptionRows = findFrontBlocks(paddedWallDescriptionRows);
         paddedWallDescriptionRows = findTopBlocks(paddedWallDescriptionRows);
         paddedWallDescriptionRows = findSideBlocks(paddedWallDescriptionRows);
@@ -288,6 +289,17 @@ public class WallBlockGraphicUtils {
     // ================================================================================================================
     // ======================================= PREPROCESSING OF WALLDESCRIPTION =======================================
     // ================================================================================================================
+
+    private String[] fillSpaces(String[] paddedWallDescriptionRows, int width) {
+        String[] newWallDescriptionRows = new String[paddedWallDescriptionRows.length];
+
+        for (int y = 0; y < paddedWallDescriptionRows.length; y++) {
+            String spacesPadding = " ".repeat(width - paddedWallDescriptionRows[y].length());
+            newWallDescriptionRows[y] = paddedWallDescriptionRows[y] + spacesPadding;
+        }
+
+        return newWallDescriptionRows;
+    }
 
     /**
      * this method trims of '\n' from start and end of wallDescription String

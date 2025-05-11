@@ -69,7 +69,7 @@ public final class GameSettings {
     /**
      * This is the default speed for all {@link GameObject}s.
      */
-    public static final double SPEED_IN_PIXEL = 4;
+    public static final double SPEED_IN_PIXEL = 2;
 
     /**
      * An object that calculates many important values needed based on

@@ -28,6 +28,10 @@ public class ZaxxonFighter extends CollidingGameObject implements MainCharacter 
     private final int shadowWidth;
     private final int shadowHeight;
 
+    private enum State {UP, STRAIGHT, DOWN};
+    private State currentState;
+    private String blockImage;
+
     /**
      * Creates a new {@code ZaxxonFighter} GameObject.
      *
@@ -49,6 +53,9 @@ public class ZaxxonFighter extends CollidingGameObject implements MainCharacter 
 
         shadowWidth = 22;
         shadowHeight = 14;
+
+        currentState = State.STRAIGHT;
+        blockImage = ZaxxonFighterBlockImages.ZAXXON_FIGHTER_STRAIGHT;
 
         hitBoxOffsets(-width*size/4, -height*size/4, -width*size/2, -width*size/4);
     }
@@ -76,6 +83,12 @@ public class ZaxxonFighter extends CollidingGameObject implements MainCharacter 
     public void updatePosition() {
         clipMovementVector(movementVector);
         movementVector.normalize(); // normalize, so velocity is same in all directions
+
+        currentState = (movementVector.getY() < 0)
+                ? State.UP
+                : (movementVector.getY() == 0)
+                ? State.STRAIGHT
+                : State.DOWN;
 
         preProjectionPosition.right(movementVector.getX() * speedInPixel);
         preProjectionPosition.up(movementVector.getY() * speedInPixel);
@@ -114,7 +127,7 @@ public class ZaxxonFighter extends CollidingGameObject implements MainCharacter 
         Position mid = calcMiddlePoint();
 
         gameView.addBlockImageToCanvas(ZaxxonFighterBlockImages.ZAXXON_FIGHTER_SHADOW, shadowPosition.getX(), shadowPosition.getY(), size, 0);
-        gameView.addBlockImageToCanvas(ZaxxonFighterBlockImages.ZAXXON_FIGHTER_STRAIGHT, mid.getX(), mid.getY(), size, 0);
+        gameView.addBlockImageToCanvas(blockImage, mid.getX(), mid.getY(), size, 0);
     }
 
     /**
@@ -165,6 +178,18 @@ public class ZaxxonFighter extends CollidingGameObject implements MainCharacter 
     public void updateStatus() {
         if (hasDespawned) {
             gamePlayManager.lifeLost();
+        }
+
+        switch (currentState) {
+            case UP:
+                blockImage = ZaxxonFighterBlockImages.ZAXXON_FIGHTER_UP;
+                break;
+            case STRAIGHT:
+                blockImage = ZaxxonFighterBlockImages.ZAXXON_FIGHTER_STRAIGHT;
+                break;
+            case DOWN:
+                blockImage = ZaxxonFighterBlockImages.ZAXXON_FIGHTER_DOWN;
+                break;
         }
     }
 

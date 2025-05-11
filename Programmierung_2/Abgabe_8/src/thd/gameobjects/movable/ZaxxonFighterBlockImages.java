@@ -1,6 +1,24 @@
 package thd.gameobjects.movable;
 
 final class ZaxxonFighterBlockImages {
+    static final String ZAXXON_FIGHTER_UP = """
+                  MMYY
+                MMYYMM
+              WWMMYYMM
+            WWWWMMMM
+            WWWWMMMM
+            MMMMMM
+            MMMMMM
+          MMMMMMYY
+        YYMMMMMMYY
+      YYYYMMMMYYYY
+  MMYYYYMMMMMMYYYY
+  MMMMYYMMMMYYYYYY
+YYMMMMMMMMMMYYYYYY
+YYYYMMMMMMYYYYYYYY
+    MMMMMMYYYYYYYY
+          YYYYYY
+""";
     static final String ZAXXON_FIGHTER_STRAIGHT = """
                     MMYY
               WWMMMMYYMM
@@ -13,6 +31,23 @@ YYYYMMMMYYMMMMMMYY
   YYMMYYMMMMYYYY
     MMMMMMYYYYYY
     MMMMYYYYYYYY
+        YYYYYYYY
+          YYYY
+""";
+
+    static final String ZAXXON_FIGHTER_DOWN = """
+                    MMMM
+                  MMMMMM
+                WWMMMM
+              WWWWWWMM
+          YYWWWWWWWW
+YYYYYYYYYYMMMMWWMM
+YYYYYYYYMMMMMMMMYY
+YYYYYYMMMMMMMMYYYY
+  YYMMYYMMMMYYYY
+    YYMMMMYYYYYY
+    MMMMYYYYYYYY
+      YYYYYYYYYY
         YYYYYYYY
           YYYY
 """;

@@ -17,6 +17,7 @@ import java.util.ArrayList;
  * @see GameObject
  */
 public class Wall extends GameObject {
+    public final WallRow[] wallRows;
     /**
      * Creates a new {@code Wall} GameObject.
      * This class serves as a Wrapper for several {@code WallRow} GameObjects that
@@ -38,7 +39,7 @@ public class Wall extends GameObject {
             int spawnDelayInMilis, double spawnLineInter) {
         super(gameView, gamePlayManager);
 
-        distanceToBackground = 1;
+        wallRows = new WallRow[dynamicWall.wallBlockImageInRows.length];
 
         String[] wallBlockImageInRows = dynamicWall.wallBlockImageInRows;
         ArrayList<ArrayList<int[]>> hitboxIndicesInRows = dynamicWall.hitboxIndicesInRows;
@@ -47,14 +48,14 @@ public class Wall extends GameObject {
             String blockGraphic = wallBlockImageInRows[wallBlockImageInRows.length - y - 1];
             ArrayList<int[]> hitboxIndices = hitboxIndicesInRows.get(hitboxIndicesInRows.size() - y - 1);
 
-            gamePlayManager.spawnGameObject(new WallRow(
+            wallRows[y] = new WallRow(
                     gameView,
                     gamePlayManager,
                     spawnDelayInMilis,
                     spawnLineInter,
                     y,
                     blockGraphic,
-                    hitboxIndices));
+                    hitboxIndices);
         }
     }
 

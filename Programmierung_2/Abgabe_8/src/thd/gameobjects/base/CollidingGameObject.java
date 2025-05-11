@@ -68,7 +68,7 @@ public abstract class CollidingGameObject extends GameObject {
             absoluteHitboxPolygons = new Polygon[0];
         }
         this.altitudeLevel = altitudeLevel;
-        distanceToBackground = (char) (altitudeLevel + 1);
+        distanceToBackground = (char) (altitudeLevel + 5);
     }
 
     private boolean isEnemyGameObject(CollidingGameObject obj) {

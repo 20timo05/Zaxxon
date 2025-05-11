@@ -264,11 +264,8 @@ public class WallBlockGraphicUtils {
         String trimmedWallDescription = trimLinebreaks(wallDescription);
         int[] wallDescriptionDimensions = calcBlockImageDimension(trimmedWallDescription);
 
-        if (
-                wallDescriptionDimensions[0] % 2 != 1
-                        || wallDescriptionDimensions[0] > MAX_NUM_ROWS
-        ) {
-            throw new IllegalArgumentException("Walls should have an odd height (1, 3, 5, 7, 9)");
+        if (wallDescriptionDimensions[0] > MAX_NUM_ROWS) {
+            throw new IllegalArgumentException("Walls should have a max height of " + MAX_NUM_ROWS);
         }
 
         trimmedWallDescription = trimmedWallDescription.replaceAll(" ", "0"); // convert spaces to 0

@@ -46,12 +46,12 @@ public class Level {
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    """,
+                    """, // W0: High Hole (Alt 3, 4)
             """
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    """,
+                    """, // W1: Low Solid (Alt 0, 1)
             """
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                     xxxxxxxxxx                  xxxxxxxx
@@ -60,18 +60,18 @@ public class Level {
                     xxxxxxxxxx                  xxxxxxxx
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    """,
+                    """, // W2: Mid Passage (Alt 1, 2)
             """
-                    xxxxxxxxxxxxxx            xxxx
-                    xxxxxxxxxxxx        xxxxxxxxxx
-                    xxxxxxxxxx      xxxxxxxxxxxxxx
-                    xxxxxxxx    xxxxxxxxxxxxxxxxxx
-                    xxxxxx    xxxxxxxxxxxxxxxxxxxx
-                    xxxx  xxxxxxxxxxxxxxxxxxxxxxxx
-                    xx  xxxxxxxxxxxxxxxxxxxxxxxxxx
+                            xxxxxxxxxxxxxxxxxxxxxxxxxx
+                    xxxxxxxxxx        xxxxxxxxxxxxxxxx
+                    xxxxxxxxxx        xxxxxxxxxxxxxxxx
+                    xxxxxxxxxx              xxxxxxxxxx
+                    xxxxxxxxxx              xxxxxxxxxx
+                    xxxxxxxxxxxxxxx                   xx
+                    xxxxxxxxxxxxxxxxx                 xx
+                    xxxxxxxxxxxxxxxxxxx       xxxxxxxxxx
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    """,
+                    """, // W3: Wider Diagonal Slit (Low-Right to High-Left)
             """
                     xxxx  xxxxxxxxxxxxxxxx  xxxx
                     xxxx  xxxxxxxxxxxxxxxx  xxxx
@@ -82,14 +82,14 @@ public class Level {
                     xxxx  xxxxxxxxxxxxxxxx  xxxx
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    """,
+                    """, // W4: Dual Vertical Slits (Alt 0-4 access)
             """
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                     xxxxxx  xxxxxx  xxxxxx  xxxxxx
                     xxxxxx  xxxxxx  xxxxxx  xxxxxx
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    """,
+                    """, // W5: Mid Gaps (Holes at Alt 1)
             """
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -100,8 +100,67 @@ public class Level {
                     xxxxxxxxxx                  xxxxxxxx
                     xxxxxxxxxx                  xxxxxxxx
                     xxxxxxxxxx                  xxxxxxxx
-                    """
+                    """, // W6: Low Hole (Alt 0, 1)
+            """
+                    xxxxxxxxxxxxxxxxxxxxxxxxxx    xxxx
+                    xxxxxxxxxxxxxxxxxxxxxx      xxxxxx
+                    xxxxxxxxxxxxxxxxxx        xxxxxxxx
+                    xxxxxxxxxxxxxx          xxxxxxxxxx
+                    xxxxxxxxxxxx            xxxxxxxxxxxx
+                    xxxxxxxxxx              xxxxxxxxxxxxxx
+                    xxxxxxxx                xxxxxxxxxxxxxxxx
+                    xxxxxx                  xxxxxxxxxxxxxxxxxx
+                    xxxx                    xxxxxxxxxxxxxxxxxxxx
+                    """, // W7: Stairs Up (Left-to-Right, Alt 0 to 4)
+            """
+                    xxxxxx    xxxxxxxxxx    xxxxxx
+                    xxxxxx    xxxxxxxxxx    xxxxxx
+                    xxxxxx    xxxxxxxxxx    xxxxxx
+                    xxxxxx    xxxxxxxxxx    xxxxxx
+                    xxxxxx    xxxxxxxxxx    xxxxxx
+                    xxxxxx    xxxxxxxxxx    xxxxxx
+                    xxxxxx    xxxxxxxxxx    xxxxxx
+                    xxxxxx    xxxxxxxxxx    xxxxxx
+                    xxxxxx    xxxxxxxxxx    xxxxxx
+                    """, // W8: Central Pillar (Openings L/R, Alt 0-4)
+            """
+                    xxxxxxxx      xxxxxxxx      xxxx
+                    xxxxxxxx      xxxxxxxx      xxxx
+                        xxxxxxxxxxxx      xxxxxxxx
+                        xxxxxxxxxxxx      xxxxxxxx
+                    xxxxxxxx      xxxxxxxx      xxxx
+                    xxxxxxxx      xxxxxxxx      xxxx
+                        xxxxxxxxxxxx      xxxxxxxx
+                        xxxxxxxxxxxx      xxxxxxxx
+                    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                    """, // W9: Offset Vertical Slits / Weave (Holes Alt 4 Mid, Alt 3 Left, Alt 2 Mid, Alt 1 Left)
+            """
+                    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                    xxxxxx                  xxxxxxxxxxxx
+                    xxxxxx                  xxxxxxxxxxxx
+                    xxxxxxxx      xxxxxxxxxxxxxxxxxxxx
+                    xxxxxxxx      xxxxxxxxxxxxxxxxxxxx
+                    xxxxxxxxxxxx  xxxxxxxxxxxxxxxxxx
+                    xxxxxxxxxxxx  xxxxxxxxxxxxxxxxxx
+                    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                    """, // W10: Funnel Down (Hole Alt 3, narrows to Alt 2, then Alt 1)
+            """
+                    xxxx  xxxxxxxxxxxxxxxx  xxxx
+                    xxxx  xxxxxxxxxxxxxxxx  xxxx
+                    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                    xxxx  xxxxxxxxxxxxxxxx  xxxx
+                    xxxx  xxxxxxxxxxxxxxxx  xxxx
+                    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                    xxxx  xxxxxxxxxxxxxxxx  xxxx
+                    xxxx  xxxxxxxxxxxxxxxx  xxxx
+                    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                    """ // W11: Layered Side Holes (Holes L/R at Alt 4, 2, 0)
     };
+
+
+
+
 
 
     /**

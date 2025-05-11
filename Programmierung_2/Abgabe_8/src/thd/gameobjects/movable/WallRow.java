@@ -46,7 +46,6 @@ public class WallRow extends CollidingGameObject implements ShiftableGameObject,
             ArrayList<int[]> hitboxIndices
     ) {
         super(gameView, gamePlayManager, altitudeIndex / 2, false, spawnDelayInMilis, spawnLineInter - 0.1);
-
         this.blockGraphic = blockGraphic;
 
         int[] wallBlockDimensions = new WallBlockGraphicUtils().calcBlockImageDimension(blockGraphic);
@@ -66,11 +65,6 @@ public class WallRow extends CollidingGameObject implements ShiftableGameObject,
 
     @Override
     public void reactToCollisionWith(CollidingGameObject other) {
-    }
-
-    @Override
-    public void updatePosition() {
-        super.updatePosition();
     }
 
     /**

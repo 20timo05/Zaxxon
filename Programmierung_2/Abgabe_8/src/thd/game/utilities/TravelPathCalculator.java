@@ -158,7 +158,7 @@ public final class TravelPathCalculator {
                 new Vector2d(spawnLine[1])
         };
         Vector2d playerMovementLineOffset = new Vector2d(
-                -spawnLine[1].distance(outerScreenExit[1])-20,
+                -spawnLine[1].distance(outerScreenExit[1])+20,
                 GameSettings.MOVEMENT_ANGLE_IN_RADIANS
         );
 

@@ -56,6 +56,7 @@ public class EnergyBarrier extends CollidingGameObject implements ShiftableGameO
         startPosition = new Position(position);
 
         stopCounter = 0;
+        distanceToBackground = 10;
     }
 
     @Override
@@ -109,7 +110,8 @@ public class EnergyBarrier extends CollidingGameObject implements ShiftableGameO
     @Override
     public void addToCanvas() {
         Position mid = calcMiddlePoint();
-        gameView.addBlockImageToCanvas(EnergyBarrierBlockImages.ENERGY_TOWER, mid.getX(), mid.getY(), size, 0);
+        double verticalOffset = (double) altitudeLevel /MAX_ALTITUDE_LEVEL * MAX_PLAYER_ALTITUDE;
+        gameView.addBlockImageToCanvas(EnergyBarrierBlockImages.ENERGY_TOWER, mid.getX(), mid.getY() - verticalOffset, size, 0);
 
         energyBarrierAnimation.addToCanvas();
     }

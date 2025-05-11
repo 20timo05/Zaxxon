@@ -10,6 +10,7 @@ import thd.gameobjects.unmovable.Footer;
 import thd.gameobjects.unmovable.FuelCellGauge;
 import thd.gameobjects.unmovable.HeightStatusBar;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -48,6 +49,7 @@ class GameWorldManager extends GamePlayManager {
         addToShiftableGameObjectsIfShiftable(gameObject);
     }
 
+
     private void spawnGameObjectsFromWorldString() {
         String[] lines = level.worldString.split("\\R");
 
@@ -65,8 +67,10 @@ class GameWorldManager extends GamePlayManager {
                 int status = Character.getNumericValue(lines[row].charAt(column + 1));
 
                 if (character == 'w') {
-                    addActivatableGameObject(
-                            new Wall(gameView, this, level.dynamicWalls[status], spawnDelayInMilis, spawnLineInter));
+                    Wall wall = new Wall(gameView, this, level.dynamicWalls[status], spawnDelayInMilis, spawnLineInter);
+                    for (WallRow wallRow : wall.wallRows) {
+                        addActivatableGameObject(wallRow);
+                    }
                 } else if (character == 's') {
                     addActivatableGameObject(new EnemyShooter(gameView, this, spawnDelayInMilis, spawnLineInter));
                 } else if (character == 'e') {

@@ -17,8 +17,6 @@ public class LevelManager extends GameWorldManager {
     protected void initializeLevel() {
         super.initializeLevel();
         initializeGameObjects();
-        fuelInterpolation = 1;
-        numberOfEnemyPlanes = 20;
     }
 
     protected void initializeGame() {
@@ -49,9 +47,7 @@ public class LevelManager extends GameWorldManager {
             o Den Punktestand aus dem vorherigen Level übernehmen.
             o Einen Countdown neu starten.
          */
-        spawnGameObject(zaxxonFighter);
-        spawnGameObject(heightStatusBar);
-        spawnGameObject(footer);
-        spawnGameObject(fuelCellGauge);
+        fuelInterpolation = 1;
+        numberOfEnemyPlanes = 20;
     }
 }

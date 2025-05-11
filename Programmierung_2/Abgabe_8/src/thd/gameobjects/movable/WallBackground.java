@@ -26,7 +26,7 @@ public class WallBackground extends GameObject implements ShiftableGameObject, A
      * @param isFirst                  boolean because the first Wall should be active by default
      */
     public WallBackground(GameView gameView, GamePlayManager gamePlayManager, String backgroundWallBlockImage, boolean isFirst) {
-        super(gameView, gamePlayManager, 0, -0.03);
+        super(gameView, gamePlayManager, 0, -0.07);
 
         this.backgroundWallBlockImage = backgroundWallBlockImage;
 
@@ -86,7 +86,7 @@ public class WallBackground extends GameObject implements ShiftableGameObject, A
      */
     @Override
     public boolean tryToActivate(WallBackground info) {
-        if (!active) {
+        if (!active && info != null) {
             active = info.calcInterpolation() > -0.2;
             if (active) {
                 gamePlayManager.spawnGameObject(new BackgroundFloor(gameView, gamePlayManager, height, false));

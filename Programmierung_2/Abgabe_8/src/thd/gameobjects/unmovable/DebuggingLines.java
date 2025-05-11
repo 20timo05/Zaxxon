@@ -2,8 +2,8 @@ package thd.gameobjects.unmovable;
 
 import thd.game.managers.GamePlayManager;
 import thd.game.managers.GameSettings;
-import thd.game.utilities.TravelPathCalculator;
 import thd.game.utilities.GameView;
+import thd.game.utilities.TravelPathCalculator;
 import thd.gameobjects.base.GameObject;
 import thd.gameobjects.base.Position;
 
@@ -18,7 +18,7 @@ import static thd.game.managers.GameSettings.TRAVEL_PATH_CALCULATOR;
  *
  * @see GameObject
  */
-public class DebuggingLines extends GameObject {
+class DebuggingLines extends GameObject {
     private final Position[] outerScreenCoordinates;
     private final Position[][] spawnLines;
     private final Position[][] travelPathBoundaryLines;
@@ -27,12 +27,12 @@ public class DebuggingLines extends GameObject {
     /**
      * Initializes a {@code DebuggingLines} object that displays various calculated Values from {@link TravelPathCalculator}.
      *
-     * @param gameView the gameView to display the lines on
-     * @param gamePlayManager   reference to the gamePlayManager
+     * @param gameView        the gameView to display the lines on
+     * @param gamePlayManager reference to the gamePlayManager
      * @see TravelPathCalculator
      */
 
-    public DebuggingLines(GameView gameView, GamePlayManager gamePlayManager) {
+    DebuggingLines(GameView gameView, GamePlayManager gamePlayManager) {
         super(gameView, gamePlayManager);
 
         distanceToBackground = 1;

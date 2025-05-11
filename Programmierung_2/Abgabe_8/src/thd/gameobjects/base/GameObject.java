@@ -27,6 +27,7 @@ public abstract class GameObject {
     protected double height;
     protected int spawnDelayInMilis;
     protected double spawnLineInter; // for stationary GameObjects
+    /** A boolean that is set to true, once the GameObject should have despawned and should no longer be considered for CollisionDetection. */
     public boolean hasDespawned;
     protected char distanceToBackground;
     private StationaryMovementPattern stationaryMovementPattern;

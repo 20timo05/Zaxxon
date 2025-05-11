@@ -49,7 +49,7 @@ public class Footer extends GameObject {
         }
 
         // add flags to the bottom right of the footer
-        for (int i = 0; i < gamePlayManager.getLevel(); i++) {
+        for (int i = 0; i < gamePlayManager.retrieveLevel().number; i++) {
             gameView.addBlockImageToCanvas(FooterBlockImages.FLAG, GameView.WIDTH - 200 + flagDisplayWidth * i, GameSettings.GAME_HEIGHT + GameSettings.FOOTER_HEIGHT * 0.5, FLAG_DISPLAY_SIZE, 0);
         }
 

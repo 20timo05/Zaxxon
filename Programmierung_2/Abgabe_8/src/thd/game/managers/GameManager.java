@@ -32,7 +32,8 @@ class GameManager extends LevelManager {
 
 
     private boolean endOfLevel() {
-        return gameView.gameTimeInMilliseconds() >= level.levelDurationTimestamp;
+        // return gameView.gameTimeInMilliseconds() >= level.levelDurationTimestamp;
+        return gameView.timer(3000, 0, this);
     }
 
     private boolean endOfGame() {

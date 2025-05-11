@@ -26,13 +26,19 @@ import thd.game.utilities.WallBlockGraphicUtils;
  *      - Number 0
  */
 public class Level {
+    /** The Name of the Level. */
     public String name;
-    public int index;
-    public String worldString;
+    /** The number of the Level. */
+    public int number;
+    /** The world String representation of the Level. */
+    public String world;
+    /** The horizontal offset for the visible area of the world String. */
     public int worldOffsetColumns;
+    /** The vertical offset for the visible area of the world String. */
     public int worldOffsetLines;
+    /** The pregenerated BlockImages for the Walls used in the Levels. */
     public final WallBlockGraphicUtils.DynamicWall[] dynamicWalls;
-
+    /** The Timestamp when the Level will end. If the Player is still alive, he has completed the Level. */
     public int levelDurationTimestamp;
 
     private static final String[] WALL_DESCRIPTIONS = new String[]{
@@ -157,11 +163,6 @@ public class Level {
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                     """ // W11: Layered Side Holes (Holes L/R at Alt 4, 2, 0)
     };
-
-
-
-
-
 
     /**
      * Pregenerates the Wall BlocKImage Strings.

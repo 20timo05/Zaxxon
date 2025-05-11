@@ -64,7 +64,7 @@ public class EnemyShooter extends CollidingGameObject implements ShiftableGameOb
             if (other instanceof ZaxxonFighterLaserShot) {
                 gamePlayManager.destroyGameObject(this);
 
-                gamePlayManager.addPoints(100 + 50 * (gamePlayManager.getLevel() + 1));
+                gamePlayManager.addPoints(100 + 50 * (gamePlayManager.retrieveLevel().number + 1));
                 gamePlayManager.decrementNumberOfEnemyPlanes();
             }
         }

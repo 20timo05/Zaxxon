@@ -1,5 +1,6 @@
 package thd.game.managers;
 
+import thd.game.level.Level;
 import thd.game.utilities.GameView;
 import thd.gameobjects.base.GameObject;
 import thd.gameobjects.movable.*;
@@ -106,8 +107,8 @@ public class GamePlayManager extends WorldShiftManager {
      *
      * @return the level
      */
-    public int getLevel() {
-        return level.index;
+    public Level retrieveLevel() {
+        return level;
     }
 
     /**

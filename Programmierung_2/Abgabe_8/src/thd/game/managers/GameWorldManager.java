@@ -5,12 +5,10 @@ import thd.game.utilities.WallBlockDimensionCalculator;
 import thd.game.utilities.WallBlockGraphicUtils;
 import thd.gameobjects.base.GameObject;
 import thd.gameobjects.movable.*;
-import thd.gameobjects.unmovable.DebuggingLines;
 import thd.gameobjects.unmovable.Footer;
 import thd.gameobjects.unmovable.FuelCellGauge;
 import thd.gameobjects.unmovable.HeightStatusBar;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -51,7 +49,7 @@ class GameWorldManager extends GamePlayManager {
 
 
     private void spawnGameObjectsFromWorldString() {
-        String[] lines = level.worldString.split("\\R");
+        String[] lines = level.world.split("\\R");
 
         for (int row = lines.length - 1; row >= 0; row--) {
             double distanceFromSpawnLine = (lines.length - 1 - row) * 2 * WallBlockDimensionCalculator.FULL_BLOCK_INCREASE_OFFSET_X;
@@ -60,8 +58,8 @@ class GameWorldManager extends GamePlayManager {
             for (int column = 0; column < lines[row].length() - 1; column++) {
                 double spawnLineInter = (double) column / lines[row].length();
 
-                double x = (level.worldOffsetColumns - column) * 100; // wichtel
-                double y = (level.worldOffsetLines - row) * 100; // wichtel
+                // double x = (level.worldOffsetColumns - column) * 100; // wichtel
+                // double y = (level.worldOffsetLines - row) * 100; // wichtel
 
                 char character = lines[row].charAt(column);
                 int status = Character.getNumericValue(lines[row].charAt(column + 1));

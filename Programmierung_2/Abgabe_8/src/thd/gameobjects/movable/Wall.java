@@ -17,6 +17,10 @@ import java.util.ArrayList;
  * @see GameObject
  */
 public class Wall extends GameObject {
+    /**
+     * An array of all the actual {@link WallRow} GameObjects associated with this Wall.
+     * These will be added as separate {@link thd.gameobjects.base.CollidingGameObject} so that Collision Detection can happen at different altitudes.
+     */
     public final WallRow[] wallRows;
     /**
      * Creates a new {@code Wall} GameObject.

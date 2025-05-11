@@ -5,11 +5,11 @@ import thd.game.utilities.GameView;
 
 import java.util.List;
 
-public class LevelManager extends GameWorldManager {
+class LevelManager extends GameWorldManager {
     private List<Level> levels;
     private static final int LIVES = 2;
 
-    public LevelManager(GameView gameView) {
+    protected LevelManager(GameView gameView) {
         super(gameView);
     }
 
@@ -27,7 +27,7 @@ public class LevelManager extends GameWorldManager {
     }
 
     protected boolean hasNextLevel() {
-        return level.index+1 < levels.size();
+        return level.number < levels.size();
     }
 
     protected void switchToNextLevel() {
@@ -35,7 +35,7 @@ public class LevelManager extends GameWorldManager {
             throw new NoMoreLevelsAvailableException("No more levels available!");
         }
 
-        level = levels.get(level.index + 1);
+        level = levels.get(level.number);
     }
 
     private void initializeGameObjects() {

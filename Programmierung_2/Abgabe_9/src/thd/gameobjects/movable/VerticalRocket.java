@@ -3,16 +3,13 @@ package thd.gameobjects.movable;
 import thd.game.managers.GamePlayManager;
 import thd.game.managers.GameSettings;
 import thd.game.utilities.GameView;
-import thd.gameobjects.base.CollidingGameObject;
-import thd.gameobjects.base.Position;
-import thd.gameobjects.base.ShiftableGameObject;
-import thd.gameobjects.base.Vector2d;
+import thd.gameobjects.base.*;
 
 /**
  * A hazardous Enemy Game Object that spawns in the Motherbase. The Rocket is launched from the corresponding {@link VerticalRocketHole}.
  * The Rocket should either be dodged or shot at. It yields 150 Points upon destruction.
  */
-public class VerticalRocket extends CollidingGameObject implements ShiftableGameObject {
+public class VerticalRocket extends ExplodingGameObject implements ShiftableGameObject {
     private final VerticalRocketHole verticalRocketHole;
     private double altitudeInterpolation;
 
@@ -66,6 +63,8 @@ public class VerticalRocket extends CollidingGameObject implements ShiftableGame
 
     @Override
     public void updateStatus() {
+        super.updateStatus();
+
         if (position.similarTo(targetPosition)) {
             gamePlayManager.destroyGameObject(this);
         }
@@ -78,7 +77,11 @@ public class VerticalRocket extends CollidingGameObject implements ShiftableGame
      */
     @Override
     public void addToCanvas() {
-        Position mid = calcMiddlePoint();
-        gameView.addBlockImageToCanvas(VerticalRocketBlockImages.ROCKET, mid.getX(), mid.getY(), size, rotation);
+        super.addToCanvas();
+
+        if (!hasDespawned) {
+            Position mid = calcMiddlePoint();
+            gameView.addBlockImageToCanvas(VerticalRocketBlockImages.ROCKET, mid.getX(), mid.getY(), size, rotation);
+        }
     }
 }

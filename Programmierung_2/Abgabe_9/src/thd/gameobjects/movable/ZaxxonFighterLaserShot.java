@@ -13,7 +13,7 @@ import static thd.game.managers.GameSettings.TRAVEL_PATH_CALCULATOR;
  *
  * @see GameObject
  */
-public class ZaxxonFighterLaserShot extends CollidingGameObject {
+public class ZaxxonFighterLaserShot extends SparklingExplosionGameObject {
 
     /**
      * Creates a new {@code PlayerLaserShot} GameObject.
@@ -46,11 +46,20 @@ public class ZaxxonFighterLaserShot extends CollidingGameObject {
      */
     @Override
     public void updatePosition() {
-        position.moveToPosition(targetPosition, speedInPixel);
+        if (!hasDespawned) {
+            position.moveToPosition(targetPosition, speedInPixel);
+
+        } else {
+            Vector2d newPosition = new Vector2d(position);
+            newPosition.add(new Vector2d(-GameSettings.SPEED_IN_PIXEL, GameSettings.MOVEMENT_ANGLE_IN_RADIANS));
+            position.updateCoordinates(newPosition);
+        }
     }
 
     @Override
     public void updateStatus() {
+        super.updateStatus();
+
         if (position.similarTo(targetPosition)) {
             gamePlayManager.destroyGameObject(this);
         }
@@ -63,8 +72,12 @@ public class ZaxxonFighterLaserShot extends CollidingGameObject {
      */
     @Override
     public void addToCanvas() {
-        Position mid = calcMiddlePoint();
-        gameView.addBlockImageToCanvas(ZaxxonFighterBlockImages.LASER, mid.getX(), mid.getY(), size, rotation);
+        super.addToCanvas();
+
+        if (!hasDespawned) {
+            Position mid = calcMiddlePoint();
+            gameView.addBlockImageToCanvas(ZaxxonFighterBlockImages.LASER, mid.getX(), mid.getY(), size, rotation);
+        }
     }
 
     @Override
@@ -75,10 +88,12 @@ public class ZaxxonFighterLaserShot extends CollidingGameObject {
                             || other instanceof FuelTank
                             || other instanceof GunEmplacement
                             || other instanceof RadarTower
-                            || other instanceof WallRow
-                            || other instanceof EnergyBarrier
             ) {
                 gamePlayManager.destroyGameObject(this);
+                hasDespawned = true;
+
+            } else if (other instanceof WallRow || other instanceof EnergyBarrier) {
+                hasDespawned = true;
             }
         }
     }

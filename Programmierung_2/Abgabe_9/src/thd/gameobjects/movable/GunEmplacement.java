@@ -12,7 +12,7 @@ import thd.gameobjects.base.*;
  *
  * @see GameObject
  */
-public class GunEmplacement extends CollidingGameObject implements ShiftableGameObject, ActivatableGameObject<Void> {
+public class GunEmplacement extends ExplodingGameObject implements ShiftableGameObject, ActivatableGameObject<Void> {
     private static final int MAX_SHOOT_INTERVAL_IN_MILLISECONDS = 4000;
     private static final int MIN_SHOOT_INTERVAL_IN_MILLISECONDS = 1500;
 
@@ -60,11 +60,12 @@ public class GunEmplacement extends CollidingGameObject implements ShiftableGame
      */
     @Override
     public void addToCanvas() {
-        Position mid = calcMiddlePoint();
-        if (orientation) {
-            gameView.addBlockImageToCanvas(GunEmplacementBlockImages.STRAIGHT, mid.getX(), mid.getY(), size, rotation);
-        } else {
-            gameView.addBlockImageToCanvas(GunEmplacementBlockImages.LEFT, mid.getX(), mid.getY(), size, rotation);
+        super.addToCanvas();
+
+        if (!hasDespawned) {
+            Position mid = calcMiddlePoint();
+            String blockImage = orientation ? GunEmplacementBlockImages.STRAIGHT : GunEmplacementBlockImages.LEFT;
+            gameView.addBlockImageToCanvas(blockImage, mid.getX(), mid.getY(), size, rotation);
         }
     }
 
@@ -90,7 +91,7 @@ public class GunEmplacement extends CollidingGameObject implements ShiftableGame
     public void reactToCollisionWith(CollidingGameObject other) {
         if (getAltitudeLevel() == other.getAltitudeLevel()) {
             if (other instanceof ZaxxonFighterLaserShot) {
-                gamePlayManager.destroyGameObject(this);
+                hasDespawned = true;
 
                 gamePlayManager.addPoints(Math.random() < 0.5 ? 200 : 500);
             }

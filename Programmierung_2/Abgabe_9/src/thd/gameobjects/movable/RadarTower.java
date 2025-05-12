@@ -12,7 +12,7 @@ import thd.gameobjects.base.*;
  *
  * @see GameObject
  */
-public class RadarTower extends CollidingGameObject implements ShiftableGameObject, ActivatableGameObject<Void> {
+public class RadarTower extends ExplodingGameObject implements ShiftableGameObject, ActivatableGameObject<Void> {
 
     /**
      * Creates a new {@code RadarTower} GameObject.
@@ -41,8 +41,12 @@ public class RadarTower extends CollidingGameObject implements ShiftableGameObje
      */
     @Override
     public void addToCanvas() {
-        Position mid = calcMiddlePoint();
-        gameView.addImageToCanvas("radartower.png", mid.getX(), mid.getY(), size, rotation);
+        super.addToCanvas();
+
+        if (!hasDespawned) {
+            Position mid = calcMiddlePoint();
+            gameView.addImageToCanvas("radartower.png", mid.getX(), mid.getY(), size, rotation);
+        }
     }
 
     /**
@@ -60,7 +64,8 @@ public class RadarTower extends CollidingGameObject implements ShiftableGameObje
     public void reactToCollisionWith(CollidingGameObject other) {
         if (getAltitudeLevel() == other.getAltitudeLevel()) {
             if (other instanceof ZaxxonFighterLaserShot) {
-                gamePlayManager.destroyGameObject(this);
+                hasDespawned = true;
+
                 gamePlayManager.addPoints(1000);
             }
         }

@@ -12,8 +12,7 @@ import thd.gameobjects.base.*;
  *
  * @see GameObject
  */
-public class FuelTank extends CollidingGameObject implements ShiftableGameObject, ActivatableGameObject<Void> {
-
+public class FuelTank extends ExplodingGameObject implements ShiftableGameObject, ActivatableGameObject<Void> {
     /**
      * Creates a new {@code FuelTank} GameObject.
      *
@@ -52,15 +51,19 @@ public class FuelTank extends CollidingGameObject implements ShiftableGameObject
      */
     @Override
     public void addToCanvas() {
-        Position mid = calcMiddlePoint();
-        gameView.addImageToCanvas("fuel.png", mid.getX(), mid.getY(), size, rotation);
+        super.addToCanvas();
+
+        if (!hasDespawned) {
+            Position mid = calcMiddlePoint();
+            gameView.addImageToCanvas("fuel.png", mid.getX(), mid.getY(), size, rotation);
+        }
     }
 
     @Override
     public void reactToCollisionWith(CollidingGameObject other) {
         if (getAltitudeLevel() == other.getAltitudeLevel()) {
             if (other instanceof ZaxxonFighterLaserShot) {
-                gamePlayManager.destroyGameObject(this);
+                hasDespawned = true;
 
                 gamePlayManager.addPoints(300);
                 gamePlayManager.replenishFuel();

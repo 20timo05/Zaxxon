@@ -14,8 +14,7 @@ import thd.gameobjects.base.*;
  *
  * @see GameObject
  */
-public class EnemyShooter extends CollidingGameObject implements ShiftableGameObject, ActivatableGameObject<Void> {
-
+public class EnemyShooter extends ExplodingGameObject implements ShiftableGameObject, ActivatableGameObject<Void> {
     /**
      * Creates a new {@code EnemyShooter} GameObject.
      *
@@ -43,8 +42,12 @@ public class EnemyShooter extends CollidingGameObject implements ShiftableGameOb
      */
     @Override
     public void addToCanvas() {
-        Position mid = calcMiddlePoint();
-        gameView.addImageToCanvas("enemyshooter.png", mid.getX(), mid.getY(), size, rotation);
+        super.addToCanvas();
+
+        if (!hasDespawned) {
+            Position mid = calcMiddlePoint();
+            gameView.addImageToCanvas("enemyshooter.png", mid.getX(), mid.getY(), size, rotation);
+        }
     }
 
     /**
@@ -62,7 +65,7 @@ public class EnemyShooter extends CollidingGameObject implements ShiftableGameOb
     public void reactToCollisionWith(CollidingGameObject other) {
         if (getAltitudeLevel() == other.getAltitudeLevel()) {
             if (other instanceof ZaxxonFighterLaserShot) {
-                gamePlayManager.destroyGameObject(this);
+                hasDespawned = true;
 
                 gamePlayManager.addPoints(100 + 50 * (gamePlayManager.retrieveLevel().number + 1));
                 gamePlayManager.decrementNumberOfEnemyPlanes();

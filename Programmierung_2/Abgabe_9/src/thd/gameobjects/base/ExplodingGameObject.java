@@ -7,10 +7,10 @@ import thd.game.utilities.GameView;
  * A Wrapper for {@link CollidingGameObject} that can be destroyed by a {@link thd.gameobjects.movable.ZaxxonFighterLaserShot}.
  * This will provide an Explosion Animation.
  *
- * @see SparklingExplosionGameObject
+ * @see ExplodingSparklingGameObject
  */
 public abstract class ExplodingGameObject extends CollidingGameObject {
-    protected ExplosionState currentExplosionState;
+    private ExplosionState currentExplosionState;
 
     /**
      * Creates a new game object that is able to collide and explode.
@@ -38,7 +38,7 @@ public abstract class ExplodingGameObject extends CollidingGameObject {
         super(gameView, gamePlayManager, altitudeLevel, isRectangular);
     }
 
-    private enum ExplosionState {
+    protected enum ExplosionState {
         EXPLOSION_1("explosion1.png", 251, 214, 0.3),
         EXPLOSION_2("explosion2.png", 251, 217, 0.3),
         EXPLOSION_3("explosion3.png", 251, 254, 0.3),
@@ -49,10 +49,10 @@ public abstract class ExplodingGameObject extends CollidingGameObject {
         EXPLOSION_8("explosion8.png", 251, 214, 0.3),
         EXPLOSION_9("explosion9.png", 251, 270, 0.3);
 
-        public final String display;
-        public final int height;
-        public final int width;
-        public final double imageScaleFactor;
+        private final String display;
+        private final int height;
+        private final int width;
+        private final double imageScaleFactor;
 
         ExplosionState(String display, int height, int width, double imageScaleFactor) {
             this.display = display;

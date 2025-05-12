@@ -32,7 +32,7 @@ Y   RR
 L       L
      L
   Y    Y  Y
-     
+
 Y       R
    R
           L

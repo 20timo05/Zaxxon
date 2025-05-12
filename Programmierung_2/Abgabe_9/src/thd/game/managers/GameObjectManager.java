@@ -1,17 +1,17 @@
 package thd.game.managers;
 
+import thd.game.utilities.DynamicZIndexGameObject;
 import thd.game.utilities.SortedGameObjectsList;
 import thd.gameobjects.base.GameObject;
 import thd.gameobjects.movable.EnergyBarrier;
-import thd.gameobjects.movable.ZaxxonFighter;
 import thd.gameobjects.movable.ZaxxonFighterLaserShot;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.ListIterator;
 
 class GameObjectManager extends CollisionManager {
-    private final SortedGameObjectsList gameObjects;
+    private final List<GameObject> gameObjects;
     private final List<GameObject> gameObjectsToBeAdded;
     private final List<GameObject> gameObjectsToBeRemoved;
 
@@ -47,7 +47,7 @@ class GameObjectManager extends CollisionManager {
     void gameLoop() {
         updateLists();
 
-        gameObjects.resortForDynamicGameObjects();
+        resortForDynamicGameObjects();
 
         for (GameObject gameObject : gameObjects) {
             gameObject.updateStatus();
@@ -81,5 +81,28 @@ class GameObjectManager extends CollisionManager {
             addToCollisionManagement(toAdd);
         }
         gameObjectsToBeAdded.clear();
+    }
+
+    /**
+     * Some GameObjects may change their DistanceToBackground during the Game, e.g. the {@link thd.gameobjects.movable.ZaxxonFighter}.
+     */
+    private void resortForDynamicGameObjects() {
+        ListIterator<GameObject> iterator = gameObjects.listIterator();
+        LinkedList<GameObject> dynamicObjectsToReinsert = new LinkedList<>();
+
+        // remove dynamic GameObjects
+        while (iterator.hasNext()) {
+            GameObject gameObject = iterator.next();
+
+            if (gameObject instanceof DynamicZIndexGameObject) {
+                iterator.remove();
+                dynamicObjectsToReinsert.add(gameObject);
+            }
+        }
+
+        // insert dynamic GameObjects back into sorted GameObjectsList
+        for (GameObject gameObject : dynamicObjectsToReinsert) {
+            gameObjects.add(gameObject);
+        }
     }
 }

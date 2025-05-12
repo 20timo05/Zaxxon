@@ -18,7 +18,7 @@ public class Jimmy extends GameObject {
         RUNNING_4(JimmyBlockImages.RUNNING_4),
         RUNNING_5(JimmyBlockImages.RUNNING_5);
 
-        final String display;
+        private final String display;
 
         RunningState(String display) {
             this.display = display;
@@ -36,8 +36,8 @@ public class Jimmy extends GameObject {
         JUMPING_7(JimmyBlockImages.JUMPING, -50),
         JUMPING_8(JimmyBlockImages.STANDARD, 0);
 
-        final String display;
-        final int up;
+        private final String display;
+        private final int up;
 
         JumpingState(String display, int up) {
             this.display = display;
@@ -56,8 +56,8 @@ public class Jimmy extends GameObject {
         distanceToBackground = 10000;
         resetPosition();
 
-        runningState = RunningState.values()[0];
-        jumpingState = JumpingState.values()[0];
+        runningState = RunningState.RUNNING_1;
+        jumpingState = JumpingState.JUMPING_1;
     }
 
     private void resetPosition() {
@@ -112,8 +112,8 @@ public class Jimmy extends GameObject {
     }
 
     private void resetStates() {
-        runningState = RunningState.values()[0];;
-        jumpingState = JumpingState.values()[0];
+        runningState = RunningState.RUNNING_1;
+        jumpingState = JumpingState.JUMPING_1;
     }
 
     @Override

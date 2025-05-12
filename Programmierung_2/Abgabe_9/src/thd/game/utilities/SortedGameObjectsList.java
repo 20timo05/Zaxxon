@@ -36,27 +36,4 @@ public class SortedGameObjectsList extends LinkedList<GameObject> {
 
         return false; // should not happen
     }
-
-    /**
-     * Some GameObjects may change their DistanceToBackground during the Game, e.g. the {@link thd.gameobjects.movable.ZaxxonFighter}.
-     */
-    public void resortForDynamicGameObjects() {
-        ListIterator<GameObject> iterator = listIterator();
-        LinkedList<GameObject> dynamicObjectsToReinsert = new LinkedList<>();
-
-        // remove dynamic GameObjects
-        while (iterator.hasNext()) {
-            GameObject gameObject = iterator.next();
-
-            if (gameObject instanceof DynamicZIndexGameObject) {
-                iterator.remove();
-                dynamicObjectsToReinsert.add(gameObject);
-            }
-        }
-
-        // insert dynamic GameObjects back into sorted GameObjectsList
-        for (GameObject gameObject : dynamicObjectsToReinsert) {
-            add(gameObject);
-        }
-    }
 }

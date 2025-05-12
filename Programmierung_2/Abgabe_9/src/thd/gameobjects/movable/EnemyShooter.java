@@ -15,6 +15,8 @@ import thd.gameobjects.base.*;
  * @see GameObject
  */
 public class EnemyShooter extends ExplodingGameObject implements ShiftableGameObject, ActivatableGameObject<Void> {
+    private enum State{};
+    private State currentState; // Wichtel, Explosion Animation was outsourced for cleaner code.
     /**
      * Creates a new {@code EnemyShooter} GameObject.
      *

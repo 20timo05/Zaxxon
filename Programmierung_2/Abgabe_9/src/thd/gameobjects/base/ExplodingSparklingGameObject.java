@@ -9,8 +9,8 @@ import thd.game.utilities.GameView;
  *
  * @see ExplodingGameObject
  */
-public abstract class SparklingExplosionGameObject extends CollidingGameObject {
-    protected SparklingExplosionState currentExplosionState;
+public abstract class ExplodingSparklingGameObject extends CollidingGameObject {
+    private SparklingExplosionState currentExplosionState;
 
     /**
      * Creates a new game object that is able to collide and explode.
@@ -22,7 +22,7 @@ public abstract class SparklingExplosionGameObject extends CollidingGameObject {
      * @param spawnDelayInMilis            measure for how long before GameObject enters the Screen
      * @param spawnLineInter        interpolation factor: where on the SpawnLine to spawn the object
      */
-    public SparklingExplosionGameObject(GameView gameView, GamePlayManager gamePlayManager, int altitudeLevel, boolean isRectangular, int spawnDelayInMilis, double spawnLineInter) {
+    public ExplodingSparklingGameObject(GameView gameView, GamePlayManager gamePlayManager, int altitudeLevel, boolean isRectangular, int spawnDelayInMilis, double spawnLineInter) {
         super(gameView, gamePlayManager, altitudeLevel, isRectangular, spawnDelayInMilis, spawnLineInter);
     }
 
@@ -34,20 +34,20 @@ public abstract class SparklingExplosionGameObject extends CollidingGameObject {
      * @param altitudeLevel   the altitude of the GameObject
      * @param isRectangular   if true: use rectangular hitbox, else use polygonal
      */
-    public SparklingExplosionGameObject(GameView gameView, GamePlayManager gamePlayManager, int altitudeLevel, boolean isRectangular) {
+    public ExplodingSparklingGameObject(GameView gameView, GamePlayManager gamePlayManager, int altitudeLevel, boolean isRectangular) {
         super(gameView, gamePlayManager, altitudeLevel, isRectangular);
     }
 
-    private enum SparklingExplosionState {
+    protected enum SparklingExplosionState {
         LASER_EXPLOSION_1(SparklingExplosionBlockImages.LASER_EXPLOSION_1, 11, 10, 5),
         LASER_EXPLOSION_2(SparklingExplosionBlockImages.LASER_EXPLOSION_2, 9, 12, 5),
         LASER_EXPLOSION_3(SparklingExplosionBlockImages.LASER_EXPLOSION_3, 10, 11, 5),
         LASER_EXPLOSION_4(SparklingExplosionBlockImages.LASER_EXPLOSION_4, 10, 11, 5);
 
-        public final String display;
-        public final int height;
-        public final int width;
-        public final double size;
+        private final String display;
+        private final int height;
+        private final int width;
+        private final double size;
 
         SparklingExplosionState(String display, int height, int width, double size) {
             this.display = display;

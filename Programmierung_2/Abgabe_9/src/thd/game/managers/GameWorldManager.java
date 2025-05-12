@@ -22,8 +22,6 @@ class GameWorldManager extends GamePlayManager {
     private String backgroundWallBlockImage;
     private WallBackground[] wallBackgrounds;
 
-    private Jimmy jimmy;
-
     protected GameWorldManager(GameView gameView) {
         super(gameView);
 
@@ -43,8 +41,7 @@ class GameWorldManager extends GamePlayManager {
         spawnGameObject(footer);
         spawnGameObject(fuelCellGauge);
 
-        jimmy = new Jimmy(gameView, this);
-        spawnGameObject(jimmy);
+        spawnGameObject(new Jimmy(gameView, this));
     }
 
     private void addActivatableGameObject(GameObject gameObject) {

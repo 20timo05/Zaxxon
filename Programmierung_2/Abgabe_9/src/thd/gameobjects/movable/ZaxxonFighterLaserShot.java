@@ -13,7 +13,7 @@ import static thd.game.managers.GameSettings.TRAVEL_PATH_CALCULATOR;
  *
  * @see GameObject
  */
-public class ZaxxonFighterLaserShot extends SparklingExplosionGameObject {
+public class ZaxxonFighterLaserShot extends ExplodingSparklingGameObject {
 
     /**
      * Creates a new {@code PlayerLaserShot} GameObject.

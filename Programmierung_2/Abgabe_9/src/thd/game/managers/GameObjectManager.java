@@ -1,5 +1,6 @@
 package thd.game.managers;
 
+import thd.game.utilities.SortedGameObjectsList;
 import thd.gameobjects.base.GameObject;
 import thd.gameobjects.movable.EnergyBarrier;
 import thd.gameobjects.movable.ZaxxonFighter;
@@ -7,16 +8,17 @@ import thd.gameobjects.movable.ZaxxonFighterLaserShot;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 class GameObjectManager extends CollisionManager {
-    private final List<GameObject> gameObjects;
+    private final SortedGameObjectsList gameObjects;
     private final List<GameObject> gameObjectsToBeAdded;
     private final List<GameObject> gameObjectsToBeRemoved;
 
     private static final int MAXIMUM_NUMBER_OF_GAME_OBJECTS = 500;
 
     GameObjectManager() {
-        gameObjects = new LinkedList<>();
+        gameObjects = new SortedGameObjectsList();
         gameObjectsToBeAdded = new LinkedList<>();
         gameObjectsToBeRemoved = new LinkedList<>();
     }
@@ -45,7 +47,7 @@ class GameObjectManager extends CollisionManager {
     void gameLoop() {
         updateLists();
 
-        sortForDynamicZIndexGameObjects();
+        gameObjects.resortForDynamicGameObjects();
 
         for (GameObject gameObject : gameObjects) {
             gameObject.updateStatus();
@@ -75,30 +77,9 @@ class GameObjectManager extends CollisionManager {
 
     private void addToGameObjects() {
         for (GameObject toAdd : gameObjectsToBeAdded) {
-            sortIntoGameObjects(toAdd);
+            gameObjects.add(toAdd);
             addToCollisionManagement(toAdd);
         }
         gameObjectsToBeAdded.clear();
-    }
-
-    private void sortIntoGameObjects(GameObject toAdd) {
-        int indexToSortIn = 0;
-        for (GameObject gameObject : gameObjects) {
-            if (gameObject.getDistanceToBackground() >= toAdd.getDistanceToBackground()) {
-                break;
-            }
-            indexToSortIn++;
-        }
-        gameObjects.add(indexToSortIn, toAdd);
-    }
-
-    private void sortForDynamicZIndexGameObjects() {
-        for (GameObject o : gameObjects) {
-            if (o instanceof ZaxxonFighter) {
-                gameObjects.remove(o);
-                sortIntoGameObjects(o);
-                break;
-            }
-        }
     }
 }

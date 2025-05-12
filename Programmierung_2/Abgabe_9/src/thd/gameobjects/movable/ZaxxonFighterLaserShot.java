@@ -30,7 +30,6 @@ public class ZaxxonFighterLaserShot extends SparklingExplosionGameObject {
         width = 16;
         size = 3;
         speedInPixel = 6;
-        distanceToBackground = 10;
 
         position.updateCoordinates(startPosition);
 

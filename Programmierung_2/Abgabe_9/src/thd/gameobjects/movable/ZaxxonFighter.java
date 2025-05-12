@@ -2,6 +2,7 @@ package thd.gameobjects.movable;
 
 import thd.game.managers.GameSettings;
 import thd.game.managers.GamePlayManager;
+import thd.game.utilities.DynamicZIndexGameObject;
 import thd.game.utilities.GameView;
 import thd.gameobjects.base.*;
 
@@ -14,7 +15,7 @@ import static thd.game.managers.GameSettings.TRAVEL_PATH_CALCULATOR;
  *
  * @see GameObject
  */
-public class ZaxxonFighter extends CollidingGameObject implements MainCharacter {
+public class ZaxxonFighter extends CollidingGameObject implements MainCharacter, DynamicZIndexGameObject {
     private final Vector2d movementVector;
     private final Position preProjectionPosition;
     private final Vector2d projectedPosition;

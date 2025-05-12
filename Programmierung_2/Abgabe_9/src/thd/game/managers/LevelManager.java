@@ -39,7 +39,7 @@ class LevelManager extends GameWorldManager {
     }
 
     private void initializeGameObjects() {
-        /* @TODO
+        /*
         Die Methode initializeGameObjects() soll in Zukunft dazu genutzt werden, um Spielelemente an ein
         neues Level anzupassen, z.B.
             o Anpassungen für das Level am Hintergrund machen.

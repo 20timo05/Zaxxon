@@ -103,7 +103,7 @@ class GameWorldManager extends GamePlayManager {
     }
 
     private int distanceToDuration(double distance) {
-        return gameView.gameTimeInMilliseconds() + (int) (distance / SPEED_IN_PIXEL * 1000 / 60);
+        return gameView.gameTimeInMilliseconds() + (int) (distance / SPEED_IN_PIXEL * 1000 / 60 * 1.3); // 1.3 is the streching out factor
     }
 
     protected void initializeLevel() {

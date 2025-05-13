@@ -43,7 +43,7 @@ public class ZaxxonFighter extends CollidingGameObject implements MainCharacter,
         super(gameView, gamePlayManager, 0, true);
 
         speedInPixel = 3;
-        size = 3;
+        size = 4;
         height = 13;
         width = 24;
 
@@ -172,6 +172,9 @@ public class ZaxxonFighter extends CollidingGameObject implements MainCharacter,
             laserShotPosition.up(getHeight() / 2);
             gamePlayManager.spawnGameObject(new ZaxxonFighterLaserShot(gameView, gamePlayManager, laserShotPosition, getAltitudeLevel()));
             gameView.resetTimers(this);
+
+            gameView.playSound("playershoot.wav", false);
+
         }
     }
 

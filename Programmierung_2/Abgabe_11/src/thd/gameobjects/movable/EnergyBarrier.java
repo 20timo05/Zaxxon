@@ -22,12 +22,13 @@ import thd.game.utilities.TravelPathCalculator;
 public class EnergyBarrier extends CollidingGameObject implements ShiftableGameObject, ActivatableGameObject<Void> {
     private static final double ENERGY_BARRIER_HEIGHT = 16;
     private static final double ENERGY_BARRIER_WIDTH = 21;
-    private static final double ENERGY_BARRIER_SIZE = 5;
+    private static final double ENERGY_BARRIER_SIZE = 7;
     private final EnergyBarrierAnimation energyBarrierAnimation;
     private final ArrayList<CollidingGameObject> collidingGameObjectsForPathDecision;
     private final Position startPosition;
 
     private int stopCounter;
+    private int soundId;
 
     /**
      * Creates a new {@code EnergyBarrier} GameObject.
@@ -44,7 +45,7 @@ public class EnergyBarrier extends CollidingGameObject implements ShiftableGameO
 
         height = 41;
         width = 14;
-        size = 3;
+        size = 4;
 
         setRelativeHitboxPolygons(calculateHitbox());
         hitBoxOffsets(-20, -30 - (double) altitudeLevel / MAX_ALTITUDE_LEVEL * MAX_PLAYER_ALTITUDE, 0, 20);
@@ -57,11 +58,25 @@ public class EnergyBarrier extends CollidingGameObject implements ShiftableGameO
 
         stopCounter = 0;
         distanceToBackground = 10;
+
+        soundId = -1;
+
     }
 
     @Override
     public void reactToCollisionWith(CollidingGameObject other) {
         // cannot be destroyed
+    }
+
+    @Override
+    public void updateStatus() {
+        if (soundId == -1) {
+            soundId = gameView.playSound("energybarrier.wav", false);
+        } else if (position.similarTo(targetPosition)) {
+            gameView.stopSound(soundId);
+        }
+
+        super.updateStatus();
     }
 
     @Override
@@ -110,7 +125,7 @@ public class EnergyBarrier extends CollidingGameObject implements ShiftableGameO
     @Override
     public void addToCanvas() {
         Position mid = calcMiddlePoint();
-        double verticalOffset = (double) altitudeLevel /MAX_ALTITUDE_LEVEL * MAX_PLAYER_ALTITUDE;
+        double verticalOffset = (double) altitudeLevel / MAX_ALTITUDE_LEVEL * MAX_PLAYER_ALTITUDE;
         gameView.addBlockImageToCanvas(EnergyBarrierBlockImages.ENERGY_TOWER, mid.getX(), mid.getY() - verticalOffset, size, 0);
 
         energyBarrierAnimation.addToCanvas();

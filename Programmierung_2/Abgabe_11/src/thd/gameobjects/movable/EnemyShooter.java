@@ -32,7 +32,7 @@ public class EnemyShooter extends ExplodingGameObject implements ShiftableGameOb
 
         height = 80;
         width = 127;
-        size = 0.5;
+        size = 0.7;
 
         hitBoxOffsets(-width * size / 2, -height * size / 2, 0, 0);
     }

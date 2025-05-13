@@ -37,7 +37,7 @@ public class GunEmplacement extends ExplodingGameObject implements ShiftableGame
         this.orientation = orientation;
         height = 19;
         width = 30;
-        size = 2;
+        size = 2.8;
 
         calcNextShotTime();
         hitBoxOffsets(-width * size / 2, -height * size / 2, 0, 0);
@@ -47,9 +47,11 @@ public class GunEmplacement extends ExplodingGameObject implements ShiftableGame
     public void updateStatus() {
         super.updateStatus();
 
-        if (gameView.gameTimeInMilliseconds() >= nextShotTime) {
+        if (!hasDespawned && gameView.gameTimeInMilliseconds() >= nextShotTime) {
             gamePlayManager.spawnGameObject(new GunEmplacementLaserShot(gameView, gamePlayManager, this, orientation));
             calcNextShotTime();
+
+            gameView.playSound("gunemplacementshoot.wav", false);
         }
     }
 

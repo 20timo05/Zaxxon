@@ -31,7 +31,7 @@ public class RadarTower extends ExplodingGameObject implements ShiftableGameObje
 
         height = 129;
         width = 109;
-        size = 0.5;
+        size = 0.7;
 
         hitBoxOffsets(-width * size / 2, -height * size / 2, 0, 0);
     }

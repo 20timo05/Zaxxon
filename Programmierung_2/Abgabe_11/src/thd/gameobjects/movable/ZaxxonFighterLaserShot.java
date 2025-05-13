@@ -28,7 +28,7 @@ public class ZaxxonFighterLaserShot extends ExplodingSparklingGameObject {
 
         height = 8;
         width = 16;
-        size = 3;
+        size = 4;
         speedInPixel = 6;
 
         position.updateCoordinates(startPosition);

@@ -2,6 +2,7 @@ package thd.gameobjects.base;
 
 import thd.game.managers.GamePlayManager;
 import thd.game.utilities.GameView;
+import thd.gameobjects.movable.GunEmplacement;
 
 /**
  * A Wrapper for {@link CollidingGameObject} that can be destroyed by a {@link thd.gameobjects.movable.ZaxxonFighterLaserShot}.
@@ -39,15 +40,15 @@ public abstract class ExplodingGameObject extends CollidingGameObject {
     }
 
     protected enum ExplosionState {
-        EXPLOSION_1("explosion1.png", 251, 214, 0.3),
-        EXPLOSION_2("explosion2.png", 251, 217, 0.3),
-        EXPLOSION_3("explosion3.png", 251, 254, 0.3),
-        EXPLOSION_4("explosion4.png", 260, 232, 0.3),
-        EXPLOSION_5("explosion5.png", 251, 286, 0.3),
-        EXPLOSION_6("explosion6.png", 251, 252, 0.3),
-        EXPLOSION_7("explosion7.png", 251, 220, 0.3),
-        EXPLOSION_8("explosion8.png", 251, 214, 0.3),
-        EXPLOSION_9("explosion9.png", 251, 270, 0.3);
+        EXPLOSION_1("explosion1.png", 251, 214, 0.4),
+        EXPLOSION_2("explosion2.png", 251, 217, 0.4),
+        EXPLOSION_3("explosion3.png", 251, 254, 0.4),
+        EXPLOSION_4("explosion4.png", 260, 232, 0.4),
+        EXPLOSION_5("explosion5.png", 251, 286, 0.4),
+        EXPLOSION_6("explosion6.png", 251, 252, 0.4),
+        EXPLOSION_7("explosion7.png", 251, 220, 0.4),
+        EXPLOSION_8("explosion8.png", 251, 214, 0.4),
+        EXPLOSION_9("explosion9.png", 251, 270, 0.4);
 
         private final String display;
         private final int height;
@@ -69,13 +70,17 @@ public abstract class ExplodingGameObject extends CollidingGameObject {
     public void updateStatus() {
         super.updateStatus();
 
-        if (hasDespawned) {
+        if (hasDespawned && !position.similarTo(targetPosition)) {
+            if (currentExplosionState == null) {
+                gameView.playSound("explosion.wav", false);
+            }
 
             switchToNextState();
 
             if (currentExplosionState != null) {
                 height = currentExplosionState.height;
                 width = currentExplosionState.width;
+                size = currentExplosionState.imageScaleFactor;
 
             } else {
                 gamePlayManager.destroyGameObject(this);

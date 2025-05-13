@@ -68,7 +68,7 @@ public final class GameSettings {
     /**
      * This is the default speed for all {@link GameObject}s.
      */
-    public static final double SPEED_IN_PIXEL = 2;
+    public static final double SPEED_IN_PIXEL = 3;
 
     static {
         // check for valid constant values

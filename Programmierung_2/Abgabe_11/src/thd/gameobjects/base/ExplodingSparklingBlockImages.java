@@ -1,6 +1,6 @@
 package thd.gameobjects.base;
 
-class SparklingExplosionBlockImages {
+class ExplodingSparklingBlockImages {
     static final String LASER_EXPLOSION_1 = """
     L
     Y  L

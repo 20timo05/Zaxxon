@@ -29,11 +29,9 @@ class GameManager extends LevelManager {
         if (endOfGame()) {
             if (lives == 0) {
                 overlay.showMessage("Game Over");
-                gameView.resetTimers(this);
 
             } else {
                 overlay.showMessage("Game Completed!");
-                gameView.resetTimers(this);
             }
 
             if (overlay.isMessageShown() && gameView.timer(2000, 0, this)) {
@@ -44,7 +42,6 @@ class GameManager extends LevelManager {
         } else if (endOfLevel()) {
             if (!overlay.isMessageShown()) {
                 overlay.showMessage("Great Job!");
-                gameView.resetTimers(this);
             }
 
             if (overlay.isMessageShown() && gameView.timer(2000, 0, this)) {
@@ -72,6 +69,7 @@ class GameManager extends LevelManager {
     protected void initializeLevel() {
         super.initializeLevel();
         overlay.showMessage(level.name, 2);
+        gameView.stopAllSounds();
     }
 
     @Override

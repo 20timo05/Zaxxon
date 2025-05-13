@@ -28,7 +28,7 @@ public class VerticalRocket extends ExplodingGameObject implements ShiftableGame
 
         height = 19;
         width = 10;
-        size = 3;
+        size = 4;
         speedInPixel = 2;
         altitudeInterpolation = 0;
 

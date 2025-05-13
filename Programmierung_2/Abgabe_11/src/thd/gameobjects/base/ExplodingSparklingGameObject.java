@@ -39,10 +39,10 @@ public abstract class ExplodingSparklingGameObject extends CollidingGameObject {
     }
 
     protected enum SparklingExplosionState {
-        LASER_EXPLOSION_1(SparklingExplosionBlockImages.LASER_EXPLOSION_1, 11, 10, 5),
-        LASER_EXPLOSION_2(SparklingExplosionBlockImages.LASER_EXPLOSION_2, 9, 12, 5),
-        LASER_EXPLOSION_3(SparklingExplosionBlockImages.LASER_EXPLOSION_3, 10, 11, 5),
-        LASER_EXPLOSION_4(SparklingExplosionBlockImages.LASER_EXPLOSION_4, 10, 11, 5);
+        LASER_EXPLOSION_1(ExplodingSparklingBlockImages.LASER_EXPLOSION_1, 11, 10, 7),
+        LASER_EXPLOSION_2(ExplodingSparklingBlockImages.LASER_EXPLOSION_2, 9, 12, 7),
+        LASER_EXPLOSION_3(ExplodingSparklingBlockImages.LASER_EXPLOSION_3, 10, 11, 7),
+        LASER_EXPLOSION_4(ExplodingSparklingBlockImages.LASER_EXPLOSION_4, 10, 11, 7);
 
         private final String display;
         private final int height;
@@ -64,7 +64,10 @@ public abstract class ExplodingSparklingGameObject extends CollidingGameObject {
     public void updateStatus() {
         super.updateStatus();
 
-        if (hasDespawned) {
+        if (hasDespawned && !position.similarTo(targetPosition)) {
+            if (currentExplosionState == null) {
+                gameView.playSound("lasersparkling.wav", false);
+            }
 
             switchToNextState();
 

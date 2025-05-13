@@ -41,7 +41,7 @@ class GunEmplacementLaserShot extends CollidingGameObject implements ShiftableGa
 
         height = 8;
         width = 16;
-        size = 3;
+        size = 4;
         speedInPixel = 7;
 
         calculatePosition();

@@ -31,7 +31,7 @@ public class FuelTank extends ExplodingGameObject implements ShiftableGameObject
 
         height = 130;
         width = 155;
-        size = 0.5;
+        size = 0.7;
 
         hitBoxOffsets(-width * size / 2, -height * size / 2, 0, 0);
     }

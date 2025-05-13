@@ -5,7 +5,7 @@ import thd.game.managers.GameSettings;
 import thd.game.utilities.GameView;
 import thd.gameobjects.base.*;
 
-import static thd.game.managers.GameSettings.TRAVEL_PATH_CALCULATOR;
+import thd.game.utilities.TravelPathCalculator;
 
 /**
  * The {@code GunEmplacementLaserShot} is a {@code GameObject} that is emitted from the {@link EnemyShooter} and can destroy the {@code ZaxxonFighter}.
@@ -104,14 +104,14 @@ class GunEmplacementLaserShot extends CollidingGameObject implements ShiftableGa
         // straight
         if (orientation) {
             newTargetPosition = new Vector2d(
-                    geometricUtils.calculateIntersection(TRAVEL_PATH_CALCULATOR.getDespawnLine(), laserPathParametric)
+                    geometricUtils.calculateIntersection(TravelPathCalculator.getDespawnLine(), laserPathParametric)
             );
 
         } else {
             // left
             Position[] leftTravelPathBorder = new Position[]{
-                    TRAVEL_PATH_CALCULATOR.getSpawnLine()[0],
-                    TRAVEL_PATH_CALCULATOR.getDespawnLine()[0]
+                    TravelPathCalculator.getSpawnLine()[0],
+                    TravelPathCalculator.getDespawnLine()[0]
             };
             newTargetPosition = new Vector2d(
                     geometricUtils.calculateIntersection(leftTravelPathBorder, laserPathParametric)

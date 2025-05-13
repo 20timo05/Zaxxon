@@ -7,7 +7,7 @@ import thd.gameobjects.base.GameObject;
 import thd.gameobjects.base.ShiftableGameObject;
 import thd.gameobjects.base.Vector2d;
 
-import static thd.game.managers.GameSettings.TRAVEL_PATH_CALCULATOR;
+import thd.game.utilities.TravelPathCalculator;
 
 class BackgroundFloor extends GameObject implements ShiftableGameObject {
     private static final int GROUND_OFFSET_LEFT = 200;
@@ -29,7 +29,7 @@ class BackgroundFloor extends GameObject implements ShiftableGameObject {
 
         Vector2d newTargetPosition = new Vector2d(targetPosition);
         newTargetPosition.add(new Vector2d(
-                -TRAVEL_PATH_CALCULATOR.getDistanceToDespawnLine(),
+                -TravelPathCalculator.DISTANCE_TO_DESPAWN_LINE,
                 GameSettings.MOVEMENT_ANGLE_IN_RADIANS
         ));
         targetPosition.updateCoordinates(newTargetPosition);
@@ -41,7 +41,7 @@ class BackgroundFloor extends GameObject implements ShiftableGameObject {
     }
 
     private String generateGroundBlockImage(double height) {
-        int width = (int) (2 * GROUND_OFFSET_LEFT + Math.abs(TRAVEL_PATH_CALCULATOR.getSpawnLine()[0].getX() - TRAVEL_PATH_CALCULATOR.getSpawnLine()[1].getX()) / size);
+        int width = (int) (2 * GROUND_OFFSET_LEFT + Math.abs(TravelPathCalculator.getSpawnLine()[0].getX() - TravelPathCalculator.getSpawnLine()[1].getX()) / size);
 
         StringBuilder blockImage = new StringBuilder();
         for (int y = (int) height; y > 0; y--) {

@@ -6,8 +6,7 @@ import thd.game.utilities.GameView;
 import thd.game.utilities.WallBlockDimensionCalculator;
 import thd.game.utilities.WallBlockGraphicUtils;
 import thd.gameobjects.base.*;
-
-import static thd.game.managers.GameSettings.TRAVEL_PATH_CALCULATOR;
+import thd.game.utilities.TravelPathCalculator;
 
 /**
  * The WallBackground GameObject moves along with the other GameObjects, but is
@@ -40,7 +39,7 @@ public class WallBackground extends GameObject implements ShiftableGameObject, A
 
         Vector2d newTargetPosition = new Vector2d(targetPosition);
         newTargetPosition.add(new Vector2d(
-                -TRAVEL_PATH_CALCULATOR.getDistanceToDespawnLine(),
+                -TravelPathCalculator.DISTANCE_TO_DESPAWN_LINE,
                 GameSettings.MOVEMENT_ANGLE_IN_RADIANS
         ));
         targetPosition.updateCoordinates(newTargetPosition);

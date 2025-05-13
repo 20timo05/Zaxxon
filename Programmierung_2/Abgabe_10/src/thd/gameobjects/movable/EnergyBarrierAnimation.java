@@ -9,7 +9,7 @@ import thd.gameobjects.base.Position;
 import thd.gameobjects.base.Vector2d;
 
 import static thd.game.managers.GameSettings.MAX_PLAYER_ALTITUDE;
-import static thd.game.managers.GameSettings.TRAVEL_PATH_CALCULATOR;
+import thd.game.utilities.TravelPathCalculator;
 
 /**
  * The {@code EnergyBarrierAnimation} is only the yellow Grid, indicating the
@@ -52,11 +52,11 @@ class EnergyBarrierAnimation extends GameObject {
         movementInterpolation = 0.1;
 
         startPath = new Position[] {
-                TRAVEL_PATH_CALCULATOR.getSpawnLine()[0],
-                TRAVEL_PATH_CALCULATOR.getDespawnLine()[0]
+                TravelPathCalculator.getSpawnLine()[0],
+                TravelPathCalculator.getDespawnLine()[0]
         };
 
-        offsetTower = new Vector2d(TRAVEL_PATH_CALCULATOR.getTravelPathWidth() * movementInterpolation,
+        offsetTower = new Vector2d(TravelPathCalculator.TRAVEL_PATH_WIDTH * movementInterpolation,
                 -GameSettings.MOVEMENT_ANGLE_IN_RADIANS);
     }
 
@@ -70,9 +70,9 @@ class EnergyBarrierAnimation extends GameObject {
      */
     void updatePosition(Position towerPosition) {
         movementInterpolation = (movementInterpolation
-                + barrierSpeedInPixel / TRAVEL_PATH_CALCULATOR.getTravelPathWidth()) % 1;
+                + barrierSpeedInPixel / TravelPathCalculator.TRAVEL_PATH_WIDTH) % 1;
 
-        offsetTower.scaleToMagnitude(TRAVEL_PATH_CALCULATOR.getTravelPathWidth() * movementInterpolation);
+        offsetTower.scaleToMagnitude(TravelPathCalculator.TRAVEL_PATH_WIDTH * movementInterpolation);
 
         Vector2d newPosition = new Vector2d(towerPosition);
         newPosition.add(offsetTower);

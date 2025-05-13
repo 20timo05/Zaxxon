@@ -71,15 +71,6 @@ public final class GameSettings {
      */
     public static final double SPEED_IN_PIXEL = 2;
 
-    /**
-     * An object that calculates many important values needed based on
-     * {@link GameView#HEIGHT}, {@link GameView#WIDTH} and {@link #MOVEMENT_ANGLE_IN_RADIANS}.
-     *
-     * @see TravelPathCalculator
-     */
-    public static final TravelPathCalculator TRAVEL_PATH_CALCULATOR = new TravelPathCalculator();
-
-
     static {
         // check for valid constant values
         if (GameSettings.MOVEMENT_ANGLE_IN_DEGREE < 10 || GameSettings.MOVEMENT_ANGLE_IN_DEGREE > 31) {

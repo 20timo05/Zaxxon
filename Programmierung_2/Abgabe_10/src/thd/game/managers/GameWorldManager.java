@@ -1,6 +1,7 @@
 package thd.game.managers;
 
 import thd.game.utilities.GameView;
+import thd.game.utilities.TravelPathCalculator;
 import thd.game.utilities.WallBlockDimensionCalculator;
 import thd.game.utilities.WallBlockGraphicUtils;
 import thd.gameobjects.base.GameObject;
@@ -14,7 +15,6 @@ import java.util.List;
 import java.util.ListIterator;
 
 import static thd.game.managers.GameSettings.SPEED_IN_PIXEL;
-import static thd.game.managers.GameSettings.TRAVEL_PATH_CALCULATOR;
 
 class GameWorldManager extends GamePlayManager {
     private final List<GameObject> activatableGameObjects;
@@ -87,7 +87,7 @@ class GameWorldManager extends GamePlayManager {
 
             if (row == 0) {
                 // game should end, after last obstacle has passed
-                double distanceToPlayerMovementLine = TRAVEL_PATH_CALCULATOR.getSpawnLine()[0].distance(TRAVEL_PATH_CALCULATOR.getPlayerMovementLine()[0]) + 200;
+                double distanceToPlayerMovementLine = TravelPathCalculator.getSpawnLine()[0].distance(TravelPathCalculator.getPlayerMovementLine()[0]) + 200;
                 level.levelDurationTimestamp = distanceToDuration(distanceFromSpawnLine + distanceToPlayerMovementLine);
             }
 
@@ -166,7 +166,7 @@ class GameWorldManager extends GamePlayManager {
     }
 
     private void generateBackgroundWall() {
-        double horizontalDistanceSpawnLineDespawnLine = Math.abs(TRAVEL_PATH_CALCULATOR.getSpawnLine()[0].getX() - TRAVEL_PATH_CALCULATOR.getDespawnLine()[0].getX());
+        double horizontalDistanceSpawnLineDespawnLine = Math.abs(TravelPathCalculator.getSpawnLine()[0].getX() - TravelPathCalculator.getDespawnLine()[0].getX());
         int numberOfBricks = (int) (horizontalDistanceSpawnLineDespawnLine / WallBlockDimensionCalculator.FULL_BLOCK_INCREASE_OFFSET_X);
         int height = 9;
         StringBuilder bgWallDesc = new StringBuilder();

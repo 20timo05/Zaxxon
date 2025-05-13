@@ -8,7 +8,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import static thd.game.managers.GameSettings.MAX_PLAYER_ALTITUDE;
-import static thd.game.managers.GameSettings.TRAVEL_PATH_CALCULATOR;
+import thd.game.utilities.TravelPathCalculator;
 
 /**
  * The {@code EnergyBarrier} appear in the first levels of the game. They are
@@ -130,13 +130,13 @@ public class EnergyBarrier extends CollidingGameObject implements ShiftableGameO
     private Polygon[] calculateHitbox() {
         Position[] preProjectionRelativeHitbox = new Position[]{
                 new Position(0, 0),
-                new Position(TRAVEL_PATH_CALCULATOR.getTravelPathWidth(), 0),
-                new Position(TRAVEL_PATH_CALCULATOR.getTravelPathWidth(), -ENERGY_BARRIER_HEIGHT * ENERGY_BARRIER_SIZE),
+                new Position(TravelPathCalculator.TRAVEL_PATH_WIDTH, 0),
+                new Position(TravelPathCalculator.TRAVEL_PATH_WIDTH, -ENERGY_BARRIER_HEIGHT * ENERGY_BARRIER_SIZE),
                 new Position(0, -ENERGY_BARRIER_HEIGHT * ENERGY_BARRIER_SIZE)
         };
 
         Polygon postProjectionHitbox = calculateRelativeProjectedHitbox(preProjectionRelativeHitbox,
-                TRAVEL_PATH_CALCULATOR.getStretchedIsometricProjectionMatrix());
+                TravelPathCalculator.getStretchedIsometricProjectionMatrix());
         return new Polygon[]{postProjectionHitbox};
     }
 }

@@ -5,7 +5,7 @@ import thd.game.managers.GameSettings;
 import thd.game.utilities.GameView;
 import thd.gameobjects.base.*;
 
-import static thd.game.managers.GameSettings.TRAVEL_PATH_CALCULATOR;
+import thd.game.utilities.TravelPathCalculator;
 
 /**
  * The {@code LaserShot} is a {@code GameObject} that is emitted from the {@link ZaxxonFighter} and can destroy enemy objects.
@@ -34,7 +34,7 @@ public class ZaxxonFighterLaserShot extends ExplodingSparklingGameObject {
         position.updateCoordinates(startPosition);
 
         Vector2d positionOnSpawnLine = new Vector2d(startPosition);
-        positionOnSpawnLine.add(new Vector2d(TRAVEL_PATH_CALCULATOR.getDistancePlayerMovementToSpawnLine(), GameSettings.MOVEMENT_ANGLE_IN_RADIANS));
+        positionOnSpawnLine.add(new Vector2d(TravelPathCalculator.DISTANCE_PLAYER_MOVEMENT_TO_SPAWN_LINE, GameSettings.MOVEMENT_ANGLE_IN_RADIANS));
         targetPosition.updateCoordinates(positionOnSpawnLine);
 
         hitBoxOffsets(-width*size/2, -height*size/2, 0, 0);

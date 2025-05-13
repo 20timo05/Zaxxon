@@ -13,7 +13,7 @@ import thd.gameobjects.base.ShiftableGameObject;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static thd.game.managers.GameSettings.TRAVEL_PATH_CALCULATOR;
+import thd.game.utilities.TravelPathCalculator;
 
 /**
  * One Brick-Row of a {@link Wall}.
@@ -102,7 +102,7 @@ public class WallRow extends CollidingGameObject implements ShiftableGameObject,
                     new Position(idx[0] * size * WallBlockDimensionCalculator.HALF_BLOCK_INCREASE_OFFSET_X, -1 * size * WallBlockDimensionCalculator.FULL_BLOCK_INCREASE_OFFSET_Y)
             };
 
-            Polygon postProjectionHitbox = calculateRelativeProjectedHitbox(preProjectionRelativeHitbox, TRAVEL_PATH_CALCULATOR.getStretchedIsometricProjectionMatrix());
+            Polygon postProjectionHitbox = calculateRelativeProjectedHitbox(preProjectionRelativeHitbox, TravelPathCalculator.getStretchedIsometricProjectionMatrix());
             hitboxes[i] = postProjectionHitbox;
         }
 

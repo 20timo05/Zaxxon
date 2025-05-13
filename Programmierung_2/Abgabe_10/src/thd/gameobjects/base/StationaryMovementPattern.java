@@ -3,7 +3,7 @@ package thd.gameobjects.base;
 import thd.game.managers.GameSettings;
 import thd.game.utilities.GeometricUtils;
 
-import static thd.game.managers.GameSettings.TRAVEL_PATH_CALCULATOR;
+import thd.game.utilities.TravelPathCalculator;
 
 class StationaryMovementPattern extends MovementPattern {
 
@@ -24,8 +24,8 @@ class StationaryMovementPattern extends MovementPattern {
         geometricUtils = new GeometricUtils();
 
         Position spawnLinePosition = geometricUtils.interpolatePosition(
-                TRAVEL_PATH_CALCULATOR.getSpawnLine()[0],
-                TRAVEL_PATH_CALCULATOR.getSpawnLine()[1],
+                TravelPathCalculator.getSpawnLine()[0],
+                TravelPathCalculator.getSpawnLine()[1],
                 spawnLineInter
         );
 
@@ -35,8 +35,8 @@ class StationaryMovementPattern extends MovementPattern {
 
 
         Position endPosition = geometricUtils.interpolatePosition(
-                TRAVEL_PATH_CALCULATOR.getDespawnLine()[0],
-                TRAVEL_PATH_CALCULATOR.getDespawnLine()[1],
+                TravelPathCalculator.getDespawnLine()[0],
+                TravelPathCalculator.getDespawnLine()[1],
                 spawnLineInter
         );
 

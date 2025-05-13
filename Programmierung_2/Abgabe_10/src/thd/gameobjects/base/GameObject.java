@@ -6,8 +6,7 @@ import thd.game.utilities.GameView;
 import thd.game.utilities.GeometricUtils;
 
 import java.util.Objects;
-
-import static thd.game.managers.GameSettings.TRAVEL_PATH_CALCULATOR;
+import thd.game.utilities.TravelPathCalculator;
 
 /**
  * Represents an object in the game.
@@ -124,7 +123,7 @@ public abstract class GameObject {
         if (!(this instanceof ShiftableGameObject)) {
             throw new IllegalStateException("Only allowed for Stationary GameObjects!");
         }
-        return 1 - position.distance(targetPosition) / TRAVEL_PATH_CALCULATOR.getDistanceToDespawnLine();
+        return 1 - position.distance(targetPosition) / TravelPathCalculator.DISTANCE_TO_DESPAWN_LINE;
     }
 
     /**

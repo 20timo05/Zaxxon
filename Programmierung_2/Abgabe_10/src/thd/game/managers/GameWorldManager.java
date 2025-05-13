@@ -9,6 +9,7 @@ import thd.gameobjects.movable.*;
 import thd.gameobjects.unmovable.Footer;
 import thd.gameobjects.unmovable.FuelCellGauge;
 import thd.gameobjects.unmovable.HeightStatusBar;
+import thd.gameobjects.unmovable.Overlay;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,6 +27,7 @@ class GameWorldManager extends GamePlayManager {
         super(gameView);
 
         activatableGameObjects = new LinkedList<>();
+        overlay = new Overlay(gameView, this);
     }
 
     private void spawnGameObjects() {
@@ -40,6 +42,7 @@ class GameWorldManager extends GamePlayManager {
         spawnGameObject(heightStatusBar);
         spawnGameObject(footer);
         spawnGameObject(fuelCellGauge);
+        spawnGameObject(overlay);
     }
 
     private void addActivatableGameObject(GameObject gameObject) {
@@ -100,8 +103,7 @@ class GameWorldManager extends GamePlayManager {
     }
 
     private int distanceToDuration(double distance) {
-        // @TODO change 50 to 60, but Game runs slowly at the moment
-        return gameView.gameTimeInMilliseconds() + (int) (distance / SPEED_IN_PIXEL * 1000 / 50);
+        return gameView.gameTimeInMilliseconds() + (int) (distance / SPEED_IN_PIXEL * 1000 / 60);
     }
 
     protected void initializeLevel() {

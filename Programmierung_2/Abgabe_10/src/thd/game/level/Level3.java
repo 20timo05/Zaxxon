@@ -13,6 +13,7 @@ public class Level3 extends Level{
     public Level3() {
         number = 3;
         world = difficulty == Difficulty.EASY ? WORLD_STRING_EASY : WORLD_STRING_STANDARD;
+        name = "Zaxxon's Nova Core";
 
         // all gameobjects should be visible in the beginning
         worldOffsetColumns = world.split("\\R").length;

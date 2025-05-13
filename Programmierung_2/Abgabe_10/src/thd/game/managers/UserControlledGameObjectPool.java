@@ -17,6 +17,7 @@ class UserControlledGameObjectPool {
     protected Footer footer;
 
     protected Level level;
+    protected Overlay overlay;
 
     UserControlledGameObjectPool(GameView gameView) {
         this.gameView = gameView;

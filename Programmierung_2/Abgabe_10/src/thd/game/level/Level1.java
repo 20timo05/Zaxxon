@@ -13,6 +13,7 @@ public class Level1 extends Level {
     public Level1() {
         number = 1;
         world = difficulty == Difficulty.EASY ? WORLD_STRING_EASY : WORLD_STRING_STANDARD;
+        name = "Outer Perimeter";
 
         // all gameobjects should be visible in the beginning
         worldOffsetColumns = world.split("\\R").length;

@@ -4,9 +4,15 @@ import thd.gameobjects.base.Position;
 import thd.gameobjects.base.Vector2d;
 
 /**
- * A class that includes various utility methods for geometry, that every {@code GameObject} has access to.
+ * A class that includes various utility methods for geometry, that every
+ * {@code GameObject} has access to.
  */
 public final class GeometricUtils {
+
+    // Private constructor to prevent instantiation
+    private GeometricUtils() {
+        throw new IllegalStateException("Utility class");
+    }
 
     /**
      * Calculate a linearly interpolated position between two {@code Position}s.
@@ -14,53 +20,56 @@ public final class GeometricUtils {
      * @param start the starting Position
      * @param end   the ending Position
      * @param inter the interpolation factor (between 0 and 1)
-     * @return      the interpolated position
+     * @return the interpolated position
      */
-    public Position interpolatePosition(Position start, Position end, double inter) {
+    public static Position interpolatePosition(Position start, Position end,
+                                               double inter) {
         double interX = (1 - inter) * start.getX() + inter * end.getX();
         double interY = (1 - inter) * start.getY() + inter * end.getY();
 
         return new Position(interX, interY);
     }
 
-
     /**
-     * Calculates the Point of Intersection from two lines defined by two {@code Position} each.
+     * Calculates the Point of Intersection from two lines defined by two
+     * {@code Position} each.
      *
      * @param line1 an array with two {@code Position}s
      * @param line2 an array with two {@code Position}s
      * @return the point of intersection
      */
-    private Position calculateIntersection(Position[] line1, Position[] line2) {
-        return calculateIntersection(
-                calculateParametricLine(line1[0], line1[1]),
-                calculateParametricLine(line2[0], line2[1])
-        );
+    public static Position calculateIntersection(Position[] line1,
+                                                 Position[] line2) {
+        return calculateIntersection(calculateParametricLine(line1[0], line1[1]),
+                calculateParametricLine(line2[0], line2[1]));
     }
 
     /**
-     * Calculates the Point of Intersection from two lines.
-     * One is defined by two points, and the other by their Position and Direction Vector.
+     * Calculates the Point of Intersection from two lines. One is defined by two
+     * points, and the other by their Position and Direction Vector.
      *
      * @param line1 an array with two {@code Position}s for the first line
-     * @param line2 an array of size 2 with position and direction vector for the second line
+     * @param line2 an array of size 2 with position and direction vector for the
+     *              second line
      * @return the point of intersection
      */
-    public Position calculateIntersection(Position[] line1, Vector2d[] line2) {
-        return calculateIntersection(
-                calculateParametricLine(line1[0], line1[1]),
-                line2
-        );
+    public static Position calculateIntersection(Position[] line1,
+                                                 Vector2d[] line2) {
+        return calculateIntersection(calculateParametricLine(line1[0], line1[1]),
+                line2);
     }
 
     /**
      * Calculates the Point of Intersection from two lines in parametric form .
      *
-     * @param line1  an array of size 2 with position and direction vector for the first line
-     * @param line2 an array of size 2 with position and direction vector for the second line
+     * @param line1 an array of size 2 with position and direction vector for the
+     *              first line
+     * @param line2 an array of size 2 with position and direction vector for the
+     *              second line
      * @return the point of intersection
      */
-    private Position calculateIntersection(Vector2d[] line1, Vector2d[] line2) {
+    private static Position calculateIntersection(Vector2d[] line1,
+                                                  Vector2d[] line2) {
         // check direction vectors for linear dependence
         if (Math.abs(line1[1].crossProduct(line2[1])) < 1e-10) {
             return null;
@@ -70,7 +79,8 @@ public final class GeometricUtils {
         double dy = line2[0].getY() - line1[0].getY();
 
         double numerator = dx * (-line2[1].getY()) + dy * line2[1].getX();
-        double denominator = line1[1].getX() * (-line2[1].getY()) + line1[1].getY() * line2[1].getX();
+        double denominator = line1[1].getX() * (-line2[1].getY())
+                + line1[1].getY() * line2[1].getX();
 
         double lambda1 = numerator / denominator;
 
@@ -88,11 +98,12 @@ public final class GeometricUtils {
      * @param pos2 second position
      * @return an array of size 2 with position and direction vector
      */
-    private Vector2d[] calculateParametricLine(Position pos1, Position pos2) {
+    private static Vector2d[] calculateParametricLine(Position pos1,
+                                                      Position pos2) {
         Vector2d positionVec = new Vector2d(pos1);
         Vector2d directionVec = new Vector2d(pos2);
         directionVec.subtract(positionVec);
 
-        return new Vector2d[] {positionVec, directionVec};
+        return new Vector2d[] { positionVec, directionVec };
     }
 }

@@ -3,6 +3,7 @@ package thd.gameobjects.movable;
 import thd.game.managers.GamePlayManager;
 import thd.game.managers.GameSettings;
 import thd.game.utilities.GameView;
+import thd.game.utilities.GeometricUtils;
 import thd.gameobjects.base.*;
 
 import thd.game.utilities.TravelPathCalculator;
@@ -104,7 +105,7 @@ class GunEmplacementLaserShot extends CollidingGameObject implements ShiftableGa
         // straight
         if (orientation) {
             newTargetPosition = new Vector2d(
-                    geometricUtils.calculateIntersection(TravelPathCalculator.getDespawnLine(), laserPathParametric)
+                    GeometricUtils.calculateIntersection(TravelPathCalculator.getDespawnLine(), laserPathParametric)
             );
 
         } else {
@@ -114,7 +115,7 @@ class GunEmplacementLaserShot extends CollidingGameObject implements ShiftableGa
                     TravelPathCalculator.getDespawnLine()[0]
             };
             newTargetPosition = new Vector2d(
-                    geometricUtils.calculateIntersection(leftTravelPathBorder, laserPathParametric)
+                    GeometricUtils.calculateIntersection(leftTravelPathBorder, laserPathParametric)
             );
 
         }

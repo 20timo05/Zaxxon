@@ -4,6 +4,7 @@ import thd.game.managers.GameSettings;
 import thd.game.managers.GamePlayManager;
 import thd.game.utilities.DynamicZIndexGameObject;
 import thd.game.utilities.GameView;
+import thd.game.utilities.GeometricUtils;
 import thd.game.utilities.TravelPathCalculator;
 import thd.gameobjects.base.*;
 
@@ -107,7 +108,7 @@ public class ZaxxonFighter extends CollidingGameObject implements MainCharacter,
         distanceToBackground = (char) (altitudeLevel + 5);
 
         // calculate position of the shadow below the player
-        shadowPosition.updateCoordinates(geometricUtils.interpolatePosition(
+        shadowPosition.updateCoordinates(GeometricUtils.interpolatePosition(
                 TravelPathCalculator.getPlayerMovementLine()[0],
                 TravelPathCalculator.getPlayerMovementLine()[1],
                 movementInterpolation

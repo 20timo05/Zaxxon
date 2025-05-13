@@ -7,7 +7,6 @@ import thd.game.utilities.TravelPathCalculator;
 
 class StationaryMovementPattern extends MovementPattern {
 
-    private final GeometricUtils geometricUtils;
     private final Position[] pattern;
     private int currentIndex;
 
@@ -21,9 +20,8 @@ class StationaryMovementPattern extends MovementPattern {
 
     StationaryMovementPattern(double distanceFromSpawnLine, double spawnLineInter) {
         super();
-        geometricUtils = new GeometricUtils();
 
-        Position spawnLinePosition = geometricUtils.interpolatePosition(
+        Position spawnLinePosition = GeometricUtils.interpolatePosition(
                 TravelPathCalculator.getSpawnLine()[0],
                 TravelPathCalculator.getSpawnLine()[1],
                 spawnLineInter
@@ -34,7 +32,7 @@ class StationaryMovementPattern extends MovementPattern {
         startPosition.add(spawnLineOffset);
 
 
-        Position endPosition = geometricUtils.interpolatePosition(
+        Position endPosition = GeometricUtils.interpolatePosition(
                 TravelPathCalculator.getDespawnLine()[0],
                 TravelPathCalculator.getDespawnLine()[1],
                 spawnLineInter

@@ -16,7 +16,6 @@ public abstract class GameObject {
 
     protected final GameView gameView;
     protected final GamePlayManager gamePlayManager;
-    protected final GeometricUtils geometricUtils;
     protected final Position position;
     protected final Position targetPosition;
     protected double speedInPixel;
@@ -41,7 +40,6 @@ public abstract class GameObject {
         this.gameView = gameView;
         this.gamePlayManager = gamePlayManager;
 
-        geometricUtils = new GeometricUtils();
         position = new Position();
         targetPosition = new Position();
         size = 1;

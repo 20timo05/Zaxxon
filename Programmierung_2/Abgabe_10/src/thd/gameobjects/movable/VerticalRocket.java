@@ -3,6 +3,7 @@ package thd.gameobjects.movable;
 import thd.game.managers.GamePlayManager;
 import thd.game.managers.GameSettings;
 import thd.game.utilities.GameView;
+import thd.game.utilities.GeometricUtils;
 import thd.gameobjects.base.*;
 
 /**
@@ -43,7 +44,7 @@ public class VerticalRocket extends ExplodingGameObject implements ShiftableGame
         targetPos.up(GameSettings.MAX_PLAYER_ALTITUDE);
         this.targetPosition.updateCoordinates(targetPos);
 
-        position.updateCoordinates(geometricUtils.interpolatePosition(holePos, targetPos, altitudeInterpolation));
+        position.updateCoordinates(GeometricUtils.interpolatePosition(holePos, targetPos, altitudeInterpolation));
 
         position.moveToPosition(targetPosition, speedInPixel);
         altitudeInterpolation = 1 - position.distance(targetPosition) / GameSettings.MAX_PLAYER_ALTITUDE;

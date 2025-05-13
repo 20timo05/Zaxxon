@@ -13,7 +13,14 @@ public class Level2 extends Level{
      */
     public Level2() {
         number = 2;
-        world =
+        world = difficulty == Difficulty.EASY ? WORLD_STRING_EASY : WORLD_STRING_STANDARD;
+
+        // all gameobjects should be visible in the beginning
+        worldOffsetColumns = world.split("\\R").length;
+        worldOffsetLines = 0;
+    }
+
+    private static final String WORLD_STRING_STANDARD =
 // END OF LEVEL 2
 """
         \s
@@ -193,8 +200,108 @@ v0      \s
    r0   \s
 """;
 
-        // all gameobjects should be visible in the beginning
-        worldOffsetColumns = world.split("\\R").length;
-        worldOffsetLines = 0;
-    }
+    private static final String WORLD_STRING_EASY =
+// END OF LEVEL 2 (EASY)
+"""
+        \s
+        \s
+        \s
+        \s
+""" +
+// Section: Final Targets
+"""
+s0  f0  \s
+        \s
+    g1  \s
+        \s
+r0      \s
+        \s
+f0      \s
+        \s
+        \s
+""" +
+// Section: Second Wall (W6 - Low Hole)
+"""
+s0  v0  \s
+        \s
+        \s
+w6      \s
+        \s
+        \s
+g0      \s
+        \s
+      f0\s
+        \s
+        \s
+""" +
+// Section: Enemy Wave
+"""
+s0  g1s0\s
+        \s
+        \s
+    f0  \s
+        \s
+v0      \s
+        \s
+r0      \s
+        \s
+        \s
+""" +
+// Section: Isolated Energy Barrier (e3)
+"""
+f0      \s
+        \s
+    g0  \s
+        \s
+      e3\s
+        \s
+s0      \s
+        \s
+      f0\s
+        \s
+        \s
+""" +
+// Section: First Wall (W0 - High Hole)
+"""
+    v0  \s
+        \s
+g1  s0  \s
+        \s
+        \s
+w0      \s
+        \s
+        \s
+f0  f0  \s
+        \s
+        \s
+""" +
+// Section: More Targets
+"""
+s0      \s
+        \s
+    g0  \s
+        \s
+      r0\s
+        \s
+f0      \s
+        \s
+s0      \s
+        \s
+        \s
+""" +
+// START OF LEVEL 2 (EASY)
+"""
+    f0  \s
+        \s
+s0  g1  \s
+        \s
+      s0\s
+        \s
+f0      \s
+        \s
+v0      \s
+        \s
+        \s
+        \s
+""";
 }

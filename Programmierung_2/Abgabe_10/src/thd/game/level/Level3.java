@@ -12,7 +12,14 @@ public class Level3 extends Level{
      */
     public Level3() {
         number = 3;
-        world =
+        world = difficulty == Difficulty.EASY ? WORLD_STRING_EASY : WORLD_STRING_STANDARD;
+
+        // all gameobjects should be visible in the beginning
+        worldOffsetColumns = world.split("\\R").length;
+        worldOffsetLines = 0;
+    }
+
+    private static final String WORLD_STRING_STANDARD =
 // END OF LEVEL 3
 """
         \s
@@ -205,8 +212,107 @@ r0      \s
       r0\s
 """;
 
-        // all gameobjects should be visible in the beginning
-        worldOffsetColumns = world.split("\\R").length;
-        worldOffsetLines = 0;
-    }
+    private static final String WORLD_STRING_EASY =
+// END OF LEVEL 3 (EASY)
+"""
+        \s
+        \s
+        \s
+        \s
+""" +
+// Section: Final Targets
+"""
+g0  f0g1\s
+        \s
+        \s
+s0  r0  \s
+        \s
+        \s
+f0      \s
+        \s
+        \s
+""" +
+// Section: Second Wall (W3 - Wide Diagonal)
+"""
+v0  s0  \s
+        \s
+        \s
+w3      \s
+        \s
+        \s
+g0  f0  \s
+        \s
+s0      \s
+        \s
+        \s
+""" +
+// Section: Enemy Wave
+"""
+r0  g1r0\s
+        \s
+        \s
+s0  f0s0\s
+        \s
+        \s
+v0  v0  \s
+        \s
+        \s
+""" +
+// Section: Isolated Energy Barrier (e1)
+"""
+f0      \s
+        \s
+    g0  \s
+        \s
+  e1    \s
+        \s
+s0      \s
+        \s
+      f0\s
+        \s
+        \s
+""" +
+// Section: First Wall (W2 - Mid Passage)
+"""
+    v0  \s
+        \s
+g1  s0  \s
+        \s
+        \s
+w2      \s
+        \s
+        \s
+f0  r0  \s
+        \s
+        \s
+""" +
+// Section: More Targets
+"""
+s0  g0s0\s
+        \s
+    f0  \s
+        \s
+      g1\s
+        \s
+f0      \s
+        \s
+s0      \s
+        \s
+        \s
+""" +
+// START OF LEVEL 3 (EASY)
+"""
+    f0  \s
+        \s
+s0  g0  \s
+        \s
+      s0\s
+        \s
+f0      \s
+        \s
+v0  r0  \s
+        \s
+        \s
+        \s
+""";
 }

@@ -41,6 +41,8 @@ public class Level {
     /** The Timestamp when the Level will end. If the Player is still alive, he has completed the Level. */
     public int levelDurationTimestamp;
 
+    public static Difficulty difficulty = Difficulty.STANDARD;
+
     private static final String[] WALL_DESCRIPTIONS = new String[]{
             """
                     xxxxxxxxxx                  xxxxxxxx

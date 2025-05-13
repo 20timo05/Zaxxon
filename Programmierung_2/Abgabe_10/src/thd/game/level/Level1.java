@@ -7,13 +7,19 @@ package thd.game.level;
  * Wall + EnergyBarrier combinations. Designed for learning core mechanics.
  */
 public class Level1 extends Level {
-
     /**
      * Initializes the Level 1.
      */
     public Level1() {
         number = 1;
-        world =
+        world = difficulty == Difficulty.EASY ? WORLD_STRING_EASY : WORLD_STRING_STANDARD;
+
+        // all gameobjects should be visible in the beginning
+        worldOffsetColumns = world.split("\\R").length;
+        worldOffsetLines = 0;
+    }
+
+    private static final String WORLD_STRING_STANDARD =
 // END OF LEVEL
 """
         \s
@@ -22,7 +28,7 @@ public class Level1 extends Level {
         \s
 """
 // Section: Final Targets & Simple Wall
-+ """
+            + """
 s0  f0  \s
         \s
         \s
@@ -191,8 +197,96 @@ s0      \s
 r0      \s
 """;
 
-        // all gameobjects should be visible in the beginning
-        worldOffsetColumns = world.split("\\R").length;
-        worldOffsetLines = 0;
-    }
+    private static final String WORLD_STRING_EASY = // END OF LEVEL 1 (EASY)
+"""
+        \s
+        \s
+        \s
+        \s
+""" +
+// Section: Final Targets
+"""
+s0  f0  \s
+        \s
+        \s
+    g0  \s
+        \s
+        \s
+f0      \s
+        \s
+        \s
+""" +
+// Section: Simple Enemy Wave
+"""
+s0      \s
+        \s
+    g1  \s
+        \s
+      f0\s
+        \s
+s0      \s
+        \s
+        \s
+""" +
+// Section: Isolated Energy Barrier (e2)
+"""
+f0  r0  \s
+        \s
+        \s
+    e2    \s
+        \s
+        \s
+s0      \s
+        \s
+        \s
+""" +
+// Section: More Targets
+"""
+    g0  \s
+        \s
+f0      \s
+        \s
+      s0\s
+        \s
+v0      \s
+        \s
+        \s
+""" +
+// Section: Single Wall (W1)
+"""
+s0  f0  \s
+        \s
+        \s
+w1      \s
+        \s
+        \s
+g1      \s
+        \s
+        \s
+""" +
+// Section: Intro Targets
+"""
+f0      \s
+        \s
+    s0  \s
+        \s
+      g0\s
+        \s
+f0      \s
+        \s
+        \s
+""" +
+// START OF LEVEL 1 (EASY)
+"""
+      f0\s
+        \s
+s0      \s
+        \s
+    s0  \s
+        \s
+f0      \s
+        \s
+        \s
+        \s
+""";
 }

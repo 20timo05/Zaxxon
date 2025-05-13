@@ -2,6 +2,7 @@ package thd.game.managers;
 
 import thd.game.level.Difficulty;
 import thd.game.level.Level;
+import thd.game.utilities.FileAccess;
 import thd.game.utilities.GameView;
 
 /**
@@ -21,7 +22,9 @@ class GameManager extends LevelManager {
     }
 
     private void startNewGame() {
-        Level.difficulty = Difficulty.EASY;
+        Level.difficulty = FileAccess.readDifficultyFromDisc(); // Lesen der gespeicherten Auswahl.
+        Level.difficulty = Difficulty.EASY; // Dieser Befehl wird später durch eine Benutzerauswahl ersetzt.
+        FileAccess.writeDifficultyToDisc(Level.difficulty); // Abspeichern der neuen Auswahl.
         initializeGame();
     }
 

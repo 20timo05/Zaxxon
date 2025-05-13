@@ -25,6 +25,7 @@ public final class GameViewManager {
         gameView.updateColorForBlockImage('G', new Color(50, 50, 50, 127));
         gameView.updateColorForBlockImage('g', new Color(118, 118, 118));
 
+        gameView.showStatistic(true);
         startGameLoop();
     }
 

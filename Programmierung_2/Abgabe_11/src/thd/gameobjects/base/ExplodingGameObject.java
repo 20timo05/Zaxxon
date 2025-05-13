@@ -2,7 +2,6 @@ package thd.gameobjects.base;
 
 import thd.game.managers.GamePlayManager;
 import thd.game.utilities.GameView;
-import thd.gameobjects.movable.GunEmplacement;
 
 /**
  * A Wrapper for {@link CollidingGameObject} that can be destroyed by a {@link thd.gameobjects.movable.ZaxxonFighterLaserShot}.

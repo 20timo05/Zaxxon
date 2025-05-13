@@ -220,9 +220,9 @@ r0      \s
         \s
         \s
         \s
-""" +
-// Section: Final Targets
 """
+// Section: Final Targets
++ """
 g0  f0g1\s
         \s
         \s
@@ -232,9 +232,9 @@ s0  r0  \s
 f0      \s
         \s
         \s
-""" +
-// Section: Second Wall (W3 - Wide Diagonal)
 """
+// Section: Second Wall (W3 - Wide Diagonal)
++ """
 v0  s0  \s
         \s
         \s
@@ -246,9 +246,9 @@ g0  f0  \s
 s0      \s
         \s
         \s
-""" +
-// Section: Enemy Wave
 """
+// Section: Enemy Wave
++ """
 r0  g1r0\s
         \s
         \s
@@ -258,9 +258,9 @@ s0  f0s0\s
 v0  v0  \s
         \s
         \s
-""" +
-// Section: Isolated Energy Barrier (e1)
 """
+// Section: Isolated Energy Barrier (e1)
++ """
 f0      \s
         \s
     g0  \s
@@ -272,9 +272,9 @@ s0      \s
       f0\s
         \s
         \s
-""" +
-// Section: First Wall (W2 - Mid Passage)
 """
+// Section: First Wall (W2 - Mid Passage)
++ """
     v0  \s
         \s
 g1  s0  \s
@@ -286,9 +286,9 @@ w2      \s
 f0  r0  \s
         \s
         \s
-""" +
-// Section: More Targets
 """
+// Section: More Targets
++ """
 s0  g0s0\s
         \s
     f0  \s
@@ -300,9 +300,9 @@ f0      \s
 s0      \s
         \s
         \s
-""" +
-// START OF LEVEL 3 (EASY)
 """
+// START OF LEVEL 3 (EASY)
++ """
     f0  \s
         \s
 s0  g0  \s

@@ -29,7 +29,7 @@ public class Level1 extends Level {
         \s
 """
 // Section: Final Targets & Simple Wall
-            + """
++ """
 s0  f0  \s
         \s
         \s
@@ -204,9 +204,9 @@ r0      \s
         \s
         \s
         \s
-""" +
-// Section: Final Targets
 """
+// Section: Final Targets
++ """
 s0  f0  \s
         \s
         \s
@@ -216,9 +216,9 @@ s0  f0  \s
 f0      \s
         \s
         \s
-""" +
-// Section: Simple Enemy Wave
 """
+// Section: Simple Enemy Wave
++ """
 s0      \s
         \s
     g1  \s
@@ -228,9 +228,9 @@ s0      \s
 s0      \s
         \s
         \s
-""" +
-// Section: Isolated Energy Barrier (e2)
 """
+// Section: Isolated Energy Barrier (e2)
++ """
 f0  r0  \s
         \s
         \s
@@ -240,9 +240,9 @@ f0  r0  \s
 s0      \s
         \s
         \s
-""" +
-// Section: More Targets
 """
+// Section: More Targets
++ """
     g0  \s
         \s
 f0      \s
@@ -252,9 +252,9 @@ f0      \s
 v0      \s
         \s
         \s
-""" +
-// Section: Single Wall (W1)
 """
+// Section: Single Wall (W1)
++ """
 s0  f0  \s
         \s
         \s
@@ -264,9 +264,9 @@ w1      \s
 g1      \s
         \s
         \s
-""" +
-// Section: Intro Targets
 """
+// Section: Intro Targets
++ """
 f0      \s
         \s
     s0  \s
@@ -276,9 +276,9 @@ f0      \s
 f0      \s
         \s
         \s
-""" +
-// START OF LEVEL 1 (EASY)
 """
+// START OF LEVEL 1 (EASY)
++ """
       f0\s
         \s
 s0      \s

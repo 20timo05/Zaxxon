@@ -41,7 +41,7 @@ class BackgroundFloor extends GameObject implements ShiftableGameObject {
     }
 
     private String generateGroundBlockImage(double height) {
-        int width = (int) (2 * GROUND_OFFSET_LEFT + Math.abs(TravelPathCalculator.getSpawnLine()[0].getX() - TravelPathCalculator.getSpawnLine()[1].getX()) / size);
+        int width = (int) (2 * GROUND_OFFSET_LEFT + Math.abs(TravelPathCalculator.copySpawnLine()[0].getX() - TravelPathCalculator.copySpawnLine()[1].getX()) / size);
 
         StringBuilder blockImage = new StringBuilder();
         for (int y = (int) height; y > 0; y--) {

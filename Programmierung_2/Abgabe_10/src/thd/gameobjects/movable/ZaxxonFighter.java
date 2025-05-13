@@ -96,8 +96,8 @@ public class ZaxxonFighter extends CollidingGameObject implements MainCharacter,
 
         // projection from 2d to isometric "3d" Position
         projectedPosition.updateCoordinates(preProjectionPosition);
-        projectedPosition.matrixMultiplication(TravelPathCalculator.getIsometricProjectionMatrix());
-        projectedPosition.add(TravelPathCalculator.getPlayerMovementLine()[0]);
+        projectedPosition.matrixMultiplication(TravelPathCalculator.copyIsometricProjectionMatrix());
+        projectedPosition.add(TravelPathCalculator.copyPlayerMovementLine()[0]);
 
         position.updateCoordinates(projectedPosition);
         movementVector.updateCoordinates(0, 0);
@@ -109,8 +109,8 @@ public class ZaxxonFighter extends CollidingGameObject implements MainCharacter,
 
         // calculate position of the shadow below the player
         shadowPosition.updateCoordinates(GeometricUtils.interpolatePosition(
-                TravelPathCalculator.getPlayerMovementLine()[0],
-                TravelPathCalculator.getPlayerMovementLine()[1],
+                TravelPathCalculator.copyPlayerMovementLine()[0],
+                TravelPathCalculator.copyPlayerMovementLine()[1],
                 movementInterpolation
         ));
         shadowPosition.left(shadowWidth*size/2);

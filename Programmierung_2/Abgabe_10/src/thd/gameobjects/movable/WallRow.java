@@ -102,7 +102,7 @@ public class WallRow extends CollidingGameObject implements ShiftableGameObject,
                     new Position(idx[0] * size * WallBuildingService.HALF_BLOCK_INCREASE_OFFSET_X, -1 * size * WallBuildingService.FULL_BLOCK_INCREASE_OFFSET_Y)
             };
 
-            Polygon postProjectionHitbox = calculateRelativeProjectedHitbox(preProjectionRelativeHitbox, TravelPathCalculator.getStretchedIsometricProjectionMatrix());
+            Polygon postProjectionHitbox = calculateRelativeProjectedHitbox(preProjectionRelativeHitbox, TravelPathCalculator.copyStretchedIsometricProjectionMatrix());
             hitboxes[i] = postProjectionHitbox;
         }
 

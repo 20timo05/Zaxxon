@@ -35,12 +35,13 @@ public class Level {
     /** The world String representation of the Level. */
     public String world;
     /** The horizontal offset for the visible area of the world String. */
-    public int worldOffsetColumns;
+    int worldOffsetColumns;
     /** The vertical offset for the visible area of the world String. */
-    public int worldOffsetLines;
+    int worldOffsetLines;
     /** The Timestamp when the Level will end. If the Player is still alive, he has completed the Level. */
     public int levelDurationTimestamp;
 
+    /** Current Difficulty Level that is either EASY or STANDARD. */
     public static Difficulty difficulty = Difficulty.STANDARD;
 
     private static final String[] WALL_DESCRIPTIONS = new String[]{
@@ -167,6 +168,6 @@ public class Level {
     };
 
     /** The pregenerated BlockImages for the Walls used in the Levels. */
-    public static final WallBlockGraphicUtils.DynamicWall[] dynamicWalls = Arrays.stream(WALL_DESCRIPTIONS).map(WallBlockGraphicUtils::generateDynamicWall).toArray(WallBlockGraphicUtils.DynamicWall[]::new);
+    public static final WallBlockGraphicUtils.DynamicWall[] DYNAMIC_WALLS = Arrays.stream(WALL_DESCRIPTIONS).map(WallBlockGraphicUtils::generateDynamicWall).toArray(WallBlockGraphicUtils.DynamicWall[]::new);
 
 }

@@ -3,7 +3,6 @@ package thd.gameobjects.base;
 import thd.game.managers.GamePlayManager;
 import thd.game.managers.GameSettings;
 import thd.game.utilities.GameView;
-import thd.game.utilities.GeometricUtils;
 
 import java.util.Objects;
 import thd.game.utilities.TravelPathCalculator;

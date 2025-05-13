@@ -136,7 +136,7 @@ public class EnergyBarrier extends CollidingGameObject implements ShiftableGameO
         };
 
         Polygon postProjectionHitbox = calculateRelativeProjectedHitbox(preProjectionRelativeHitbox,
-                TravelPathCalculator.getStretchedIsometricProjectionMatrix());
+                TravelPathCalculator.copyStretchedIsometricProjectionMatrix());
         return new Polygon[]{postProjectionHitbox};
     }
 }

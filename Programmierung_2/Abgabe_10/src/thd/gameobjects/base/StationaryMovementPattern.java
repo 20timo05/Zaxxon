@@ -22,8 +22,8 @@ class StationaryMovementPattern extends MovementPattern {
         super();
 
         Position spawnLinePosition = GeometricUtils.interpolatePosition(
-                TravelPathCalculator.getSpawnLine()[0],
-                TravelPathCalculator.getSpawnLine()[1],
+                TravelPathCalculator.copySpawnLine()[0],
+                TravelPathCalculator.copySpawnLine()[1],
                 spawnLineInter
         );
 
@@ -33,8 +33,8 @@ class StationaryMovementPattern extends MovementPattern {
 
 
         Position endPosition = GeometricUtils.interpolatePosition(
-                TravelPathCalculator.getDespawnLine()[0],
-                TravelPathCalculator.getDespawnLine()[1],
+                TravelPathCalculator.copyDespawnLine()[0],
+                TravelPathCalculator.copyDespawnLine()[1],
                 spawnLineInter
         );
 

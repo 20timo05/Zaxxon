@@ -68,7 +68,7 @@ class GameWorldManager extends GamePlayManager {
                 int status = Character.getNumericValue(lines[row].charAt(column + 1));
 
                 if (character == 'w') {
-                    Wall wall = new Wall(gameView, this, level.dynamicWalls[status], spawnDelayInMilis, spawnLineInter);
+                    Wall wall = new Wall(gameView, this, level.DYNAMIC_WALLS[status], spawnDelayInMilis, spawnLineInter);
                     for (WallRow wallRow : wall.wallRows) {
                         addActivatableGameObject(wallRow);
                     }
@@ -90,7 +90,7 @@ class GameWorldManager extends GamePlayManager {
 
             if (row == 0) {
                 // game should end, after last obstacle has passed
-                double distanceToPlayerMovementLine = TravelPathCalculator.getSpawnLine()[0].distance(TravelPathCalculator.getPlayerMovementLine()[0]) + 200;
+                double distanceToPlayerMovementLine = TravelPathCalculator.copySpawnLine()[0].distance(TravelPathCalculator.copyPlayerMovementLine()[0]) + 100;
                 level.levelDurationTimestamp = distanceToDuration(distanceFromSpawnLine + distanceToPlayerMovementLine);
             }
 
@@ -168,7 +168,7 @@ class GameWorldManager extends GamePlayManager {
     }
 
     private void generateBackgroundWall() {
-        double horizontalDistanceSpawnLineDespawnLine = Math.abs(TravelPathCalculator.getSpawnLine()[0].getX() - TravelPathCalculator.getDespawnLine()[0].getX());
+        double horizontalDistanceSpawnLineDespawnLine = Math.abs(TravelPathCalculator.copySpawnLine()[0].getX() - TravelPathCalculator.copyDespawnLine()[0].getX());
         int numberOfBricks = (int) (horizontalDistanceSpawnLineDespawnLine / WallBuildingService.FULL_BLOCK_INCREASE_OFFSET_X);
         int height = 9;
         StringBuilder bgWallDesc = new StringBuilder();

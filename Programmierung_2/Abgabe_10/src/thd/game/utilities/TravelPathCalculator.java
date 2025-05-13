@@ -3,7 +3,6 @@ package thd.game.utilities;
 import thd.game.managers.GameSettings;
 import thd.gameobjects.base.Position;
 import thd.gameobjects.base.Vector2d;
-import thd.gameobjects.movable.ZaxxonFighterLaserShot;
 
 /**
  * The {@code TravelPathCalculator} calculates many important values needed
@@ -16,41 +15,35 @@ import thd.gameobjects.movable.ZaxxonFighterLaserShot;
  */
 public final class TravelPathCalculator {
 
-    // Public primitives (constants)
-    public static final double TRAVEL_PATH_WIDTH;
-    public static final double DISTANCE_TO_DESPAWN_LINE;
-    public static final double DISTANCE_PLAYER_MOVEMENT_TO_SPAWN_LINE;
-
-    // Private static variables for reference data types.
+    // Private static variables for reference data types - ORDER IS CRUCIAL.
     private static final Position[] OUTER_SCREEN_ENTRY = calculateOuterScreenEntry();
     private static final double SPAWN_LINE_OFFSET = calculateSpawnLineOffset();
-    private static final Position[] SPAWN_LINE = calculateSpawnLinePosition();
     private static final Position[] OUTER_SCREEN_EXIT = calculateOuterScreenExit();
+    private static final Position[] SPAWN_LINE = calculateSpawnLinePosition();
     private static final Position[] DESPAWN_LINE = calculateDespawnLinePosition();
     private static final Position[] PLAYER_MOVEMENT_LINE = calculatePlayerMovementLine();
-    private static final double[][] ISOMETRIC_PROJECTION_MATRIX;
-    private static final double[][] STRETCHED_ISOMETRIC_PROJECTION_MATRIX;
 
-    // Static initializer block to perform all computations.
-    static {
-        TRAVEL_PATH_WIDTH = SPAWN_LINE[0].distance(SPAWN_LINE[1]);
-        DISTANCE_TO_DESPAWN_LINE = SPAWN_LINE[0].distance(DESPAWN_LINE[0]);
-        DISTANCE_PLAYER_MOVEMENT_TO_SPAWN_LINE =
-                SPAWN_LINE[0].distance(PLAYER_MOVEMENT_LINE[0]);
+    // Public primitives (constants)
+    /** The width of the designated travel path, measured along the spawn line. */
+    public static final double TRAVEL_PATH_WIDTH = SPAWN_LINE[0].distance(SPAWN_LINE[1]);
+    /** The longitudinal distance from the spawn line to the despawn line. */
+    public static final double DISTANCE_TO_DESPAWN_LINE = SPAWN_LINE[0].distance(DESPAWN_LINE[0]);
+    /** The distance from the spawn line to the player's designated movement line. */
+    public static final double DISTANCE_PLAYER_MOVEMENT_TO_SPAWN_LINE = SPAWN_LINE[0].distance(PLAYER_MOVEMENT_LINE[0]);
 
-        ISOMETRIC_PROJECTION_MATRIX = new double[][]{
-                {Math.cos(-GameSettings.MOVEMENT_ANGLE_IN_RADIANS), 0},
-                {Math.sin(GameSettings.MOVEMENT_ANGLE_IN_RADIANS), -1}
-        };
 
-        STRETCHED_ISOMETRIC_PROJECTION_MATRIX = new double[][]{
-                {1, 0},
-                {Math.tan(GameSettings.MOVEMENT_ANGLE_IN_RADIANS), -1}
-        };
-    }
+    private static final double[][] ISOMETRIC_PROJECTION_MATRIX = new double[][]{
+            {Math.cos(-GameSettings.MOVEMENT_ANGLE_IN_RADIANS), 0},
+            {Math.sin(GameSettings.MOVEMENT_ANGLE_IN_RADIANS), -1}
+    };
+    private static final double[][] STRETCHED_ISOMETRIC_PROJECTION_MATRIX = new double[][]{
+            {1, 0},
+            {Math.tan(GameSettings.MOVEMENT_ANGLE_IN_RADIANS), -1}
+    };
 
     // Private constructor to prevent instantiation.
-    private TravelPathCalculator() { }
+    private TravelPathCalculator() {
+    }
 
     // --- Getters for Reference Data Types (Defensive Copying) --- //
 
@@ -59,7 +52,7 @@ public final class TravelPathCalculator {
      *
      * @return a new {@code Position[]} containing the outer screen entry positions.
      */
-    public static Position[] getOuterScreenEntry() {
+    public static Position[] copyOuterScreenEntry() {
         return new Position[]{
                 new Position(OUTER_SCREEN_ENTRY[0]),
                 new Position(OUTER_SCREEN_ENTRY[1])
@@ -71,7 +64,7 @@ public final class TravelPathCalculator {
      *
      * @return a new {@code Position[]} containing the outer screen exit positions.
      */
-    public static Position[] getOuterScreenExit() {
+    public static Position[] copyOuterScreenExit() {
         return new Position[]{
                 new Position(OUTER_SCREEN_EXIT[0]),
                 new Position(OUTER_SCREEN_EXIT[1])
@@ -83,7 +76,7 @@ public final class TravelPathCalculator {
      *
      * @return a new {@code Position[]} containing the spawn line positions.
      */
-    public static Position[] getSpawnLine() {
+    public static Position[] copySpawnLine() {
         return new Position[]{
                 new Position(SPAWN_LINE[0]),
                 new Position(SPAWN_LINE[1])
@@ -95,7 +88,7 @@ public final class TravelPathCalculator {
      *
      * @return a new {@code Position[]} containing the despawn line positions.
      */
-    public static Position[] getDespawnLine() {
+    public static Position[] copyDespawnLine() {
         return new Position[]{
                 new Position(DESPAWN_LINE[0]),
                 new Position(DESPAWN_LINE[1])
@@ -107,7 +100,7 @@ public final class TravelPathCalculator {
      *
      * @return a new {@code Position[]} containing the player movement line positions.
      */
-    public static Position[] getPlayerMovementLine() {
+    public static Position[] copyPlayerMovementLine() {
         return new Position[]{
                 new Position(PLAYER_MOVEMENT_LINE[0]),
                 new Position(PLAYER_MOVEMENT_LINE[1])
@@ -119,7 +112,7 @@ public final class TravelPathCalculator {
      *
      * @return a new {@code double[][]} with the isometric projection matrix.
      */
-    public static double[][] getIsometricProjectionMatrix() {
+    public static double[][] copyIsometricProjectionMatrix() {
         return new double[][]{
                 {ISOMETRIC_PROJECTION_MATRIX[0][0], ISOMETRIC_PROJECTION_MATRIX[0][1]},
                 {ISOMETRIC_PROJECTION_MATRIX[1][0], ISOMETRIC_PROJECTION_MATRIX[1][1]}
@@ -131,7 +124,7 @@ public final class TravelPathCalculator {
      *
      * @return a new {@code double[][]} with the stretched isometric projection matrix.
      */
-    public static double[][] getStretchedIsometricProjectionMatrix() {
+    public static double[][] copyStretchedIsometricProjectionMatrix() {
         return new double[][]{
                 {
                         STRETCHED_ISOMETRIC_PROJECTION_MATRIX[0][0],
@@ -148,8 +141,8 @@ public final class TravelPathCalculator {
 
     private static double calculateSpawnLineOffset() {
         if (GameSettings.USE_DEBUG_SPAWN_OFFSET) {
-            return -Math.cos(GameSettings.MOVEMENT_ANGLE_IN_RADIANS) *
-                    (GameView.WIDTH - OUTER_SCREEN_ENTRY[0].getX());
+            return -Math.cos(GameSettings.MOVEMENT_ANGLE_IN_RADIANS)
+                    * (GameView.WIDTH - OUTER_SCREEN_ENTRY[0].getX());
         } else {
             return GameSettings.DEFAULT_SPAWN_LINE_OFFSET;
         }
@@ -164,8 +157,8 @@ public final class TravelPathCalculator {
 
         Vector2d absoluteStartPositionOfSpawnLine =
                 new Vector2d(new Position(
-                        OUTER_SCREEN_ENTRY[0].getX() +
-                                relativeStartPositionOfSpawnLine.getX(),
+                        OUTER_SCREEN_ENTRY[0].getX()
+                                + relativeStartPositionOfSpawnLine.getX(),
                         -relativeStartPositionOfSpawnLine.getY()));
 
         Position relativeEndPositionOfSpawnLine =
@@ -194,15 +187,14 @@ public final class TravelPathCalculator {
     private static Position[] calculateDespawnLinePosition() {
         Position relativeStartPositionOfDespawnLine =
                 computeApexCoordinatesFromIsosceles(
-                        GameSettings.GAME_HEIGHT -
-                                OUTER_SCREEN_EXIT[0].getY(),
+                        GameSettings.GAME_HEIGHT - OUTER_SCREEN_EXIT[0].getY(),
                         Math.toRadians(90 - GameSettings.MOVEMENT_ANGLE_IN_DEGREE));
 
         Vector2d absoluteStartPositionOfDespawnLine =
                 new Vector2d(new Position(
                         -relativeStartPositionOfDespawnLine.getY(),
-                        GameSettings.GAME_HEIGHT -
-                                relativeStartPositionOfDespawnLine.getX()));
+                        GameSettings.GAME_HEIGHT
+                                - relativeStartPositionOfDespawnLine.getX()));
 
         Position relativeEndPositionOfDespawnLine =
                 computeApexCoordinatesFromIsosceles(
@@ -211,10 +203,8 @@ public final class TravelPathCalculator {
 
         Vector2d absoluteEndPositionOfDespawnLine =
                 new Vector2d(new Position(
-                        OUTER_SCREEN_EXIT[1].getX() -
-                                relativeEndPositionOfDespawnLine.getX(),
-                        GameSettings.GAME_HEIGHT +
-                                relativeEndPositionOfDespawnLine.getY()));
+                        OUTER_SCREEN_EXIT[1].getX() - relativeEndPositionOfDespawnLine.getX(),
+                        GameSettings.GAME_HEIGHT + relativeEndPositionOfDespawnLine.getY()));
 
         absoluteStartPositionOfDespawnLine.add(
                 new Vector2d(-SPAWN_LINE_OFFSET,
@@ -240,12 +230,11 @@ public final class TravelPathCalculator {
     private static Position[] calculateOuterScreenExit() {
         Position leftSideExit = new Position(
                 0,
-                Math.tan(GameSettings.MOVEMENT_ANGLE_IN_RADIANS) *
-                        OUTER_SCREEN_ENTRY[0].getX());
+                Math.tan(GameSettings.MOVEMENT_ANGLE_IN_RADIANS) * OUTER_SCREEN_ENTRY[0].getX());
         Position bottomSideExit = new Position(
-                GameView.WIDTH -
-                        (GameSettings.GAME_HEIGHT - OUTER_SCREEN_ENTRY[1].getY())
-                                / Math.tan(GameSettings.MOVEMENT_ANGLE_IN_RADIANS),
+                GameView.WIDTH
+                        - (GameSettings.GAME_HEIGHT - OUTER_SCREEN_ENTRY[1].getY())
+                        / Math.tan(GameSettings.MOVEMENT_ANGLE_IN_RADIANS),
                 GameSettings.GAME_HEIGHT);
         return new Position[]{leftSideExit, bottomSideExit};
     }

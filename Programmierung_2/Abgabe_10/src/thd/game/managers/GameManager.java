@@ -20,7 +20,7 @@ class GameManager extends LevelManager {
         startNewGame();
     }
 
-    public void startNewGame() {
+    private void startNewGame() {
         Level.difficulty = Difficulty.EASY;
         initializeGame();
     }
@@ -28,17 +28,30 @@ class GameManager extends LevelManager {
     private void gameManagement() {
         if (endOfGame()) {
             if (lives == 0) {
-                overlay.showMessage("Game Over", 2);
+                overlay.showMessage("Game Over");
+                gameView.resetTimers(this);
+
             } else {
-                overlay.showMessage("Great Job!", 2);
+                overlay.showMessage("Game Completed!");
+                gameView.resetTimers(this);
             }
 
-            startNewGame();
+            if (overlay.isMessageShown() && gameView.timer(2000, 0, this)) {
+                overlay.stopShowing();
+                startNewGame();
+            }
 
         } else if (endOfLevel()) {
-            overlay.showMessage("Great Job!", 2);
-            switchToNextLevel();
-            initializeLevel();
+            if (!overlay.isMessageShown()) {
+                overlay.showMessage("Great Job!");
+                gameView.resetTimers(this);
+            }
+
+            if (overlay.isMessageShown() && gameView.timer(2000, 0, this)) {
+                overlay.stopShowing();
+                switchToNextLevel();
+                initializeLevel();
+            }
 
         } else if (lives < currentLives) { // player has crashed
             initializeLevel();

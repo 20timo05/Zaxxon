@@ -1,7 +1,6 @@
 package thd.game.managers;
 
 import thd.game.utilities.GameView;
-import thd.game.utilities.TravelPathCalculator;
 import thd.gameobjects.base.GameObject;
 
 /**

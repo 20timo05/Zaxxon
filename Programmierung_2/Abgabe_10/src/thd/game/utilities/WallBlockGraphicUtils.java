@@ -23,7 +23,7 @@ public class WallBlockGraphicUtils {
 
 
     // Precompute the optimized front block rows immediately.
-    private static final String[] wallRowOptimization = precomputeOptimizedFrontBlockRows();
+    private static final String[] WALL_ROW_OPTIMIZATION = precomputeOptimizedFrontBlockRows();
 
     /**
      * Generates a dynamic wall for a given wall description.
@@ -40,7 +40,7 @@ public class WallBlockGraphicUtils {
         String[] wallBlockImageInRows = new String[wallDescriptionRows.length];
         for (int y = 0; y < wallDescriptionRows.length; y++) {
             // Use the wall building service to generate block images per row
-            wallBlockImageInRows[y] = WallBuildingService.generateWallRowBlockImage(wallDescriptionRows[y], wallRowOptimization);
+            wallBlockImageInRows[y] = WallBuildingService.generateWallRowBlockImage(wallDescriptionRows[y], WALL_ROW_OPTIMIZATION);
         }
 
         // Use the wall building service to calculate hitboxes
@@ -161,8 +161,8 @@ public class WallBlockGraphicUtils {
     }
 
     /**
-     * A class that serves as a wrapper for two important pieces of information for
-     * {@link thd.gameobjects.movable.Wall} GameObject:
+     * A class that serves as a wrapper for two important pieces of information for {@link thd.gameobjects.movable.Wall} GameObject.
+     *
      * <ol>
      *   <li>The BlockGraphic String for {@link thd.game.utilities.GameView#addBlockImageToCanvas(String, double, double, double, double)}</li>
      *   <li>The hitboxes for {@link thd.gameobjects.base.CollidingGameObject}</li>

@@ -34,38 +34,7 @@ public class WallBuildingService { // Package-private access
     private static final int BLOCK_SIDE_OFFSET_X = 0;
     private static final int BLOCK_SIDE_OFFSET_Y = -3;
 
-    // Structure to hold dimension and offset data directly
-    private static class BlockDimensions {
-        final String blockImage;
-        final int additionalOffsetX;
-        final int additionalOffsetY;
-        final int increaseOffsetX;
-        final int increaseOffsetY;
-        final int charWidth;
-
-        BlockDimensions(String blockImage, int additionalOffsetX, int additionalOffsetY, int increaseOffsetX, int increaseOffsetY, int charWidth) {
-            this.blockImage = blockImage;
-            this.additionalOffsetX = additionalOffsetX;
-            this.additionalOffsetY = additionalOffsetY;
-            this.increaseOffsetX = increaseOffsetX;
-            this.increaseOffsetY = increaseOffsetY;
-            this.charWidth = charWidth;
-        }
-    }
-
-    private static HashMap<Character, BlockDimensions> wallBlockDimensionsMap;
-
-    /**
-     * Initializes the internal map of block dimensions.
-     * This must be called before using generateWallRowBlockImage.
-     *
-     * @param wallRowOptimization The precomputed optimized wall rows from WallBlockGraphicUtils.
-     */
-    static void initializeDimensionMap(String[] wallRowOptimization) {
-        if (wallBlockDimensionsMap == null) {
-            wallBlockDimensionsMap = initMap(wallRowOptimization);
-        }
-    }
+    private static final HashMap<Character, BlockDimensions> WALL_BLOCK_DIMENSIONS_MAP = new HashMap<>();
 
     /**
      * Private constructor to prevent instantiation.
@@ -75,9 +44,67 @@ public class WallBuildingService { // Package-private access
     }
 
     /**
+     * Initializes the internal map of block dimensions.
+     * This must be called before using generateWallRowBlockImage.
+     *
+     * @param wallRowOptimization The precomputed optimized wall rows from WallBlockGraphicUtils.
+     * @throws IllegalArgumentException if wallRowOptimization is null or not of sufficient length
+     *                                  to define all required block types.
+     */
+    static void initializeDimensionMap(String[] wallRowOptimization) {
+        // This ensures population happens only once, with the first provided optimization data.
+        // Given WallBlockGraphicUtils's static init, this will be THE WALL_ROW_OPTIMIZATION.
+        if (!WALL_BLOCK_DIMENSIONS_MAP.isEmpty()) {
+            return;
+        }
+
+        // We populate it here.
+        int increaseOffsetXDefault = HALF_BLOCK_INCREASE_OFFSET_X;
+        int increaseOffsetYDefault = HALF_BLOCK_INCREASE_OFFSET_Y;
+
+        WALL_BLOCK_DIMENSIONS_MAP.put('0', new BlockDimensions(null, 0, 0, HALF_BLOCK_INCREASE_OFFSET_X, HALF_BLOCK_INCREASE_OFFSET_Y, 1));
+        WALL_BLOCK_DIMENSIONS_MAP.put('1', new BlockDimensions(FULL_BLOCK_FRONT, 0, 0, FULL_BLOCK_INCREASE_OFFSET_X, FULL_BLOCK_INCREASE_OFFSET_Y, 2));
+        WALL_BLOCK_DIMENSIONS_MAP.put('2', new BlockDimensions(HALF_BLOCK_FRONT, 0, 0, increaseOffsetXDefault, increaseOffsetYDefault, 1));
+        WALL_BLOCK_DIMENSIONS_MAP.put('3', new BlockDimensions(FULL_BLOCK_TOP, FULL_BLOCK_TOP_OFFSET_X, FULL_BLOCK_TOP_OFFSET_Y, FULL_BLOCK_INCREASE_OFFSET_X, FULL_BLOCK_INCREASE_OFFSET_Y, 2));
+        WALL_BLOCK_DIMENSIONS_MAP.put('4', new BlockDimensions(HALF_BLOCK_TOP, FULL_BLOCK_TOP_OFFSET_X, FULL_BLOCK_TOP_OFFSET_Y, increaseOffsetXDefault, increaseOffsetYDefault, 1));
+        WALL_BLOCK_DIMENSIONS_MAP.put('5', new BlockDimensions(BLOCK_SIDE, BLOCK_SIDE_OFFSET_X, BLOCK_SIDE_OFFSET_Y, increaseOffsetXDefault, increaseOffsetYDefault, 1));
+        WALL_BLOCK_DIMENSIONS_MAP.put('6', new BlockDimensions(BLOCK_SIDE_FULL_TOP, BLOCK_SIDE_OFFSET_X, BLOCK_SIDE_OFFSET_Y, FULL_BLOCK_INCREASE_OFFSET_X, FULL_BLOCK_INCREASE_OFFSET_Y, 2));
+        WALL_BLOCK_DIMENSIONS_MAP.put('7', new BlockDimensions(BLOCK_SIDE_HALF_TOP, BLOCK_SIDE_OFFSET_X, BLOCK_SIDE_OFFSET_Y, increaseOffsetXDefault, increaseOffsetYDefault, 1));
+        WALL_BLOCK_DIMENSIONS_MAP.put('8', new BlockDimensions(BLOCK_SIDE_HALF, 0, 0, increaseOffsetXDefault, increaseOffsetYDefault, 1));
+
+        // Check for wallRowOptimization validity for 'A'-'D' blocks
+        // We need indices 1, 2, 3, 4, so length must be at least 5.
+        if (wallRowOptimization == null || wallRowOptimization.length < 5) {
+            throw new IllegalArgumentException(
+                    "wallRowOptimization must be non-null and have a length of at least 5 "
+                            + "to define blocks 'A' through 'D'. Received: "
+                            + (wallRowOptimization == null ? "null" : "length " + wallRowOptimization.length)
+            );
+        }
+
+        // Accessing wallRowOptimization from the outer class (or passed as a parameter)
+        WALL_BLOCK_DIMENSIONS_MAP.put('A', new BlockDimensions(wallRowOptimization[1], 0, 0, FULL_BLOCK_INCREASE_OFFSET_X * 2, FULL_BLOCK_INCREASE_OFFSET_Y * 2, 4));
+        WALL_BLOCK_DIMENSIONS_MAP.put('B', new BlockDimensions(wallRowOptimization[2], 0, 0, FULL_BLOCK_INCREASE_OFFSET_X * 4, FULL_BLOCK_INCREASE_OFFSET_Y * 4, 8));
+        WALL_BLOCK_DIMENSIONS_MAP.put('C', new BlockDimensions(wallRowOptimization[3], 0, 0, FULL_BLOCK_INCREASE_OFFSET_X * 8, FULL_BLOCK_INCREASE_OFFSET_Y * 8, 16));
+        WALL_BLOCK_DIMENSIONS_MAP.put('D', new BlockDimensions(wallRowOptimization[4], 0, 0, FULL_BLOCK_INCREASE_OFFSET_X * 16, FULL_BLOCK_INCREASE_OFFSET_Y * 16, 32));
+    }
+
+    // ... (BlockDimensions class and other methods remain the same)
+    // Structure to hold dimension and offset data directly
+    private record BlockDimensions(
+            String blockImage,
+            int additionalOffsetX,
+            int additionalOffsetY,
+            int increaseOffsetX,
+            int increaseOffsetY,
+            int charWidth
+    ) {
+    }
+
+    /**
      * Generates a complete BlockGraphic String for a preprocessed wall row dynamically.
      *
-     * @param wallDescriptionRow a preprocessed wall description row
+     * @param wallDescriptionRow  a preprocessed wall description row
      * @param wallRowOptimization the precomputed optimized wall rows (needed for map initialization if not already done)
      * @return the block image for the row
      */
@@ -93,7 +120,7 @@ public class WallBuildingService { // Package-private access
         int x = 0;
         while (x < wallDescriptionRow.length()) {
             char currentChar = wallDescriptionRow.charAt(x);
-            BlockDimensions blockDim = wallBlockDimensionsMap.get(currentChar);
+            BlockDimensions blockDim = WALL_BLOCK_DIMENSIONS_MAP.get(currentChar);
 
             if (blockDim == null) {
                 throw new IllegalArgumentException("Unknown char: " + currentChar);
@@ -157,8 +184,8 @@ public class WallBuildingService { // Package-private access
                 int yPosOnCombined = y + rowsAddedToTop;
 
                 if (y < firstBlockImageInRows.length && x < firstBlockImageInRows[y].length()) {
-                    if (xPosOnCombined >= 0 && xPosOnCombined < combinedWidth &&
-                            yPosOnCombined >= 0 && yPosOnCombined < combinedHeight) {
+                    if (xPosOnCombined >= 0 && xPosOnCombined < combinedWidth
+                            && yPosOnCombined >= 0 && yPosOnCombined < combinedHeight) {
                         combinedBlockImage[yPosOnCombined][xPosOnCombined] =
                                 firstBlockImageInRows[y].charAt(x);
                     }
@@ -177,8 +204,8 @@ public class WallBuildingService { // Package-private access
                 if (y < secondBlockImageInRows.length && x < secondBlockImageInRows[y].length()) {
                     char charFromSecondBlockImage = secondBlockImageInRows[y].charAt(x);
                     if (charFromSecondBlockImage != ' ') {
-                        if (xPosOnCombined >= 0 && xPosOnCombined < combinedWidth &&
-                                yPosOnCombined >= 0 && yPosOnCombined < combinedHeight) {
+                        if (xPosOnCombined >= 0 && xPosOnCombined < combinedWidth
+                                && yPosOnCombined >= 0 && yPosOnCombined < combinedHeight) {
                             combinedBlockImage[yPosOnCombined][xPosOnCombined] =
                                     charFromSecondBlockImage;
                         }
@@ -202,7 +229,6 @@ public class WallBuildingService { // Package-private access
 
         return result.toString().replace('\u0000', ' ');
     }
-
 
     /**
      * Calculates the hitbox indices for each row of the preprocessed wall description.
@@ -246,29 +272,5 @@ public class WallBuildingService { // Package-private access
         }
 
         return hitboxesInRows;
-    }
-
-    // a dictionary of the sizes & specific information for all Blocks used in the Dynamic Wall Block Image Generation
-    private static HashMap<Character, BlockDimensions> initMap(String[] wallRowOptimization) {
-        HashMap<Character, BlockDimensions> map = new HashMap<>();
-        int increaseOffsetXDefault = HALF_BLOCK_INCREASE_OFFSET_X;
-        int increaseOffsetYDefault = HALF_BLOCK_INCREASE_OFFSET_Y;
-
-        map.put('0', new BlockDimensions(null, 0, 0, HALF_BLOCK_INCREASE_OFFSET_X, HALF_BLOCK_INCREASE_OFFSET_Y, 1));
-        map.put('1', new BlockDimensions(FULL_BLOCK_FRONT, 0, 0, FULL_BLOCK_INCREASE_OFFSET_X, FULL_BLOCK_INCREASE_OFFSET_Y, 2));
-        map.put('2', new BlockDimensions(HALF_BLOCK_FRONT, 0, 0, increaseOffsetXDefault, increaseOffsetYDefault, 1));
-        map.put('3', new BlockDimensions(FULL_BLOCK_TOP, FULL_BLOCK_TOP_OFFSET_X, FULL_BLOCK_TOP_OFFSET_Y, FULL_BLOCK_INCREASE_OFFSET_X, FULL_BLOCK_INCREASE_OFFSET_Y, 2));
-        map.put('4', new BlockDimensions(HALF_BLOCK_TOP, FULL_BLOCK_TOP_OFFSET_X, FULL_BLOCK_TOP_OFFSET_Y, increaseOffsetXDefault, increaseOffsetYDefault, 1));
-        map.put('5', new BlockDimensions(BLOCK_SIDE, BLOCK_SIDE_OFFSET_X, BLOCK_SIDE_OFFSET_Y, increaseOffsetXDefault, increaseOffsetYDefault, 1));
-        map.put('6', new BlockDimensions(BLOCK_SIDE_FULL_TOP, BLOCK_SIDE_OFFSET_X, BLOCK_SIDE_OFFSET_Y, FULL_BLOCK_INCREASE_OFFSET_X, FULL_BLOCK_INCREASE_OFFSET_Y, 2));
-        map.put('7', new BlockDimensions(BLOCK_SIDE_HALF_TOP, BLOCK_SIDE_OFFSET_X, BLOCK_SIDE_OFFSET_Y, increaseOffsetXDefault, increaseOffsetYDefault, 1));
-        map.put('8', new BlockDimensions(BLOCK_SIDE_HALF, 0, 0, increaseOffsetXDefault, increaseOffsetYDefault, 1));
-        // Accessing wallRowOptimization from the outer class (or passed as a parameter)
-        map.put('A', new BlockDimensions(wallRowOptimization[1], 0, 0, FULL_BLOCK_INCREASE_OFFSET_X * 2, FULL_BLOCK_INCREASE_OFFSET_Y * 2, 4));
-        map.put('B', new BlockDimensions(wallRowOptimization[2], 0, 0, FULL_BLOCK_INCREASE_OFFSET_X * 4, FULL_BLOCK_INCREASE_OFFSET_Y * 4, 8));
-        map.put('C', new BlockDimensions(wallRowOptimization[3], 0, 0, FULL_BLOCK_INCREASE_OFFSET_X * 8, FULL_BLOCK_INCREASE_OFFSET_Y * 8, 16));
-        map.put('D', new BlockDimensions(wallRowOptimization[4], 0, 0, FULL_BLOCK_INCREASE_OFFSET_X * 16, FULL_BLOCK_INCREASE_OFFSET_Y * 16, 32));
-
-        return map;
     }
 }

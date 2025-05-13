@@ -105,14 +105,14 @@ class GunEmplacementLaserShot extends CollidingGameObject implements ShiftableGa
         // straight
         if (orientation) {
             newTargetPosition = new Vector2d(
-                    GeometricUtils.calculateIntersection(TravelPathCalculator.getDespawnLine(), laserPathParametric)
+                    GeometricUtils.calculateIntersection(TravelPathCalculator.copyDespawnLine(), laserPathParametric)
             );
 
         } else {
             // left
             Position[] leftTravelPathBorder = new Position[]{
-                    TravelPathCalculator.getSpawnLine()[0],
-                    TravelPathCalculator.getDespawnLine()[0]
+                    TravelPathCalculator.copySpawnLine()[0],
+                    TravelPathCalculator.copyDespawnLine()[0]
             };
             newTargetPosition = new Vector2d(
                     GeometricUtils.calculateIntersection(leftTravelPathBorder, laserPathParametric)

@@ -208,9 +208,9 @@ v0      \s
         \s
         \s
         \s
-""" +
-// Section: Final Targets
 """
+// Section: Final Targets
++ """
 s0  f0  \s
         \s
     g1  \s
@@ -220,9 +220,9 @@ r0      \s
 f0      \s
         \s
         \s
-""" +
-// Section: Second Wall (W6 - Low Hole)
 """
+// Section: Second Wall (W6 - Low Hole)
++ """
 s0  v0  \s
         \s
         \s
@@ -234,9 +234,9 @@ g0      \s
       f0\s
         \s
         \s
-""" +
-// Section: Enemy Wave
 """
+// Section: Enemy Wave
++ """
 s0  g1s0\s
         \s
         \s
@@ -247,9 +247,9 @@ v0      \s
 r0      \s
         \s
         \s
-""" +
-// Section: Isolated Energy Barrier (e3)
 """
+// Section: Isolated Energy Barrier (e3)
++ """
 f0      \s
         \s
     g0  \s
@@ -261,9 +261,9 @@ s0      \s
       f0\s
         \s
         \s
-""" +
-// Section: First Wall (W0 - High Hole)
 """
+// Section: First Wall (W0 - High Hole)
++ """
     v0  \s
         \s
 g1  s0  \s
@@ -275,9 +275,9 @@ w0      \s
 f0  f0  \s
         \s
         \s
-""" +
-// Section: More Targets
 """
+// Section: More Targets
++ """
 s0      \s
         \s
     g0  \s
@@ -289,9 +289,9 @@ f0      \s
 s0      \s
         \s
         \s
-""" +
-// START OF LEVEL 2 (EASY)
 """
+// START OF LEVEL 2 (EASY)
++ """
     f0  \s
         \s
 s0  g1  \s

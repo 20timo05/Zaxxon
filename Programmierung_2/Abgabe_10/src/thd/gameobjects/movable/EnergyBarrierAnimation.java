@@ -52,8 +52,8 @@ class EnergyBarrierAnimation extends GameObject {
         movementInterpolation = 0.1;
 
         startPath = new Position[] {
-                TravelPathCalculator.getSpawnLine()[0],
-                TravelPathCalculator.getDespawnLine()[0]
+                TravelPathCalculator.copySpawnLine()[0],
+                TravelPathCalculator.copyDespawnLine()[0]
         };
 
         offsetTower = new Vector2d(TravelPathCalculator.TRAVEL_PATH_WIDTH * movementInterpolation,

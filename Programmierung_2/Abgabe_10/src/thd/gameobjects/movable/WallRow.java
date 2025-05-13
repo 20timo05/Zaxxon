@@ -3,8 +3,8 @@ package thd.gameobjects.movable;
 import thd.game.managers.GamePlayManager;
 import thd.game.managers.GameSettings;
 import thd.game.utilities.GameView;
-import thd.game.utilities.WallBlockDimensionCalculator;
 import thd.game.utilities.WallBlockGraphicUtils;
+import thd.game.utilities.WallBuildingService;
 import thd.gameobjects.base.ActivatableGameObject;
 import thd.gameobjects.base.CollidingGameObject;
 import thd.gameobjects.base.Position;
@@ -48,14 +48,14 @@ public class WallRow extends CollidingGameObject implements ShiftableGameObject,
         super(gameView, gamePlayManager, altitudeIndex / 2, false, spawnDelayInMilis, spawnLineInter - 0.1);
         this.blockGraphic = blockGraphic;
 
-        int[] wallBlockDimensions = new WallBlockGraphicUtils().calcBlockImageDimension(blockGraphic);
-        height = WallBlockDimensionCalculator.FULL_BLOCK_INCREASE_OFFSET_Y;
+        int[] wallBlockDimensions = WallBlockGraphicUtils.calcBlockImageDimension(blockGraphic);
+        height = WallBuildingService.FULL_BLOCK_INCREASE_OFFSET_Y;
         width = wallBlockDimensions[1];
 
         // dynamically calculate size, so that when player flies over wall, the wall actually looks lower than the player
         size = Math.floor(GameSettings.MAX_PLAYER_ALTITUDE / (9 * height));
 
-        double offsetY = altitudeIndex * WallBlockDimensionCalculator.FULL_BLOCK_INCREASE_OFFSET_Y * size;
+        double offsetY = altitudeIndex * WallBuildingService.FULL_BLOCK_INCREASE_OFFSET_Y * size;
         position.up(offsetY);
         targetPosition.up(offsetY);
 
@@ -96,10 +96,10 @@ public class WallRow extends CollidingGameObject implements ShiftableGameObject,
 
             // define hitbox in 2d
             Position[] preProjectionRelativeHitbox = new Position[]{
-                    new Position(idx[0] * size * WallBlockDimensionCalculator.HALF_BLOCK_INCREASE_OFFSET_X, 0),
-                    new Position((idx[1] + 1) * size * WallBlockDimensionCalculator.HALF_BLOCK_INCREASE_OFFSET_X, 0),
-                    new Position((idx[1] + 1) * size * WallBlockDimensionCalculator.HALF_BLOCK_INCREASE_OFFSET_X, -1 * size * WallBlockDimensionCalculator.FULL_BLOCK_INCREASE_OFFSET_Y),
-                    new Position(idx[0] * size * WallBlockDimensionCalculator.HALF_BLOCK_INCREASE_OFFSET_X, -1 * size * WallBlockDimensionCalculator.FULL_BLOCK_INCREASE_OFFSET_Y)
+                    new Position(idx[0] * size * WallBuildingService.HALF_BLOCK_INCREASE_OFFSET_X, 0),
+                    new Position((idx[1] + 1) * size * WallBuildingService.HALF_BLOCK_INCREASE_OFFSET_X, 0),
+                    new Position((idx[1] + 1) * size * WallBuildingService.HALF_BLOCK_INCREASE_OFFSET_X, -1 * size * WallBuildingService.FULL_BLOCK_INCREASE_OFFSET_Y),
+                    new Position(idx[0] * size * WallBuildingService.HALF_BLOCK_INCREASE_OFFSET_X, -1 * size * WallBuildingService.FULL_BLOCK_INCREASE_OFFSET_Y)
             };
 
             Polygon postProjectionHitbox = calculateRelativeProjectedHitbox(preProjectionRelativeHitbox, TravelPathCalculator.getStretchedIsometricProjectionMatrix());

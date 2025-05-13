@@ -3,8 +3,8 @@ package thd.gameobjects.movable;
 import thd.game.managers.GamePlayManager;
 import thd.game.managers.GameSettings;
 import thd.game.utilities.GameView;
-import thd.game.utilities.WallBlockDimensionCalculator;
 import thd.game.utilities.WallBlockGraphicUtils;
+import thd.game.utilities.WallBuildingService;
 import thd.gameobjects.base.*;
 import thd.game.utilities.TravelPathCalculator;
 
@@ -29,10 +29,10 @@ public class WallBackground extends GameObject implements ShiftableGameObject, A
 
         this.backgroundWallBlockImage = backgroundWallBlockImage;
 
-        int[] wallBlockDimensions = new WallBlockGraphicUtils().calcBlockImageDimension(backgroundWallBlockImage);
+        int[] wallBlockDimensions = WallBlockGraphicUtils.calcBlockImageDimension(backgroundWallBlockImage);
         height = wallBlockDimensions[0];
         width = wallBlockDimensions[1];
-        size = (int) (GameSettings.MAX_PLAYER_ALTITUDE / (9 * WallBlockDimensionCalculator.FULL_BLOCK_INCREASE_OFFSET_Y));
+        size = (int) (GameSettings.MAX_PLAYER_ALTITUDE / (9 * WallBuildingService.FULL_BLOCK_INCREASE_OFFSET_Y));
 
         position.moveToPosition(targetPosition, 20); // move background a little forwards (just for visuals)
         rotation = 0;

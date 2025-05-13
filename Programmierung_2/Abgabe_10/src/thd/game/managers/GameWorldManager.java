@@ -2,8 +2,8 @@ package thd.game.managers;
 
 import thd.game.utilities.GameView;
 import thd.game.utilities.TravelPathCalculator;
-import thd.game.utilities.WallBlockDimensionCalculator;
 import thd.game.utilities.WallBlockGraphicUtils;
+import thd.game.utilities.WallBuildingService;
 import thd.gameobjects.base.GameObject;
 import thd.gameobjects.movable.*;
 import thd.gameobjects.unmovable.Footer;
@@ -52,7 +52,7 @@ class GameWorldManager extends GamePlayManager {
         String[] lines = level.world.split("\\R");
 
         for (int row = lines.length - 1; row >= 0; row--) {
-            double distanceFromSpawnLine = (lines.length - 1 - row) * 2 * WallBlockDimensionCalculator.FULL_BLOCK_INCREASE_OFFSET_X;
+            double distanceFromSpawnLine = (lines.length - 1 - row) * 2 * WallBuildingService.FULL_BLOCK_INCREASE_OFFSET_X;
             int spawnDelayInMilis = distanceToDuration(distanceFromSpawnLine);
 
             for (int column = 0; column < lines[row].length() - 1; column++) {
@@ -167,7 +167,7 @@ class GameWorldManager extends GamePlayManager {
 
     private void generateBackgroundWall() {
         double horizontalDistanceSpawnLineDespawnLine = Math.abs(TravelPathCalculator.getSpawnLine()[0].getX() - TravelPathCalculator.getDespawnLine()[0].getX());
-        int numberOfBricks = (int) (horizontalDistanceSpawnLineDespawnLine / WallBlockDimensionCalculator.FULL_BLOCK_INCREASE_OFFSET_X);
+        int numberOfBricks = (int) (horizontalDistanceSpawnLineDespawnLine / WallBuildingService.FULL_BLOCK_INCREASE_OFFSET_X);
         int height = 9;
         StringBuilder bgWallDesc = new StringBuilder();
         for (int y = 0; y < height; y++) {
@@ -177,8 +177,7 @@ class GameWorldManager extends GamePlayManager {
             bgWallDesc.append("\n");
         }
 
-        WallBlockGraphicUtils utils = new WallBlockGraphicUtils();
-        String bgWallMirrored = utils.generateWallBlockImage(bgWallDesc.toString());
-        backgroundWallBlockImage = utils.mirrorBlockImage(bgWallMirrored);
+        String bgWallMirrored = WallBlockGraphicUtils.generateWallBlockImage(bgWallDesc.toString());
+        backgroundWallBlockImage = WallBlockGraphicUtils.mirrorBlockImage(bgWallMirrored);
     }
 }

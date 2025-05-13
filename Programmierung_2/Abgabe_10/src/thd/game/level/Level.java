@@ -2,6 +2,8 @@ package thd.game.level;
 
 import thd.game.utilities.WallBlockGraphicUtils;
 
+import java.util.Arrays;
+
 /**
  * This is a representation of a level.
  *
@@ -36,8 +38,6 @@ public class Level {
     public int worldOffsetColumns;
     /** The vertical offset for the visible area of the world String. */
     public int worldOffsetLines;
-    /** The pregenerated BlockImages for the Walls used in the Levels. */
-    public final WallBlockGraphicUtils.DynamicWall[] dynamicWalls;
     /** The Timestamp when the Level will end. If the Player is still alive, he has completed the Level. */
     public int levelDurationTimestamp;
 
@@ -164,19 +164,7 @@ public class Level {
                     """ // W11: Layered Side Holes (Holes L/R at Alt 4, 2, 0)
     };
 
-    /**
-     * Pregenerates the Wall BlocKImage Strings.
-     */
-    public Level() {
-        dynamicWalls = new WallBlockGraphicUtils.DynamicWall[WALL_DESCRIPTIONS.length];
-        generateWalls();
-    }
-
-    private void generateWalls() {
-        WallBlockGraphicUtils utils = new WallBlockGraphicUtils();
-        for (int i = 0; i < WALL_DESCRIPTIONS.length; i++) {
-            dynamicWalls[i] = utils.generateDynamicWall(WALL_DESCRIPTIONS[i]);
-        }
-    }
+    /** The pregenerated BlockImages for the Walls used in the Levels. */
+    public static final WallBlockGraphicUtils.DynamicWall[] dynamicWalls = Arrays.stream(WALL_DESCRIPTIONS).map(WallBlockGraphicUtils::generateDynamicWall).toArray(WallBlockGraphicUtils.DynamicWall[]::new);
 
 }

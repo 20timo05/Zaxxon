@@ -4,6 +4,8 @@ import thd.game.level.Difficulty;
 import thd.game.level.Level;
 import thd.game.utilities.FileAccess;
 import thd.game.utilities.GameView;
+import thd.screens.GameInfo;
+import thd.screens.Screens;
 
 /**
  * Manages all GameObjects and renders them on the {@code gameView}.
@@ -23,13 +25,15 @@ class GameManager extends LevelManager {
 
     private void startNewGame() {
         Level.difficulty = FileAccess.readDifficultyFromDisc(); // Lesen der gespeicherten Auswahl.
-        Level.difficulty = Difficulty.EASY; // Dieser Befehl wird später durch eine Benutzerauswahl ersetzt.
+        String selection = Screens.showStartScreen(gameView, GameInfo.TITLE, GameInfo.DESCRIPTION, Level.difficulty.name);
+        Level.difficulty = Difficulty.fromName(selection);
         FileAccess.writeDifficultyToDisc(Level.difficulty); // Abspeichern der neuen Auswahl.
         initializeGame();
     }
 
     private void gameManagement() {
         if (endOfGame()) {
+            gameView.stopAllSounds();
             if (lives == 0) {
                 overlay.showMessage("Game Over");
 
@@ -38,11 +42,14 @@ class GameManager extends LevelManager {
             }
 
             if (overlay.isMessageShown() && gameView.timer(2000, 0, this)) {
+                gameView.stopAllSounds();
                 overlay.stopShowing();
+                Screens.showEndScreen(gameView, "Sie haben " + points + " Punkte erreicht!");
                 startNewGame();
             }
 
         } else if (endOfLevel()) {
+            gameView.stopAllSounds();
             if (!overlay.isMessageShown()) {
                 overlay.showMessage("Great Job!");
             }
@@ -61,7 +68,7 @@ class GameManager extends LevelManager {
 
 
     private boolean endOfLevel() {
-        return gameView.gameTimeInMilliseconds() >= level.levelDurationTimestamp;
+        return gameView.gameTimeInMilliseconds() >= levelStartTimestamp + level.levelDurationTimestamp;
     }
 
     private boolean endOfGame() {
@@ -73,6 +80,8 @@ class GameManager extends LevelManager {
         super.initializeLevel();
         overlay.showMessage(level.name, 2);
         gameView.stopAllSounds();
+
+        levelStartTimestamp = gameView.gameTimeInMilliseconds();
     }
 
     @Override

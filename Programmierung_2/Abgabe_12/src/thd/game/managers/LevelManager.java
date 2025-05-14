@@ -10,6 +10,8 @@ class LevelManager extends GameWorldManager {
     private static final int LIVES_STANDARD = 2;
     private static final int LIVES_EASY = 3;
 
+    protected int levelStartTimestamp;
+
     protected LevelManager(GameView gameView) {
         super(gameView);
     }

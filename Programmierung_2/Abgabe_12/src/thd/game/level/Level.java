@@ -44,6 +44,7 @@ public class Level {
     /** Current Difficulty Level that is either EASY or STANDARD. */
     public static Difficulty difficulty = Difficulty.STANDARD;
 
+    // W2, W4, W5 have been adjusted to ensure an odd number of solid rows below gaps.
     private static final String[] WALL_DESCRIPTIONS = new String[]{
             """
                     xxxxxxxxxx                  xxxxxxxx
@@ -55,12 +56,12 @@ public class Level {
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    """, // W0: High Hole (Alt 3, 4)
+                    """, // W0: High Hole (Alt 3, 4) - OK
             """
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    """, // W1: Low Solid (Alt 0, 1)
+                    """, // W1: Low Solid (Alt 0, 1) - OK (No gaps)
             """
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                     xxxxxxxxxx                  xxxxxxxx
@@ -68,37 +69,34 @@ public class Level {
                     xxxxxxxxxx                  xxxxxxxx
                     xxxxxxxxxx                  xxxxxxxx
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    """, // W2: Mid Passage (Alt 1, 2)
+                    """, // W2: Mid Passage (Alt 1, 2) - CORRECTED (6 rows total, 1-row base)
             """
-                            xxxxxxxxxxxxxxxxxxxxxxxxxx
-                    xxxxxxxxxx        xxxxxxxxxxxxxxxx
-                    xxxxxxxxxx        xxxxxxxxxxxxxxxx
-                    xxxxxxxxxx              xxxxxxxxxx
-                    xxxxxxxxxx              xxxxxxxxxx
-                    xxxxxxxxxxxxxxx                   xx
-                    xxxxxxxxxxxxxxxxx                 xx
-                    xxxxxxxxxxxxxxxxxxx       xxxxxxxxxx
-                    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    """, // W3: Wider Diagonal Slit (Low-Right to High-Left)
+                    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                    xxxx              xxxxxxxxxxxxxxxxx
+                    xxxx              xxxxxxxxxxxxxxxxx
+                    xxxxxxxxxx            xxxxxxxxxxxxx
+                    xxxxxxxxxx            xxxxxxxxxxxxx
+                    xxxxxxxxxxxxxxx            xxxxxxxx
+                    xxxxxxxxxxxxxxxxxxx        xxxxxxxx
+                    xxxxxxxxxxxxxxxxxxx        xxxxxxxx
+                    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                    """, // W3: Wider Diagonal Slit (Low-Right to High-Left) - User's version, OK
             """
-                    xxxx  xxxxxxxxxxxxxxxx  xxxx
-                    xxxx  xxxxxxxxxxxxxxxx  xxxx
-                    xxxx  xxxxxxxxxxxxxxxx  xxxx
-                    xxxx  xxxxxxxxxxxxxxxx  xxxx
-                    xxxx  xxxxxxxxxxxxxxxx  xxxx
-                    xxxx  xxxxxxxxxxxxxxxx  xxxx
-                    xxxx  xxxxxxxxxxxxxxxx  xxxx
+                    xxxx    xxxxxxxxxxxxxx    xxxx
+                    xxxx    xxxxxxxxxxxxxx    xxxx
+                    xxxx    xxxxxxxxxxxxxx    xxxx
+                    xxxx    xxxxxxxxxxxxxx    xxxx
+                    xxxx    xxxxxxxxxxxxxx    xxxx
+                    xxxx    xxxxxxxxxxxxxx    xxxx
+                    xxxx    xxxxxxxxxxxxxx    xxxx
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    """, // W4: Dual Vertical Slits (Alt 0-4 access)
+                    """, // W4: Dual Vertical Slits (Alt 0-4 access) - CORRECTED (8 rows total, 1-row base)
             """
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    xxxxxx  xxxxxx  xxxxxx  xxxxxx
-                    xxxxxx  xxxxxx  xxxxxx  xxxxxx
+                    xxxxx     xxxxxxxxxx    xxxxxx
+                    xxxxx     xxxxxxxxxx    xxxxxx
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    """, // W5: Mid Gaps (Holes at Alt 1)
+                    """, // W5: Mid Gaps (Holes at Alt 1) - CORRECTED (4 rows total, 1-row base)
             """
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -109,7 +107,7 @@ public class Level {
                     xxxxxxxxxx                  xxxxxxxx
                     xxxxxxxxxx                  xxxxxxxx
                     xxxxxxxxxx                  xxxxxxxx
-                    """, // W6: Low Hole (Alt 0, 1)
+                    """, // W6: Low Hole (Alt 0, 1) - OK (Gap at bottom)
             """
                     xxxxxxxxxxxxxxxxxxxxxxxxxx    xxxx
                     xxxxxxxxxxxxxxxxxxxxxx      xxxxxx
@@ -120,51 +118,50 @@ public class Level {
                     xxxxxxxx                xxxxxxxxxxxxxxxx
                     xxxxxx                  xxxxxxxxxxxxxxxxxx
                     xxxx                    xxxxxxxxxxxxxxxxxxxx
-                    """, // W7: Stairs Up (Left-to-Right, Alt 0 to 4)
+                    """, // W7: Stairs Up (Left-to-Right, Alt 0 to 4) - OK (Gaps can go to bottom)
             """
-                    xxxxxx    xxxxxxxxxx    xxxxxx
-                    xxxxxx    xxxxxxxxxx    xxxxxx
-                    xxxxxx    xxxxxxxxxx    xxxxxx
-                    xxxxxx    xxxxxxxxxx    xxxxxx
-                    xxxxxx    xxxxxxxxxx    xxxxxx
-                    xxxxxx    xxxxxxxxxx    xxxxxx
-                    xxxxxx    xxxxxxxxxx    xxxxxx
-                    xxxxxx    xxxxxxxxxx    xxxxxx
-                    xxxxxx    xxxxxxxxxx    xxxxxx
-                    """, // W8: Central Pillar (Openings L/R, Alt 0-4)
+                    xxxxxx      xxxxxxxx      xxxxxx
+                    xxxxxx      xxxxxxxx      xxxxxx
+                    xxxxxx      xxxxxxxx      xxxxxx
+                    xxxxxx      xxxxxxxx      xxxxxx
+                    xxxxxx      xxxxxxxx      xxxxxx
+                    xxxxxx      xxxxxxxx      xxxxxx
+                    xxxxxx      xxxxxxxx      xxxxxx
+                    xxxxxx      xxxxxxxx      xxxxxx
+                    xxxxxx      xxxxxxxx      xxxxxx
+                    """, // W8: Central Pillar (Openings L/R, Alt 0-4) - OK (Gaps can go to bottom)
             """
-                    xxxxxxxx      xxxxxxxx      xxxx
-                    xxxxxxxx      xxxxxxxx      xxxx
-                        xxxxxxxxxxxx      xxxxxxxx
-                        xxxxxxxxxxxx      xxxxxxxx
-                    xxxxxxxx      xxxxxxxx      xxxx
-                    xxxxxxxx      xxxxxxxx      xxxx
-                        xxxxxxxxxxxx      xxxxxxxx
-                        xxxxxxxxxxxx      xxxxxxxx
+                    xxxxxx        xxxxxxxx        xx
+                    xxxxxx        xxxxxxxx        xx
+                          xxxxxxxx        xxxxxxxx
+                          xxxxxxxx        xxxxxxxx
+                    xxxxxx        xxxxxxxx        xx
+                    xxxxxx        xxxxxxxx        xx
+                        xxxxxxxxxx        xxxxxxxx
+                        xxxxxxxxxx        xxxxxxxx
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    """, // W9: Offset Vertical Slits / Weave (Holes Alt 4 Mid, Alt 3 Left, Alt 2 Mid, Alt 1 Left)
+                    """, // W9: Offset Vertical Slits / Weave - OK
             """
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                     xxxxxx                  xxxxxxxxxxxx
                     xxxxxx                  xxxxxxxxxxxx
-                    xxxxxxxx      xxxxxxxxxxxxxxxxxxxx
-                    xxxxxxxx      xxxxxxxxxxxxxxxxxxxx
-                    xxxxxxxxxxxx  xxxxxxxxxxxxxxxxxx
-                    xxxxxxxxxxxx  xxxxxxxxxxxxxxxxxx
+                    xxxxxxxx      xxxxxxxxxxxxxxxxxxxxxx
+                    xxxxxxxx      xxxxxxxxxxxxxxxxxxxxxx
+                    xxxxxxxxxxxx  xxxxxxxxxxxxxxxxxxxxxx
+                    xxxxxxxxxxxx  xxxxxxxxxxxxxxxxxxxxxx
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    """, // W10: Funnel Down (Hole Alt 3, narrows to Alt 2, then Alt 1)
+                    """, // W10: Funnel Down - OK
             """
-                    xxxx  xxxxxxxxxxxxxxxx  xxxx
-                    xxxx  xxxxxxxxxxxxxxxx  xxxx
+                    xxxx    xxxxxxxxxxxx    xxxx
+                    xxxx    xxxxxxxxxxxx    xxxx
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    xxxx  xxxxxxxxxxxxxxxx  xxxx
-                    xxxx  xxxxxxxxxxxxxxxx  xxxx
+                    xxxx    xxxxxxxxxxxx    xxxx
+                    xxxx    xxxxxxxxxxxx    xxxx
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    xxxx  xxxxxxxxxxxxxxxx  xxxx
-                    xxxx  xxxxxxxxxxxxxxxx  xxxx
+                    xxxx    xxxxxxxxxxxx    xxxx
+                    xxxx    xxxxxxxxxxxx    xxxx
                     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    """ // W11: Layered Side Holes (Holes L/R at Alt 4, 2, 0)
+                    """ // W11: Layered Side Holes - OK (Gaps can go to bottom)
     };
 
     /** The pregenerated BlockImages for the Walls used in the Levels. */

@@ -72,6 +72,7 @@ public class EnergyBarrier extends CollidingGameObject implements ShiftableGameO
     public void updateStatus() {
         if (soundId == -1) {
             soundId = gameView.playSound("energybarrier.wav", false);
+
         } else if (position.similarTo(targetPosition)) {
             gameView.stopSound(soundId);
         }

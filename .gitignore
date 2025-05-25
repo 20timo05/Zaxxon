@@ -30,3 +30,7 @@ Thumbs.db # Windows
 
 # Ignore the JXWF files in the root
 *.jxwf
+
+# Finalize version for Github
+/Programmierung_2/
+!Zaxxon_Timo_Rolf.jar
